@@ -71,6 +71,20 @@ app.js recebe callbacks das tabelas global e por obra e consulta o ID atual ante
 
 Reutilizar esses padrões nas revisões, sem criar outra persistência. Coordenar mudanças em app.js/ui.js/CSS.
 
+## Check automático e reprodução local
+
+Cada PR para main executa **Frontend checks**, configurado em `.github/workflows/frontend.yml`. O mesmo comando pode ser rodado com Node 24+ e Chrome instalados:
+
+```bash
+node scripts/check-frontend.mjs
+```
+
+O script abre seu próprio servidor estático e Chrome com portas/perfil temporários, verifica sintaxe, roda testes de dados, confirma a inicialização e executa as suítes de navegador sequencialmente. Não é necessário iniciar Python nem reaproveitar a janela do usuário. Novos arquivos `tests/*.test.mjs` entram na descoberta; `*.browser.test.mjs` são tratados como testes de navegador. Não adicionar dependências de build ao frontend para integrar novos testes.
+
+O terminal informa a pasta de relatórios. Configure FRONTEND_REPORT_DIR para escolher a pasta-base e CHROME_BIN para indicar o executável, se necessário. O modo --smoke-only serve para diagnóstico rápido; a CI sempre roda todos os testes. O perfil da automação bloqueia Google Fonts e usa fallback local; os arquivos do produto são servidos sem transformação.
+
+No GitHub, abra o check do PR para ler logs, resumo e baixar o artefato frontend-checks-... (retenção de sete dias). Falhas de navegador preservam erro e screenshot, quando o navegador responde, antes do fechamento da aba. Corrija a causa e envie novo commit; não enfraqueça assertions para conseguir verde. O check complementa a revisão do scrum master. A proteção da main pode exigir o nome estável Frontend checks antes do merge; essa configuração do repositório é independente do workflow.
+
 ## Teste de integração em Chrome
 
 Node 24+ e Chrome são ferramentas de teste, sem build nem dependências no produto. Em terminais separados, a partir da raiz:
