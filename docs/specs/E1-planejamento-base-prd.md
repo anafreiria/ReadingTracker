@@ -1,6 +1,8 @@
 # PRD — E1: Planejar telas e modelo de dados
 
-Status: implementado para revisão em PR; não integrado à main.
+> Registro do escopo do PR #1, já integrado. Para o contrato atual de escrita, validação e restauração, consulte [CONTRATOS_DADOS.md](../CONTRATOS_DADOS.md) e o [PRD da etapa seguinte](E1-dados-validacao-reset-prd.md).
+
+Status: escopo do PR #1 integrado à main; registro histórico da base inicial.
 Responsável: Ana Flavia Freiria. Revisor: outro integrante, a definir.
 Cartão: https://trello.com/c/Qy6FDeuO
 Branch: `feat/e1-frontend-foundation`.

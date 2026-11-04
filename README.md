@@ -4,7 +4,7 @@ Aplicação web para gerenciar autores, livros e leituras, desenvolvida para o T
 
 O projeto será construído em duas etapas: frontend em HTML, CSS e JavaScript puros com armazenamento no navegador; depois, integração com uma API REST em Java e Spring Boot e persistência em banco de dados.
 
-> **Estado atual:** base navegável do frontend com dados oficiais, histórico ordenável e prévias de formulários. Os formulários ainda não salvam; CRUDs, regras completas e reset permanecem pendentes. Backend ainda não implementado.
+> **Estado atual:** base navegável do frontend com dados oficiais, histórico ordenável e prévias de formulários. Os formulários ainda são prévias. O store já oferece CRUD, validações e criação conjunta de livro/leitura; Reset data está disponível na interface. Conectar os cadastros e os fluxos de status às telas permanece pendente. Backend ainda não implementado.
 
 ## Equipe
 
@@ -35,6 +35,8 @@ Integração, testes de aceitação, documentação, declaração de uso de IA, 
 - [Roteiro de desenvolvimento](docs/ROTEIRO_DESENVOLVIMENTO.md)
 - [PRD da base E1](docs/specs/E1-planejamento-base-prd.md)
 - [Guia para os colegas do frontend](docs/GUIA_FRONTEND.md)
+- [Contratos implementados de dados e validação](docs/CONTRATOS_DADOS.md)
+- [PRD de dados, validação e reset](docs/specs/E1-dados-validacao-reset-prd.md)
 - [Enunciados no Moodle](https://campusvirtual.unifal-mg.edu.br/moodle/course/section.php?id=30335)
 
 ## Fluxo de colaboração e commits
@@ -92,7 +94,7 @@ frontend/
         └── readings.js
 ```
 
-Navegação por hash em uma página, usando módulos ES. `store.js` concentra dados em funções async e retorna cópias independentes; páginas não acessam localStorage diretamente. `validation.js` verifica a estrutura do arquivo nesta base; as regras completas de domínio ainda serão implementadas. O contrato e os próximos métodos estão no PRD.
+Navegação por hash em uma página, usando módulos ES. `store.js` concentra dados em funções async e retorna cópias independentes; páginas não acessam localStorage diretamente. `validation.js` verifica a estrutura e as regras de domínio da seção 4. O store oferece leitura e escrita com erros padronizados; veja os contratos em docs/CONTRATOS_DADOS.md. Os formulários ainda precisam ser conectados a essas operações.
 
 ## Como executar a entrega 1
 
@@ -108,15 +110,15 @@ python3 -m http.server 8087 --directory frontend
 
 Abrir http://localhost:8087. Não há instalação npm, build ou backend para esta etapa. Usar navegador moderno com suporte a módulos ES e dialog.
 
-No primeiro acesso, o seed oficial é carregado e salvo na chave `reading-tracker:data:v1`. Nas próximas visitas, a base lê o que já está salvo. Um erro no armazenamento é apresentado sem substituir silenciosamente os dados. Reset ainda será implementado no cartão FR-07. Os formulários são prévias identificadas, com Save desabilitado.
+No primeiro acesso, o seed oficial é carregado e salvo na chave `reading-tracker:data:v1`. Nas próximas visitas, a base lê o que já está salvo. Um erro no armazenamento é apresentado sem substituir silenciosamente os dados. A ação **Reset data**, no rodapé, pede confirmação e restaura o seed somente depois de baixá-lo e validá-lo. Cancelar mantém os dados; falhas também preservam o estado anterior. Os formulários são prévias identificadas, com Save desabilitado.
 
 Materiais oficiais baixados do Moodle em 04/11/2026 estão em `materiais/`; `frontend/data/seed.json` é uma cópia idêntica. O guia atual é `Seed_Data_Guide.pdf`. O JSON tem 135 temas, embora o guia cite 132; mantivemos o arquivo oficial sem alterações.
 
 ## Verificação da base
 
-Com Node disponível, executar `node tests/foundation.test.mjs` (10 testes, sem dependências). Node é opcional para os testes; não é usado para construir ou executar o frontend.
+Com Node 24+ disponível, executar `node tests/foundation.test.mjs` e `node tests/data.test.mjs` (37 testes no total, sem dependências). Node é opcional para os testes; não é usado para construir ou executar o frontend.
 
-Verificado também no Chrome: navegação, contagens oficiais, ordenação, histórico por livro, prévias, Escape, tela de 390px, falha e nova tentativa, estados vazios e tratamento seguro de texto. Os CRUDs não foram verificados como implementados porque ainda não existem.
+Verificado também no Chrome: navegação, contagens oficiais, ordenação, histórico por livro, prévias, Escape, tela de 390px, falha e nova tentativa, estados vazios e tratamento seguro de texto. A camada de CRUD foi testada por contrato; as telas ainda não oferecem escrita. Também foram verificados confirmação/cancelamento do reset, falha de rede, proteção de edição em outra aba e passagem da edição após recarga.
 
 ## Como executar a entrega 2
 
@@ -135,19 +137,19 @@ Registrar aqui, antes da entrega, a versão exata do Java utilizada. O banco H2 
 
 ## Requisitos obrigatórios
 
-Atualizar cada célula para **Implementado**, **Parcialmente implementado** ou **Não implementado**, conforme verificação real. O status inicial abaixo não pressupõe funcionalidades prontas.
+Atualizar cada célula para **Implementado**, **Parcialmente implementado** ou **Não implementado**, conforme verificação real. Os status abaixo refletem a verificação desta etapa, distinguindo contratos de dados e integração visual.
 
 | ID | Requisito | Entrega 1 | Entrega 2 |
 |---|---|---|---|
 | FR-01 | CRUD de autores e bloqueio de exclusão de autor vinculado | Parcialmente implementado | Não implementado |
 | FR-02 | CRUD de livros, seleção de autores e temas e criação de tema | Parcialmente implementado | Não implementado |
 | FR-03 | CRUD de leituras, cadastro combinado e exclusão em cascata confirmada | Parcialmente implementado | Não implementado |
-| FR-04 | Fluxo de status e compatibilidade de ano, nota e prioridade | Não implementado | Não implementado |
+| FR-04 | Fluxo de status e compatibilidade de ano, nota e prioridade | Parcialmente implementado | Não implementado |
 | FR-05 | Histórico ordenável e tratamento de valores ausentes | Implementado | Não implementado |
-| FR-06 | Validações da seção 4 e mensagens junto aos campos | Não implementado | Não implementado |
-| FR-07 | Seed no primeiro uso, preservação de alterações e Reset data | Parcialmente implementado | Não implementado |
+| FR-06 | Validações da seção 4 e mensagens junto aos campos | Parcialmente implementado | Não implementado |
+| FR-07 | Seed no primeiro uso, preservação de alterações e Reset data | Implementado | Não implementado |
 
-FR-01 a FR-03 têm somente consulta e prévias; não há operações de escrita. FR-07 ainda não oferece reset. FR-06 não está concluído: a proteção estrutural de carga não substitui regras de domínio.
+FR-01 a FR-03 têm consulta e prévias na interface; suas operações de escrita estão implementadas no store, aguardando integração com as telas. FR-04 tem preparação/validação das transições e exigência de confirmação no store, sem fluxo visual completo. FR-06 tem validação de domínio e helper de mensagens, mas precisa ser aplicado aos formulários reais. FR-07 está implementado e testado, incluindo restauração com confirmação.
 
 Os exercícios FR-08 a FR-18 são opcionais e não pontuados; nenhum está declarado como implementado neste momento.
 
@@ -174,7 +176,9 @@ Os exercícios FR-08 a FR-18 são opcionais e não pontuados; nenhum está decla
 
 | Ferramenta | Finalidade já utilizada | Partes afetadas |
 |---|---|---|
-| ChatGPT / Codex | Leitura dos requisitos, planejamento e PRD; geração da base de navegação, estilos, consulta de dados, formulários de referência e testes; documentação de colaboração | README.md, docs/, frontend/ (exceto seed oficial), tests/ |
+| ChatGPT / Codex | Leitura dos requisitos, planejamento e PRD; geração da base de navegação, estilos, leitura/escrita de dados, validações, restauração, formulários de referência e testes; documentação de colaboração | README.md, docs/, frontend/ (exceto seed oficial), tests/ |
+
+Para editar, usar uma única aba. Em navegadores com Web Locks, outra aba recebe conflito 409 sem gravar; fechar a aba que estava editando e recarregar a nova antes de continuar. Sem Web Locks, a fila protege somente operações da mesma aba.
 
 Os arquivos oficiais em materiais/ e o seed foram obtidos do Moodle, sem geração por IA. A equipe deve revisar, compreender e conseguir explicar todo o código entregue. Atualizar esta seção conforme novas contribuições.
 
