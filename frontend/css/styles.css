@@ -462,3 +462,21 @@ legend {
     scroll-behavior:auto!important
   }
 }
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+.confirmation-message {
+  line-height: 1.6;
+}
+.button-danger {
+  background: var(--danger);
+  border-color: var(--danger);
+}
+footer #reset-data {
+  padding: 0;
+}

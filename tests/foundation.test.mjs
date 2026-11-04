@@ -8,6 +8,8 @@ import { STORAGE_KEY } from '../frontend/js/constants.js';
 const seed = JSON.parse(await readFile(new URL('../frontend/data/seed.json', import.meta.url)));
 let storage, requests, requestFailure;
 beforeEach(() => {
+  // Each test represents an independent browser page; do not retain Node native locks.
+  Object.defineProperty(globalThis.navigator, 'locks', {configurable: true, value: undefined});
   storage = new Map(); requests = 0; requestFailure = false;
   globalThis.localStorage = {getItem: key => storage.get(key) ?? null, setItem: (key, value) => storage.set(key, value)};
   globalThis.fetch = async () => {
