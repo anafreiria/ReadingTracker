@@ -489,3 +489,11 @@ footer #reset-data {
 .error-panel {
   overflow-wrap:anywhere;
 }
+
+.book-details {
+  display:grid;
+  grid-template-columns:minmax(100px, 1fr) minmax(0, 3fr);
+  gap:12px 20px;
+}
+.book-details dt { font-weight:600; }
+.book-details dd { margin:0; overflow-wrap:anywhere; }

@@ -62,6 +62,8 @@ const reload = async () => {
   await wait(`document.querySelector('#content')?.getAttribute('aria-busy') === 'false' && !!document.querySelector('tbody')`);
 };
 try {
+  await call('Network.enable');
+  await call('Network.setCacheDisabled', {cacheDisabled: true});
   await call('Runtime.enable');
   await call('Page.enable');
   await call('Page.navigate', {url: `${base}/#authors`});
@@ -160,10 +162,14 @@ try {
     if(process.env.SCREENSHOT_DIR){await mkdir(process.env.SCREENSHOT_DIR,{recursive:true});const shot=await call('Page.captureScreenshot',{format:'png'});await writeFile(`${process.env.SCREENSHOT_DIR}/fr01-author-${width}.png`,Buffer.from(shot.data,'base64'));}
   }
   await click('#close-dialog');
-  for(const route of ['books','readings']){
+  for(const route of ['readings']){
     await evaluate(`location.hash=${JSON.stringify(route)}`);await wait(`document.querySelector('[aria-current=page]').dataset.route===${JSON.stringify(route)}`);
     await click('#preview-button');await check(`document.querySelector('#form-dialog').open && document.querySelector('[type=submit]').disabled`, `${route} remains a preview`);await click('#close-dialog');
   }
+  await evaluate(`location.hash='books'`);await wait(`document.querySelector('[aria-current=page]').dataset.route==='books'`);
+  await click('#preview-button');await wait(`!!document.querySelector('[name=title]')`);
+  await check(`!document.querySelector('[type=submit]').disabled && document.activeElement.name==='title'`, 'books now offers a functional form');await click('#close-dialog');
+  await evaluate(`location.hash='readings'`);await wait(`document.querySelector('[aria-current=page]').dataset.route==='readings'`);
   await check(`document.querySelectorAll('th[aria-sort]').length===5`, 'reading history retains five sortable columns');
   await click('#reset-data');await click('#form-dialog .dialog-actions button[type=button]');
   await wait(`!document.querySelector('#reset-data').disabled`);
