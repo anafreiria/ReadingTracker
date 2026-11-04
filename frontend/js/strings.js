@@ -11,6 +11,16 @@ export const TEXT = {
   bookHistory: 'Reading history', noReadings: 'No readings for this book yet.',
   firstReading: 'Include a first reading', optional: 'Optional',
   formLegend: 'Book details', readingLegend: 'Reading details',
+  authors: {
+    add: 'Add author', edit: 'Edit', remove: 'Delete', actions: 'Actions',
+    editTitle: 'Edit author', deleteTitle: 'Delete author?', save: 'Save author',
+    saving: 'Saving author…', deleting: 'Deleting author…',
+    help: 'Name is required. Nationality and dates are optional.',
+    deleteMessage: name => `Delete “${name}”? This cannot be undone. Authors linked to books cannot be deleted.`,
+    editLabel: name => `Edit ${name}`, deleteLabel: name => `Delete ${name}`,
+    created: 'Author added.', updated: 'Author updated.', deleted: 'Author deleted.',
+    refreshFailed: 'Your change was saved, but the list could not be refreshed. Reload the page to see it.',
+  },
   reset: {
     action: 'Reset data', title: 'Reset your library?',
     message: 'This will replace all your authors, books and readings with the original library. Your changes will be lost.',
