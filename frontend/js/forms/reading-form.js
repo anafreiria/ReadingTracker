@@ -32,12 +32,15 @@ export function readingForm({reading = null, bookId = null, books, onBusy, onSuc
   const choiceLabel = choice.querySelector('label');
   choiceLabel.className = 'checkbox-label';
   choiceLabel.prepend(confirmation);
-  const warning = el('p', {className: 'notice'});
+  const warning = el('p', {className: 'notice', role: 'status'});
+  const statusHelp = el('p', {id: 'reading-status-help', className: 'muted', role: 'status'});
   const clearance = el('section', {hidden: '', 'aria-label': TEXT.readings.clearTitle}, [warning, choice]);
   form.append(el('p', {className: 'notice'}, TEXT.readings.help),
     ...(!books.length ? [el('p', {role: 'status'}, [TEXT.readings.noBooks, el('a', {href: '#books'}, TEXT.pages.books.title)])] : []),
     el('div', {className: 'form-grid'}, [field('bookId', book, {required: true}), field('status', status, {required: true}),
       field('yearRead', year), field('grade', grade), field('priority', priority), field('recommendedBy', recommendation), field('notes', notes)]), clearance);
+  form.querySelector('[name="status"]').setAttribute('aria-describedby', 'error-status reading-status-help');
+  form.querySelector('.form-grid').before(statusHelp);
   const submit = el('button', {type: 'submit'}, TEXT.readings.save);
   submit.disabled = !books.length;
   const cancel = el('button', {type: 'button', className: 'button-secondary'}, TEXT.cancel);
@@ -54,6 +57,8 @@ export function readingForm({reading = null, bookId = null, books, onBusy, onSuc
     return {...planned, clearedFields: [...new Set([...previous.clearedFields, ...planned.clearedFields])]};
   }
   function showClearance(draft) {
+    statusHelp.textContent = TEXT.readings.statusHelp[draft.status];
+    year.required = draft.status === 'Read';
     const planned = transition(draft);
     const nextSignature = JSON.stringify([draft.status, planned.clearedFields, draft.yearRead, draft.grade]);
     if (signature !== nextSignature) confirmation.checked = false;
@@ -63,6 +68,7 @@ export function readingForm({reading = null, bookId = null, books, onBusy, onSuc
     return planned;
   }
   for (const control of [status, year, grade]) control.addEventListener('input', () => showClearance(payload(formValues(form))));
+  showClearance(payload(formValues(form)));
   bindFormAction(form, submit, {onBusy, onSuccess, label: TEXT.readings.save, pending: TEXT.readings.saving,
     operation: values => {
       const draft = payload(values);

@@ -31,14 +31,15 @@ git switch -c feat/readings-crud
 | frontend/js/constants.js | Valores controlados e chave de armazenamento |
 | frontend/css/styles.css | Tokens e estilos; coordenar alterações compartilhadas |
 
-Uma tela chama funções async do store com await. Não acessar localStorage ou fetch de dados em páginas. Não salvar dados inválidos. Não inserir dados de registros com innerHTML. Usar addEventListener; sem onclick/style inline. Os métodos de escrita já estão implementados e testados; o contrato atual está em CONTRATOS_DADOS.md. O PRD inicial registra a fase anterior, na qual só havia leitura. Autores, livros e leituras já têm formulário funcional; o CRUD próprio de leituras também está conectado. A próxima etapa é auditar completamente FR-04 e FR-06 antes da revisão final.
+Uma tela chama funções async do store com await. Não acessar localStorage ou fetch de dados em páginas. Não salvar dados inválidos. Não inserir dados de registros com innerHTML. Usar addEventListener; sem onclick/style inline. Os métodos de escrita já estão implementados e testados; o contrato atual está em CONTRATOS_DADOS.md. O PRD inicial registra a fase anterior, na qual só havia leitura. Autores, livros e leituras já têm formulário funcional; o CRUD próprio de leituras também está conectado. FR-04 foi auditado nas 25 combinações entre status. A próxima etapa é auditar FR-06 antes da revisão final.
 
 ## Próximas tarefas sugeridas
 
 - FR-01 — autores integrado à main no PR #3, conforme confirmação de Ana.
 - FR-02 — livros/temas integrado à main no PR #4.
-- FR-03 — leituras/releituras implementadas nesta branch, com matriz dos quatro critérios no PRD; aguarda revisão do PR.
-- Próxima etapa sugerida: auditoria de FR-04 (fluxo de status), seguida da revisão completa de FR-06 (validação).
+- FR-03 — leituras/releituras integrado à main no PR #6, com matriz dos quatro critérios no PRD.
+- FR-04 — cinco critérios e 25 combinações de status auditados nesta branch; aguarda revisão do PR.
+- Próxima etapa sugerida: revisão completa de FR-06 (validação e organização), seguida de testes e revisão final da entrega.
 - Equipe: conectar erros/validações aos formulários, confirmar exclusões e transições, revisar ordenação, responsividade e testes de aceitação. FR-07 já está implementado, incluindo reset; preservá-lo nas integrações.
 
 Ana informou a atribuição de FR-01 a ela no Trello. Combinar responsáveis pelos demais cartões; a divisão acima é sugestão, não atribuição automática. Os cartões de dados/validação são compartilhados: combinar quem altera quais exports antes de editar. Não abrir três implementações independentes de persistência. Separar formulários por área quando necessário, preservando componentes comuns e os contratos documentados.
@@ -64,7 +65,7 @@ Create theme é uma gravação explícita e independente, informada na interface
 
 readingForm recebe reading opcional, bookId opcional para contexto da obra, books atuais e os mesmos callbacks. Sem id, saveReading cria uma nova ocasião de leitura; com id, atualiza aquela ocasião. Os detalhes mostram também prioridade, recomendação e notas. deleteReadingForm confirma e remove somente o registro, mantendo livro e outras leituras.
 
-Ao alterar status na edição, prepareReadingTransition prepara os dados; uma confirmação no próprio formulário lista ano/nota removidos, inclusive nota zero. Não passar confirmFieldClear sem ação explícita. A confirmação é invalidada quando status/ano/nota mudam e não apaga o rascunho antes da persistência. A auditoria dedicada de FR-04 continua pendente.
+Ao alterar status na edição, prepareReadingTransition prepara os dados; uma confirmação no próprio formulário lista ano/nota removidos, inclusive nota zero. Não passar confirmFieldClear sem ação explícita. A confirmação é invalidada quando status/ano/nota mudam e não apaga o rascunho antes da persistência. A auditoria dedicada de FR-04 está registrada em docs/specs/E1-fluxo-status-prd.md e tests/status.browser.test.mjs. Inclui 25 combinações (20 mudanças e cinco salvamentos no mesmo status), consentimento, cancelamento e falhas. A orientação dinâmica associada ao select explica as regras atuais, e required sinaliza o ano apenas em Read. Essa indicação não substitui os validadores do store.
 
 app.js recebe callbacks das tabelas global e por obra e consulta o ID atual antes de editar/excluir. showRecordDialog troca o conteúdo do mesmo diálogo e preserva o botão original da página para retorno de foco; não abre modais aninhados. Se a consulta falhar enquanto o histórico da obra está aberto, o alerta fica dentro do diálogo. Após sucesso, recordSaved relê o snapshot, fecha e anuncia com foco. forms.js, que continha as prévias antigas, foi removido.
 
@@ -80,10 +81,11 @@ google-chrome --headless=new --disable-gpu --no-first-run --no-default-browser-c
 node tests/authors.browser.test.mjs
 node tests/books.browser.test.mjs
 node tests/readings.browser.test.mjs
+node tests/status.browser.test.mjs
 ```
 
-Usar exclusivamente um perfil isolado de testes e fechar outras abas da aplicação nesse perfil. Executar as suítes de navegador sequencialmente, pois usam a mesma origem e proteção de edição. Cada suíte cria suas próprias abas e substitui a chave reading-tracker:data:v1 nessa origem, terminando com reset do seed. Nunca apontar para um perfil com dados pessoais. O teste usa o protocolo DevTools diretamente; nenhuma instalação npm é necessária. É possível configurar APP_URL e CHROME_DEBUG_PORT; SCREENSHOT_DIR permite escolher a pasta de capturas. As suítes de livros e leituras usam /tmp/reading-tracker-fr02-shots e /tmp/reading-tracker-fr03-shots por padrão. O restante da verificação continua sendo `node tests/foundation.test.mjs` e `node tests/data.test.mjs`.
+Usar exclusivamente um perfil isolado de testes e fechar outras abas da aplicação nesse perfil. Executar as suítes de navegador sequencialmente, pois usam a mesma origem e proteção de edição. Cada suíte cria suas próprias abas e substitui a chave reading-tracker:data:v1 nessa origem, terminando com reset do seed. Nunca apontar para um perfil com dados pessoais. O teste usa o protocolo DevTools diretamente; nenhuma instalação npm é necessária. É possível configurar APP_URL e CHROME_DEBUG_PORT; SCREENSHOT_DIR permite escolher a pasta de capturas. As suítes de livros, leituras e status usam /tmp/reading-tracker-fr02-shots, /tmp/reading-tracker-fr03-shots e /tmp/reading-tracker-fr04-shots por padrão. O restante da verificação continua sendo `node tests/foundation.test.mjs` e `node tests/data.test.mjs`.
 
 ## Mensagem pronta para compartilhar
 
-> O Reading Tracker já tem CRUD visual de autores, livros e leituras, temas, primeira leitura opcional, releituras e exclusões confirmadas. O store continua sendo a única persistência. FR-03 foi conferido contra os quatro critérios do cartão; a matriz e as evidências estão em docs/specs/E1-leituras-crud-prd.md. O ciclo comum está em forms/form-action.js, e a próxima etapa é auditar FR-04/FR-06 e revisar a entrega. Leiam docs/GUIA_FRONTEND.md e docs/CONTRATOS_DADOS.md. Depois do merge, atualizem main e criem uma branch por tarefa, combinando responsáveis e alterações compartilhadas.
+> O Reading Tracker já tem CRUD de autores/livros/leituras, temas, primeira leitura opcional, releituras e exclusões confirmadas. O fluxo de status foi auditado nos cinco critérios do cartão e nas 25 combinações, com confirmação de limpeza, preservação de notas/recomendação e recuperação de falhas. Leiam docs/specs/E1-fluxo-status-prd.md e docs/GUIA_FRONTEND.md. A próxima etapa é auditar FR-06 e revisar a entrega. Depois do merge, atualizem main e criem uma branch por tarefa, combinando responsáveis e alterações compartilhadas.
