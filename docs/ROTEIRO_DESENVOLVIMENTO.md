@@ -1,3 +1,5 @@
+> Atualização de 04/11/2026: os cinco materiais oficiais foram obtidos e estão em `materiais/`. O guia atual é `Seed_Data_Guide.pdf`. A base navegável e seus limites estão no [PRD E1](specs/E1-planejamento-base-prd.md); o [guia do frontend](GUIA_FRONTEND.md) orienta as próximas tarefas. Referências abaixo a materiais indisponíveis descrevem a consulta histórica de 19/10. Nunca fazer commits ou push direto em main; usar branch por tarefa e PR revisado.
+
 # Roteiro de desenvolvimento do Reading Tracker
 
 Este documento organiza o Trabalho 2 de Programação Web em uma sequência de execução para Aurelio Junior, Ana Flavia Freiria, Otávio de Oliveira, Pedro Luccas e Raissa Peret. O objetivo é concluir primeiro o frontend obrigatório e depois integrar o backend, preservando as funcionalidades e preparando as duas submissões.
