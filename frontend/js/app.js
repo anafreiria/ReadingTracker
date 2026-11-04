@@ -1,10 +1,11 @@
 import { STORAGE_KEY } from './constants.js';
-import { getLibrary, getAuthor, getCountries, resetData } from './store.js';
+import { getLibrary, getAuthor, getCountries, getBook, resetData } from './store.js';
 import { TEXT } from './strings.js';
 import { el, openDialog, confirmAction } from './ui.js';
 import { previewForm } from './forms.js';
 import { renderReadings } from './pages/readings.js';
-import { renderBooks } from './pages/books.js';
+import { bookForm, deleteBookForm } from './forms/book-form.js';
+import { renderBooks, bookDetails } from './pages/books.js';
 import { authorForm, deleteAuthorForm } from './forms/author-form.js';
 import { renderAuthors } from './pages/authors.js';
 
@@ -41,7 +42,7 @@ function render() {
   document.getElementById('page-title').textContent = page.title;
   document.getElementById('page-eyebrow').textContent = page.eyebrow;
   document.getElementById('page-description').textContent = page.description;
-  preview.textContent = area === 'authors' ? TEXT.authors.add : page.preview;
+  preview.textContent = area === 'authors' ? TEXT.authors.add : area === 'books' ? TEXT.books.add : page.preview;
   preview.disabled = busy || !library;
   for (const link of document.querySelectorAll('[data-route]')) {
     if (link.dataset.route === area) link.setAttribute('aria-current', 'page');
@@ -52,7 +53,9 @@ function render() {
     ['Read', TEXT.summary.read], ['Paused', TEXT.summary.paused], ['Want to read', TEXT.summary.wishlist],
   ].map(([status, label]) => el('div', {className: 'summary-card'}, [el('span', {className: 'summary-value'}, library.readings.filter(reading => reading.status === status).length), el('span', {}, label)]))) : null;
   content.replaceChildren(...(summary ? [summary] : []), el('section', {className: 'collection-panel', 'aria-label': page.title}, [
-    el('div', {className: 'panel-heading'}, [el('h2', {}, page.title), el('span', {className: 'muted'}, `${library[area].length} ${TEXT.counts[area]}`)]), renderers[area](library, {onEdit: id => openAuthor(id), onDelete: id => openAuthor(id, true)}),
+    el('div', {className: 'panel-heading'}, [el('h2', {}, page.title), el('span', {className: 'muted'}, `${library[area].length} ${TEXT.counts[area]}`)]), renderers[area](library, area === 'authors'
+      ? {onEdit: id => openAuthor(id), onDelete: id => openAuthor(id, true)}
+      : {onEdit: id => openBook(id), onDelete: id => openBook(id, 'delete'), onDetails: id => openBook(id, 'details')}),
   ]));
 }
 async function load() {
@@ -71,7 +74,7 @@ function setDialogBusy(value) {
   closeDialog.disabled = value;
   setBusy(value);
 }
-async function authorSaved(message) {
+async function recordSaved(message) {
   setBusy(true);
   refreshAfterDialog = false;
   dialog.close('saved');
@@ -96,12 +99,36 @@ async function openAuthor(id, deleting = false) {
     const options = {
       author, countries, onBusy: setDialogBusy,
       onCancel: () => dialog.close(),
-      onSuccess: () => authorSaved(deleting ? TEXT.authors.deleted : author ? TEXT.authors.updated : TEXT.authors.created),
+      onSuccess: () => recordSaved(deleting ? TEXT.authors.deleted : author ? TEXT.authors.updated : TEXT.authors.created),
     };
     dialog.returnValue = '';
     openDialog(deleting ? TEXT.authors.deleteTitle : author ? TEXT.authors.editTitle : TEXT.authors.add,
       deleting ? deleteAuthorForm(options) : authorForm(options));
     dialog.querySelector(deleting ? 'form button' : '[name="name"]').focus();
+    dialog.addEventListener('close', () => {
+      if (dialog.returnValue !== 'saved' && opener?.isConnected && !opener.disabled) opener.focus();
+    }, {once: true});
+  } catch (error) {
+    announce(error.message, true);
+    announcement.focus();
+  } finally { setBusy(false); }
+}
+async function openBook(id, mode = 'edit') {
+  if (busy || dialog.open) return;
+  const opener = document.activeElement;
+  setBusy(true);
+  try {
+    const book = id === undefined ? null : await getBook(id);
+    const data = await getLibrary();
+    const deleting = mode === 'delete', details = mode === 'details';
+    const options = {book, authors: data.authors, themes: data.themes,
+      readingCount: book ? data.readings.filter(reading => reading.bookId === book.id).length : 0,
+      onBusy: setDialogBusy, onCancel: () => dialog.close(),
+      onSuccess: () => recordSaved(deleting ? TEXT.books.deleted : book ? TEXT.books.updated : TEXT.books.created)};
+    dialog.returnValue = '';
+    openDialog(details ? book.title : deleting ? TEXT.books.deleteTitle : book ? TEXT.books.editTitle : TEXT.books.add,
+      details ? bookDetails(book, data) : deleting ? deleteBookForm(options) : bookForm(options));
+    (details ? closeDialog : dialog.querySelector(deleting ? 'form button' : '[name="title"]')).focus();
     dialog.addEventListener('close', () => {
       if (dialog.returnValue !== 'saved' && opener?.isConnected && !opener.disabled) opener.focus();
     }, {once: true});
@@ -148,6 +175,7 @@ document.getElementById('form-dialog').addEventListener('close', () => {
 preview.addEventListener('click', () => {
   if (busy || !library) return;
   if (route() === 'authors') openAuthor();
+  else if (route() === 'books') openBook();
   else openDialog(TEXT.pages[route()].preview, previewForm(route(), library));
 });
 closeDialog.addEventListener('click', () => { if (!dialogBusy) dialog.close(); });

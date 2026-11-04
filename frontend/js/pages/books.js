@@ -1,7 +1,7 @@
 import { TEXT } from '../strings.js';
 import { authorNames, display, el, emptyState, openDialog, table } from '../ui.js';
 import { readingsTable } from './readings.js';
-export function renderBooks(data) {
+export function renderBooks(data, {onEdit, onDelete, onDetails} = {}) {
   if (!data.books.length) return emptyState(TEXT.pages.books.empty);
   return table([
     {key: 'title', label: TEXT.labels.title},
@@ -13,5 +13,23 @@ export function renderBooks(data) {
       button.addEventListener('click', () => openDialog(book.title, readingsTable(data, data.readings.filter(reading => reading.bookId === book.id))));
       return button;
     }},
+    ...(onEdit && onDelete ? [{key: 'actions', label: TEXT.authors.actions, render: book => {
+      const edit = el('button', {type: 'button', className: 'button-secondary', 'aria-label': TEXT.books.editLabel(book.title)}, TEXT.authors.edit);
+      const remove = el('button', {type: 'button', className: 'button-secondary', 'aria-label': TEXT.books.deleteLabel(book.title)}, TEXT.authors.remove);
+      const details = el('button', {type: 'button', className: 'button-secondary', 'aria-label': TEXT.books.detailsLabel(book.title)}, TEXT.books.details);
+      edit.addEventListener('click', () => onEdit(book.id));
+      remove.addEventListener('click', () => onDelete(book.id));
+      details.addEventListener('click', () => onDetails(book.id));
+      return el('div', {className: 'row-actions'}, [details, edit, remove]);
+    }}] : []),
   ], data.books);
+}
+
+export function bookDetails(book, data) {
+  const details = el('dl', {className: 'book-details'});
+  const values = {title: book.title, authors: authorNames(book, data.authors), publicationYear: book.publicationYear,
+    form: book.form, mode: book.mode, content: book.content,
+    themeIds: book.themeIds.map(id => data.themes.find(theme => theme.id === id)?.name).filter(Boolean).join(', ')};
+  for (const [name, value] of Object.entries(values)) details.append(el('dt', {}, TEXT.labels[name]), el('dd', {}, display(value)));
+  return el('div', {}, [details, el('h3', {}, TEXT.bookHistory), readingsTable(data, data.readings.filter(reading => reading.bookId === book.id))]);
 }
