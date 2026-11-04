@@ -11,10 +11,10 @@ O projeto será construído em duas etapas: frontend em HTML, CSS e JavaScript p
 | Integrante | Matrícula |
 |---|---|
 | Ana Flavia Freiria | 2024.1.08.001 |
-| Aurelio Junior | A informar |
+| Aurelio Junior | 2024.2.08.008 |
 | Otávio de Oliveira | 2025.1.08.034 |
 | Pedro Luccas | 2022.2.08.009 |
-| Raissa Peret | A informar |
+| Raissa Peret | 2024.1.08.021 |
 
 
 A composição da equipe deve ser mantida entre as duas entregas. Cada integrante deve contribuir com commits e compreender o código apresentado.
