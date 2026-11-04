@@ -4,7 +4,7 @@ Aplicação web para gerenciar autores, livros e leituras, desenvolvida para o T
 
 O projeto será construído em duas etapas: frontend em HTML, CSS e JavaScript puros com armazenamento no navegador; depois, integração com uma API REST em Java e Spring Boot e persistência em banco de dados.
 
-> **Estado atual:** frontend com dados oficiais, histórico ordenável, CRUD visual de autores e livros, criação de temas e Reset data. O cadastro de livro permite incluir a primeira leitura em um único Save; excluir livro confirma e remove suas leituras. Reading History ainda tem formulário de prévia: editar/excluir leituras e transições de status continuam pendentes. Backend ainda não implementado.
+> **Estado atual:** frontend com dados oficiais, CRUD visual de autores, livros e leituras, criação de temas e Reset data. É possível registrar releituras sem alterar o histórico anterior, cadastrar livro com primeira leitura em um Save e excluir obra/leituras com confirmação. A edição de leitura protege a remoção de ano/nota em mudanças de status. A auditoria completa de FR-04/FR-06 e a revisão final da entrega continuam pendentes. Backend ainda não implementado.
 
 ## Equipe
 
@@ -39,6 +39,7 @@ Integração, testes de aceitação, documentação, declaração de uso de IA, 
 - [PRD de dados, validação e reset](docs/specs/E1-dados-validacao-reset-prd.md)
 - [PRD do CRUD visual de autores](docs/specs/E1-autores-crud-prd.md)
 - [PRD de livros e temas](docs/specs/E1-livros-crud-prd.md)
+- [PRD de leituras e matriz dos critérios de FR-03](docs/specs/E1-leituras-crud-prd.md)
 - [Enunciados no Moodle](https://campusvirtual.unifal-mg.edu.br/moodle/course/section.php?id=30335)
 
 ## Fluxo de colaboração e commits
@@ -86,9 +87,9 @@ frontend/
     ├── app.js
     ├── constants.js
     ├── strings.js
-    ├── forms.js
     ├── forms/author-form.js
     ├── forms/book-form.js
+    ├── forms/reading-form.js
     ├── forms/form-action.js
     ├── store.js
     ├── validation.js
@@ -99,7 +100,7 @@ frontend/
         └── readings.js
 ```
 
-Navegação por hash em uma página, usando módulos ES. `store.js` concentra dados em funções async e retorna cópias independentes; páginas não acessam localStorage diretamente. `validation.js` verifica a estrutura e as regras de domínio da seção 4. O store oferece leitura e escrita com erros padronizados; veja os contratos em docs/CONTRATOS_DADOS.md. Os formulários de autores e livros já estão conectados; livros também permitem primeira leitura opcional. O CRUD próprio de leituras continua pendente.
+Navegação por hash em uma página, usando módulos ES. `store.js` concentra dados em funções async e retorna cópias independentes; páginas não acessam localStorage diretamente. `validation.js` verifica a estrutura e as regras de domínio da seção 4. O store oferece leitura e escrita com erros padronizados; veja os contratos em docs/CONTRATOS_DADOS.md. Os formulários de autores, livros e leituras estão conectados aos mesmos contratos; livros também permitem primeira leitura opcional. A implementação antiga de prévias foi removida.
 
 ## Como executar a entrega 1
 
@@ -115,7 +116,7 @@ python3 -m http.server 8087 --directory frontend
 
 Abrir http://localhost:8087. Não há instalação npm, build ou backend para esta etapa. Usar navegador moderno com suporte a módulos ES e dialog.
 
-No primeiro acesso, o seed oficial é carregado e salvo na chave `reading-tracker:data:v1`. Nas próximas visitas, a base lê o que já está salvo. Um erro no armazenamento é apresentado sem substituir silenciosamente os dados. A ação **Reset data**, no rodapé, pede confirmação e restaura o seed somente depois de baixá-lo e validá-lo. Cancelar mantém os dados; falhas também preservam o estado anterior. Em Authors, Add author cadastra registros e as ações Edit/Delete permitem mantê-los. Nome é obrigatório; nacionalidade e datas são opcionais. Em Books, Add book permite título apenas ou dados completos, seleção de autores/temas e primeira leitura opcional. Create theme salva o tema imediatamente, mesmo se cancelar o livro. View details mostra dados completos e histórico; Delete informa a quantidade de leituras removidas. Somente Reading History mantém o formulário de prévia, com Save desabilitado.
+No primeiro acesso, o seed oficial é carregado e salvo na chave `reading-tracker:data:v1`. Nas próximas visitas, a base lê o que já está salvo. Um erro no armazenamento é apresentado sem substituir silenciosamente os dados. A ação **Reset data**, no rodapé, pede confirmação e restaura o seed somente depois de baixá-lo e validá-lo. Cancelar mantém os dados; falhas também preservam o estado anterior. Em Authors, Add author cadastra registros e as ações Edit/Delete permitem mantê-los. Nome é obrigatório; nacionalidade e datas são opcionais. Em Books, Add book permite título apenas ou dados completos, seleção de autores/temas e primeira leitura opcional. Create theme salva o tema imediatamente, mesmo se cancelar o livro. View details mostra dados completos e histórico; Delete informa a quantidade de leituras removidas. Em Reading History, Add reading registra uma nova leitura de um livro existente; View, Edit e Delete atuam sobre uma leitura específica. Para uma releitura, use Add reading: o registro anterior é preservado. Essas ações também aparecem no histórico e nos detalhes de cada obra. A exclusão individual mantém o livro e suas demais leituras. Ao editar para um status que não permite ano/nota, uma confirmação no formulário identifica os campos removidos; os valores permanecem até confirmar e salvar.
 
 Materiais oficiais baixados do Moodle em 04/11/2026 estão em `materiais/`; `frontend/data/seed.json` é uma cópia idêntica. O guia atual é `Seed_Data_Guide.pdf`. O JSON tem 135 temas, embora o guia cite 132; mantivemos o arquivo oficial sem alterações.
 
@@ -123,9 +124,9 @@ Materiais oficiais baixados do Moodle em 04/11/2026 estão em `materiais/`; `fro
 
 Com Node 24+ disponível, executar `node tests/foundation.test.mjs` e `node tests/data.test.mjs` (37 testes no total, sem dependências). Node é opcional para os testes; não é usado para construir ou executar o frontend.
 
-Verificado também no Chrome: navegação, contagens oficiais, ordenação, histórico por livro, prévias, Escape, tela de 390px, falha e nova tentativa, estados vazios e tratamento seguro de texto. O CRUD de autores/livros, temas, cadastro combinado e exclusão em cascata também foram verificados na interface; o CRUD próprio de leituras aguarda conexão visual. Também foram verificados confirmação/cancelamento do reset, falha de rede, proteção de edição em outra aba e passagem da edição após recarga.
+Verificado também no Chrome: navegação, contagens oficiais, ordenação, histórico por livro, formulários, Escape, tela de 390px, falha e nova tentativa, estados vazios e tratamento seguro de texto. O CRUD de autores/livros, temas, cadastro combinado e exclusão em cascata também foram verificados na interface; o CRUD de leituras também foi verificado, incluindo releituras e exclusão individual. Também foram verificados confirmação/cancelamento do reset, falha de rede, proteção de edição em outra aba e passagem da edição após recarga.
 
-Os testes de interface estão em `tests/authors.browser.test.mjs` (35 verificações) e `tests/books.browser.test.mjs` (44 verificações), sem dependências externas. Veja os comandos e o uso de um perfil isolado no [guia do frontend](docs/GUIA_FRONTEND.md). Inclui criação/edição/exclusão e recarga, validações, quota, conflito real entre abas, foco/teclado, 390px/1280px e regressões de navegação/reset.
+Os testes de interface estão em `tests/authors.browser.test.mjs` (35 verificações), `tests/books.browser.test.mjs` (44 verificações) e `tests/readings.browser.test.mjs` (51 verificações), sem dependências externas. Veja os comandos e o uso de um perfil isolado no [guia do frontend](docs/GUIA_FRONTEND.md). Inclui criação/edição/exclusão e recarga, validações, quota, conflito real entre abas, foco/teclado, 390px/1280px e regressões de navegação/reset.
 
 ## Como executar a entrega 2
 
@@ -150,13 +151,13 @@ Atualizar cada célula para **Implementado**, **Parcialmente implementado** ou *
 |---|---|---|---|
 | FR-01 | CRUD de autores e bloqueio de exclusão de autor vinculado | Implementado | Não implementado |
 | FR-02 | CRUD de livros, seleção de autores e temas e criação de tema | Implementado | Não implementado |
-| FR-03 | CRUD de leituras, cadastro combinado e exclusão em cascata confirmada | Parcialmente implementado | Não implementado |
+| FR-03 | CRUD de leituras, cadastro combinado e exclusão em cascata confirmada | Implementado | Não implementado |
 | FR-04 | Fluxo de status e compatibilidade de ano, nota e prioridade | Parcialmente implementado | Não implementado |
 | FR-05 | Histórico ordenável e tratamento de valores ausentes | Implementado | Não implementado |
 | FR-06 | Validações da seção 4 e mensagens junto aos campos | Parcialmente implementado | Não implementado |
 | FR-07 | Seed no primeiro uso, preservação de alterações e Reset data | Implementado | Não implementado |
 
-FR-01 tem CRUD visual completo, persistência, validação e bloqueio de exclusão vinculada. FR-02 tem CRUD visual completo e criação de temas. FR-03 permite consultar histórico, criar livro com primeira leitura e excluir livro/leituras com confirmação da quantidade; adicionar releituras, editar/excluir leituras individualmente ainda estão pendentes. FR-04 tem preparação/validação das transições e exigência de confirmação no store, sem fluxo visual completo. FR-06 tem validação de domínio e helper de mensagens, mas precisa ser aplicado aos formulários reais. FR-07 está implementado e testado, incluindo restauração com confirmação.
+FR-01 tem CRUD visual completo, persistência, validação e bloqueio de exclusão vinculada. FR-02 tem CRUD visual completo e criação de temas. FR-03 tem CRUD visual de leituras, consulta completa, releituras independentes, cadastro combinado e exclusão em cascata confirmada com contagem. FR-04 tem preparação/validação das transições e confirmação de limpeza no formulário de edição; permanece parcial até a auditoria dedicada dos cinco critérios do cartão e das combinações de status. FR-06 já tem validação de domínio e mensagens nos formulários; a revisão completa de todas as regras da seção 4, inclusive cenários de entrada inválida, permanece pendente. FR-07 está implementado e testado, incluindo restauração com confirmação.
 
 Os exercícios FR-08 a FR-18 são opcionais e não pontuados; nenhum está declarado como implementado neste momento.
 
@@ -189,7 +190,7 @@ O código, a documentação e os resultados dos testes passam por revisão human
 
 | Ferramenta | Finalidade já utilizada | Partes afetadas |
 |---|---|---|
-| ChatGPT / Codex | Leitura dos requisitos, planejamento e PRD; geração da base de navegação, estilos, leitura/escrita de dados, validações, restauração, formulários de referência, CRUD visual de autores/livros, temas, primeira leitura, exclusão em cascata e testes de integração em navegador; documentação de colaboração | README.md, docs/, frontend/ (exceto seed oficial), tests/ |
+| ChatGPT / Codex | Leitura dos requisitos, planejamento e PRD; geração da base de navegação, estilos, leitura/escrita de dados, validações, restauração, formulários de referência, CRUD visual de autores/livros/leituras, temas, primeira leitura, releituras, confirmação de limpeza, exclusões e testes de integração em navegador; documentação de colaboração | README.md, docs/, frontend/ (exceto seed oficial), tests/ |
 
 Para editar, usar uma única aba. Em navegadores com Web Locks, outra aba recebe conflito 409 sem gravar; fechar a aba que estava editando e recarregar a nova antes de continuar. Sem Web Locks, a fila protege somente operações da mesma aba.
 

@@ -164,7 +164,7 @@ try {
   await click('#close-dialog');
   for(const route of ['readings']){
     await evaluate(`location.hash=${JSON.stringify(route)}`);await wait(`document.querySelector('[aria-current=page]').dataset.route===${JSON.stringify(route)}`);
-    await click('#preview-button');await check(`document.querySelector('#form-dialog').open && document.querySelector('[type=submit]').disabled`, `${route} remains a preview`);await click('#close-dialog');
+    await click('#preview-button');await wait(`!!document.querySelector('[name=bookId]')`);await check(`document.querySelector('#form-dialog').open && !document.querySelector('[type=submit]').disabled`, `${route} now offers a functional form`);await click('#close-dialog');
   }
   await evaluate(`location.hash='books'`);await wait(`document.querySelector('[aria-current=page]').dataset.route==='books'`);
   await click('#preview-button');await wait(`!!document.querySelector('[name=title]')`);
