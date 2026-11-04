@@ -497,3 +497,10 @@ footer #reset-data {
 }
 .book-details dt { font-weight:600; }
 .book-details dd { margin:0; overflow-wrap:anywhere; }
+
+.field .checkbox-label input {
+  width:18px;
+  min-height:18px;
+  flex-shrink:0;
+}
+.book-details dd { white-space:pre-wrap; }

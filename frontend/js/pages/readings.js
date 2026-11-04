@@ -16,17 +16,37 @@ export function sortReadings(rows, key = 'yearRead', direction = 'desc') {
     return order * (direction === 'asc' ? 1 : -1) || a.id - b.id;
   });
 }
-export function readingsTable(data, readings = data.readings) {
+export function readingsTable(data, readings = data.readings, {onEdit, onDelete, onDetails} = {}) {
   if (!readings.length) return emptyState(TEXT.noReadings);
   const host = el('div');
   let sortKey = 'yearRead', direction = 'desc';
-  const render = () => host.replaceChildren(table(['title', 'authors', 'status', 'yearRead', 'grade'].map(key => ({key, label: TEXT.labels[key], sortable: true, render: row => key === 'status' ? badge(row.status) : display(row[key])})), sortReadings(readingRows(data, readings), sortKey, direction), {sortKey, direction, onSort: key => {
+  const columns = ['title', 'authors', 'status', 'yearRead', 'grade'].map(key => ({key, label: TEXT.labels[key], sortable: true,
+    render: row => key === 'status' ? badge(row.status) : display(row[key])}));
+  if (onEdit && onDelete && onDetails) columns.push({key: 'actions', label: TEXT.authors.actions, render: row => {
+    const actions = [[TEXT.readings.view, 'view', onDetails], [TEXT.authors.edit, 'edit', onEdit], [TEXT.authors.remove, 'delete', onDelete]];
+    return el('div', {className: 'row-actions'}, actions.map(([label, action, callback]) => {
+      const button = el('button', {type: 'button', className: 'button-secondary', 'data-reading-action': action,
+        'data-reading-id': row.id, 'aria-label': TEXT.readings.actionLabel(label, row.id, row.title)}, label);
+      button.addEventListener('click', () => callback(row.id));
+      return button;
+    }));
+  }});
+  const render = () => host.replaceChildren(table(columns, sortReadings(readingRows(data, readings), sortKey, direction), {sortKey, direction, onSort: key => {
     direction = key === sortKey && direction === 'asc' ? 'desc' : 'asc'; sortKey = key; render();
     // Restore keyboard focus after replacing the table.
     host.querySelectorAll('.sort-button')[['title', 'authors', 'status', 'yearRead', 'grade'].indexOf(key)].focus();
   }}));
   render(); return host;
 }
-export function renderReadings(data) {
-  return data.readings.length ? readingsTable(data) : emptyState(TEXT.pages.readings.empty);
+export function renderReadings(data, actions = {}) {
+  return data.readings.length ? readingsTable(data, data.readings, actions) : emptyState(TEXT.pages.readings.empty);
+}
+
+export function readingDetails(reading, data) {
+  const book = data.books.find(item => item.id === reading.bookId);
+  const details = el('dl', {className: 'book-details'});
+  const values = {bookId: book?.title, status: reading.status, yearRead: reading.yearRead, grade: reading.grade,
+    priority: reading.priority, recommendedBy: reading.recommendedBy, notes: reading.notes};
+  for (const [name, value] of Object.entries(values)) details.append(el('dt', {}, TEXT.labels[name]), el('dd', {}, display(value)));
+  return details;
 }
