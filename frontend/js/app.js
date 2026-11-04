@@ -1,6 +1,7 @@
-import { getLibrary } from './store.js';
+import { STORAGE_KEY } from './constants.js';
+import { getLibrary, resetData } from './store.js';
 import { TEXT } from './strings.js';
-import { el, openDialog } from './ui.js';
+import { el, openDialog, confirmAction } from './ui.js';
 import { previewForm } from './forms.js';
 import { renderReadings } from './pages/readings.js';
 import { renderBooks } from './pages/books.js';
@@ -9,7 +10,22 @@ import { renderAuthors } from './pages/authors.js';
 const renderers = {readings: renderReadings, books: renderBooks, authors: renderAuthors};
 const content = document.getElementById('content');
 const preview = document.getElementById('preview-button');
+const resetButton = document.getElementById('reset-data');
+const announcement = document.getElementById('announcement');
+resetButton.textContent = TEXT.reset.action;
 let library;
+let busy = false;
+let refreshAfterDialog = false;
+function announce(message, failed = false) {
+  announcement.setAttribute('role', failed ? 'alert' : 'status');
+  announcement.replaceChildren(el('p', {className: failed ? 'error-panel' : 'notice'}, message));
+}
+function setBusy(value) {
+  busy = value;
+  resetButton.disabled = value;
+  preview.disabled = value || !library;
+  content.setAttribute('aria-busy', String(value));
+}
 function route() {
   const key = location.hash.slice(1);
   return Object.hasOwn(renderers, key) ? key : 'readings';
@@ -21,7 +37,7 @@ function render() {
   document.getElementById('page-eyebrow').textContent = page.eyebrow;
   document.getElementById('page-description').textContent = page.description;
   preview.textContent = page.preview;
-  preview.disabled = !library;
+  preview.disabled = busy || !library;
   for (const link of document.querySelectorAll('[data-route]')) {
     if (link.dataset.route === area) link.setAttribute('aria-current', 'page');
     else link.removeAttribute('aria-current');
@@ -35,15 +51,49 @@ function render() {
   ]));
 }
 async function load() {
-  content.setAttribute('aria-busy', 'true');
+  library = undefined;
+  setBusy(true);
   content.replaceChildren(el('p', {className: 'notice', role: 'status'}, TEXT.loading));
   try { library = await getLibrary(); render(); }
   catch (error) {
     const retry = el('button', {type: 'button'}, TEXT.retry);
     retry.addEventListener('click', load);
     content.replaceChildren(el('section', {className: 'error-panel', role: 'alert'}, [el('h2', {}, TEXT.loadError), el('p', {}, error.message), retry]));
-  } finally { content.setAttribute('aria-busy', 'false'); }
+  } finally { setBusy(false); }
 }
+resetButton.addEventListener('click', async () => {
+  if (busy) return;
+  const confirmed = await confirmAction({
+    title: TEXT.reset.title, message: TEXT.reset.message, confirmLabel: TEXT.reset.confirm,
+  });
+  if (!confirmed) return;
+  setBusy(true);
+  announce(TEXT.reset.pending);
+  try {
+    library = await resetData();
+    render();
+    announce(TEXT.reset.success);
+    announcement.focus();
+  } catch (error) {
+    announce(error.message, true);
+    announcement.focus();
+  }
+  finally { setBusy(false); }
+});
+window.addEventListener('storage', event => {
+  if (event.key !== STORAGE_KEY && event.key !== null) return;
+  if (document.getElementById('form-dialog').open) {
+    refreshAfterDialog = true;
+    return;
+  }
+  load();
+});
+document.getElementById('form-dialog').addEventListener('close', () => {
+  if (refreshAfterDialog) {
+    refreshAfterDialog = false;
+    load();
+  }
+});
 preview.addEventListener('click', () => openDialog(TEXT.pages[route()].preview, previewForm(route(), library)));
 document.getElementById('close-dialog').addEventListener('click', () => document.getElementById('form-dialog').close());
 window.addEventListener('hashchange', () => {

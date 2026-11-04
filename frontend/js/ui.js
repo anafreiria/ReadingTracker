@@ -67,3 +67,21 @@ export function showFieldErrors(form, errors = []) {
   }
   form.querySelector('[aria-invalid="true"]')?.focus();
 }
+
+export function confirmAction({title, message, confirmLabel}) {
+  const dialog = document.getElementById('form-dialog');
+  const cancel = el('button', {type: 'button', className: 'button-secondary'}, TEXT.cancel);
+  const confirm = el('button', {type: 'button', className: 'button-danger'}, confirmLabel);
+  const content = el('div', {}, [
+    el('p', {className: 'confirmation-message'}, message),
+    el('div', {className: 'dialog-actions'}, [cancel, confirm]),
+  ]);
+  return new Promise(resolve => {
+    dialog.returnValue = 'cancel';
+    dialog.addEventListener('close', () => resolve(dialog.returnValue === 'confirm'), {once: true});
+    cancel.addEventListener('click', () => dialog.close('cancel'));
+    confirm.addEventListener('click', () => dialog.close('confirm'));
+    openDialog(title, content);
+    cancel.focus();
+  });
+}
