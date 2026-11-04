@@ -480,3 +480,12 @@ legend {
 footer #reset-data {
   padding: 0;
 }
+
+.row-actions {
+  display:flex;
+  gap:8px;
+  white-space:nowrap;
+}
+.error-panel {
+  overflow-wrap:anywhere;
+}
