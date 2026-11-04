@@ -15,6 +15,13 @@ export const TEXT = {
     add: 'Add reading', editTitle: 'Edit reading', detailsTitle: 'Reading details', deleteTitle: 'Delete reading?',
     save: 'Save reading', saving: 'Saving reading…', deleting: 'Deleting reading…',
     help: 'Choose a book and status. Read requires a year; only Read and Abandoned allow a year and grade. Priority is only for Want to read. Add a new reading to record a re-read.',
+    statusHelp: {
+      'Want to read': 'Wishlist: priority is optional. Year read and grade must be empty.',
+      Reading: 'Currently reading: year read, grade and priority must be empty.',
+      Paused: 'Paused for later: year read, grade and priority must be empty.',
+      Read: 'Completed: year read is required. Grade is optional; priority must be empty.',
+      Abandoned: 'Stopped reading: year read and grade are optional. Priority must be empty.',
+    },
     noBooks: 'Add a book before recording a reading. Open ',
     created: 'Reading added.', updated: 'Reading updated.', deleted: 'Reading deleted. The book and its other readings were kept.',
     view: 'View', actionLabel: (action, id, title) => `${action} reading #${id}: ${title}`,
