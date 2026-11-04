@@ -4,7 +4,7 @@ Aplicação web para gerenciar autores, livros e leituras, desenvolvida para o T
 
 O projeto será construído em duas etapas: frontend em HTML, CSS e JavaScript puros com armazenamento no navegador; depois, integração com uma API REST em Java e Spring Boot e persistência em banco de dados.
 
-> **Situação inicial:** este README descreve o planejamento. As funcionalidades e os comandos da etapa backend ainda precisam ser implementados e verificados. Atualizar o documento conforme o desenvolvimento; não entregar com pendências de documentação.
+> **Estado atual:** base navegável do frontend com dados oficiais, histórico ordenável e prévias de formulários. Os formulários ainda não salvam; CRUDs, regras completas e reset permanecem pendentes. Backend ainda não implementado.
 
 ## Equipe
 
@@ -30,9 +30,11 @@ Integração, testes de aceitação, documentação, declaração de uso de IA, 
 
 ## Repositório e planejamento
 
-- [Repositório público](https://github.com/PedroBrassi/reading-tracker)
+- [Repositório público](https://github.com/anafreiria/ReadingTracker)
 - [Quadro de tarefas no Trello](https://trello.com/b/BSpxAKlv)
 - [Roteiro de desenvolvimento](docs/ROTEIRO_DESENVOLVIMENTO.md)
+- [PRD da base E1](docs/specs/E1-planejamento-base-prd.md)
+- [Guia para os colegas do frontend](docs/GUIA_FRONTEND.md)
 - [Enunciados no Moodle](https://campusvirtual.unifal-mg.edu.br/moodle/course/section.php?id=30335)
 
 ## Fluxo de colaboração e commits
@@ -42,7 +44,7 @@ Integração, testes de aceitação, documentação, declaração de uso de IA, 
 3. Cada integrante faz seus próprios commits, com seu nome e e-mail configurados no Git. Cada commit deve representar uma mudança coerente; arquivos relacionados podem ficar juntos, sem exigir um commit por arquivo.
 4. Enviar a branch ao GitHub e abrir um pull request para main, descrevendo a mudança e como foi verificada.
 5. Outro integrante revisa o pull request antes da integração. Resolver os comentários e confirmar que a aplicação continua funcionando antes de fazer o merge.
-6. Integrar as tarefas em main por pull request, evitando commits diretos nessa branch. Depois do merge, atualizar main local antes de iniciar outra tarefa.
+6. Integrar as tarefas em main exclusivamente por pull request revisado. Nunca fazer commits ou push direto em main. Depois do merge, atualizar main local antes de iniciar outra tarefa.
 
 Coordenar alterações em arquivos compartilhados, especialmente store.js, validation.js, ui.js e styles.css, e registrar responsáveis e revisores no Trello. A autoria dos commits deve refletir quem realizou cada contribuição.
 
@@ -69,51 +71,52 @@ A interface e os valores controlados serão em **inglês dos Estados Unidos**. O
 
 Não usar React, Vue, Angular, Svelte, jQuery, Bootstrap, Tailwind, TypeScript, Vite, Webpack ou pacotes npm/build tools para construir o frontend. Não usar Thymeleaf/JSP para renderização no servidor. Bibliotecas adicionais dependem das permissões do enunciado ou de aprovação registrada do professor.
 
-## Estrutura prevista para a entrega 1
+## Estrutura da base do frontend
 
 ```text
-reading-tracker/
-├── README.md
-├── .gitignore
-├── docs/
-│   └── ROTEIRO_DESENVOLVIMENTO.md
-└── frontend/
-    ├── index.html
-    ├── authors.html
-    ├── books.html
-    ├── readings.html
-    ├── css/styles.css
-    ├── js/
-    │   ├── store.js
-    │   ├── validation.js
-    │   ├── ui.js
-    │   ├── authors.js
-    │   ├── books.js
-    │   └── readings.js
-    ├── data/seed.json
-    └── assets/images/
+frontend/
+├── index.html
+├── css/styles.css
+├── data/seed.json
+└── js/
+    ├── app.js
+    ├── constants.js
+    ├── strings.js
+    ├── forms.js
+    ├── store.js
+    ├── validation.js
+    ├── ui.js
+    └── pages/
+        ├── authors.js
+        ├── books.js
+        └── readings.js
 ```
 
-`store.js` concentra todas as operações de dados em funções assíncronas. Na entrega 2, será adaptado para chamar a API, e o frontend será movido para `src/main/resources/static`. O seed usado pelo backend ficará em `src/main/resources/seed.json`.
+Navegação por hash em uma página, usando módulos ES. `store.js` concentra dados em funções async e retorna cópias independentes; páginas não acessam localStorage diretamente. `validation.js` verifica a estrutura do arquivo nesta base; as regras completas de domínio ainda serão implementadas. O contrato e os próximos métodos estão no PRD.
 
-## Como preparar e executar a entrega 1
+## Como executar a entrega 1
 
-As instruções abaixo são o procedimento planejado e devem ser testadas quando a interface estiver implementada.
+1. Clonar `https://github.com/anafreiria/ReadingTracker.git` e abrir a pasta no VS Code.
+2. Abrir `frontend/index.html` com **Open with Live Server**.
+3. Acessar a URL HTTP indicada pela extensão. Não abrir por `file://`.
 
-1. Clonar o repositório, se ainda não existir uma cópia local:
+Alternativa com Python 3, a partir da raiz:
 
-   ```powershell
-   git clone git@github.com:PedroBrassi/reading-tracker.git
-   cd reading-tracker
-   code .
-   ```
+```bash
+python3 -m http.server 8087 --directory frontend
+```
 
-2. Obter o `seed.json` oficial e colocá-lo em `frontend/data/seed.json`.
-3. No VS Code, usar a extensão **Live Server** e abrir `frontend/index.html` com **Open with Live Server**.
-4. Acessar a URL HTTP indicada pela extensão. Não abrir a página somente por `file://`, pois o carregamento do seed usa `fetch`.
-5. No primeiro acesso, carregar o seed; nos acessos seguintes, manter as alterações no armazenamento do navegador.
+Abrir http://localhost:8087. Não há instalação npm, build ou backend para esta etapa. Usar navegador moderno com suporte a módulos ES e dialog.
 
-Na verificação de 19/10/2026, os links de `seed.json`, `How_Books_Read_Currently_Tracked.pdf` e `Students_Seed_Data_Readme.pdf` estavam indisponíveis no Moodle. Confirmar novamente e obter os arquivos com o professor se necessário. Dados fictícios de teste não substituem o seed obrigatório na entrega.
+No primeiro acesso, o seed oficial é carregado e salvo na chave `reading-tracker:data:v1`. Nas próximas visitas, a base lê o que já está salvo. Um erro no armazenamento é apresentado sem substituir silenciosamente os dados. Reset ainda será implementado no cartão FR-07. Os formulários são prévias identificadas, com Save desabilitado.
+
+Materiais oficiais baixados do Moodle em 04/11/2026 estão em `materiais/`; `frontend/data/seed.json` é uma cópia idêntica. O guia atual é `Seed_Data_Guide.pdf`. O JSON tem 135 temas, embora o guia cite 132; mantivemos o arquivo oficial sem alterações.
+
+## Verificação da base
+
+Com Node disponível, executar `node tests/foundation.test.mjs` (10 testes, sem dependências). Node é opcional para os testes; não é usado para construir ou executar o frontend.
+
+Verificado também no Chrome: navegação, contagens oficiais, ordenação, histórico por livro, prévias, Escape, tela de 390px, falha e nova tentativa, estados vazios e tratamento seguro de texto. Os CRUDs não foram verificados como implementados porque ainda não existem.
 
 ## Como executar a entrega 2
 
@@ -136,13 +139,15 @@ Atualizar cada célula para **Implementado**, **Parcialmente implementado** ou *
 
 | ID | Requisito | Entrega 1 | Entrega 2 |
 |---|---|---|---|
-| FR-01 | CRUD de autores e bloqueio de exclusão de autor vinculado | Não implementado | Não implementado |
-| FR-02 | CRUD de livros, seleção de autores e temas e criação de tema | Não implementado | Não implementado |
-| FR-03 | CRUD de leituras, cadastro combinado e exclusão em cascata confirmada | Não implementado | Não implementado |
+| FR-01 | CRUD de autores e bloqueio de exclusão de autor vinculado | Parcialmente implementado | Não implementado |
+| FR-02 | CRUD de livros, seleção de autores e temas e criação de tema | Parcialmente implementado | Não implementado |
+| FR-03 | CRUD de leituras, cadastro combinado e exclusão em cascata confirmada | Parcialmente implementado | Não implementado |
 | FR-04 | Fluxo de status e compatibilidade de ano, nota e prioridade | Não implementado | Não implementado |
-| FR-05 | Histórico ordenável e tratamento de valores ausentes | Não implementado | Não implementado |
+| FR-05 | Histórico ordenável e tratamento de valores ausentes | Implementado | Não implementado |
 | FR-06 | Validações da seção 4 e mensagens junto aos campos | Não implementado | Não implementado |
-| FR-07 | Seed no primeiro uso, preservação de alterações e Reset data | Não implementado | Não implementado |
+| FR-07 | Seed no primeiro uso, preservação de alterações e Reset data | Parcialmente implementado | Não implementado |
+
+FR-01 a FR-03 têm somente consulta e prévias; não há operações de escrita. FR-07 ainda não oferece reset. FR-06 não está concluído: a proteção estrutural de carga não substitui regras de domínio.
 
 Os exercícios FR-08 a FR-18 são opcionais e não pontuados; nenhum está declarado como implementado neste momento.
 
@@ -169,9 +174,9 @@ Os exercícios FR-08 a FR-18 são opcionais e não pontuados; nenhum está decla
 
 | Ferramenta | Finalidade já utilizada | Partes afetadas |
 |---|---|---|
-| ChatGPT / Codex | Explicação do enunciado; planejamento da estrutura, das etapas e do Trello; preparação da documentação inicial e atualização da equipe, das responsabilidades e do fluxo de colaboração | README.md e roteiro de desenvolvimento |
+| ChatGPT / Codex | Leitura dos requisitos, planejamento e PRD; geração da base de navegação, estilos, consulta de dados, formulários de referência e testes; documentação de colaboração | README.md, docs/, frontend/ (exceto seed oficial), tests/ |
 
-Até a preparação desta documentação, não foi produzido código da aplicação nesta conversa. A equipe deverá atualizar esta seção com qualquer uso posterior de IA, incluindo explicações, depuração e geração de código, identificando as partes afetadas. Todos devem compreender o que entregarem.
+Os arquivos oficiais em materiais/ e o seed foram obtidos do Moodle, sem geração por IA. A equipe deve revisar, compreender e conseguir explicar todo o código entregue. Atualizar esta seção conforme novas contribuições.
 
 ## Submissão e vídeo
 
