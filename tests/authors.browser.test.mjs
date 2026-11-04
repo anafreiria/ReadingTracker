@@ -2,6 +2,7 @@
 // Start the HTTP server and a dedicated Chrome profile as documented in GUIA_FRONTEND.
 // This test replaces ONLY this application's storage key in its dedicated test tab.
 import assert from 'node:assert/strict';
+import { captureBrowserFailure } from './browser-diagnostics.mjs';
 import { mkdir, writeFile } from 'node:fs/promises';
 const port = process.env.CHROME_DEBUG_PORT || '9337';
 const base = process.env.APP_URL || 'http://127.0.0.1:8087';
@@ -178,6 +179,9 @@ try {
   await check(`${data}.authors.length===101 && ${data}.books.length===143`, 'confirmed reset restores seed');
   assert.deepEqual(exceptions,[],'no uncaught browser exceptions');
   console.log(`PASS ${++checks} checks; no uncaught browser exceptions`);
+} catch (error) {
+  await captureBrowserFailure({call, evaluate, error, exceptions});
+  throw error;
 } finally {
   ws.close();
   await fetch(`${endpoint}/json/close/${tab.id}`);

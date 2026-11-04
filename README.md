@@ -41,6 +41,7 @@ Integração, testes de aceitação, documentação, declaração de uso de IA, 
 - [PRD de livros e temas](docs/specs/E1-livros-crud-prd.md)
 - [PRD de leituras e matriz dos critérios de FR-03](docs/specs/E1-leituras-crud-prd.md)
 - [PRD do fluxo de status e matriz dos critérios de FR-04](docs/specs/E1-fluxo-status-prd.md)
+- [PRD da verificação contínua do frontend](docs/specs/E1-ci-frontend-prd.md)
 - [Enunciados no Moodle](https://campusvirtual.unifal-mg.edu.br/moodle/course/section.php?id=30335)
 
 ## Fluxo de colaboração e commits
@@ -129,6 +130,20 @@ Verificado também no Chrome: navegação, contagens oficiais, ordenação, hist
 
 Os testes de interface estão em `tests/authors.browser.test.mjs` (35 verificações), `tests/books.browser.test.mjs` (44 verificações), `tests/readings.browser.test.mjs` (51 verificações) e `tests/status.browser.test.mjs` (94 verificações, incluindo 25 combinações persistidas de status), sem dependências externas. Veja os comandos e o uso de um perfil isolado no [guia do frontend](docs/GUIA_FRONTEND.md). Inclui criação/edição/exclusão e recarga, validações, quota, conflito real entre abas, foco/teclado, 390px/1280px e regressões de navegação/reset.
 
+## Verificação automática no GitHub
+
+O workflow [Frontend](.github/workflows/frontend.yml) executa o check **Frontend checks** em cada PR para main e a cada push na main. Também pode ser iniciado pela aba Actions após a integração do workflow. Ele verifica a sintaxe JavaScript, inicia um servidor HTTP e um Chrome temporários, confirma a inicialização/navegação dos três módulos e executa todos os testes de dados e interface existentes. Novos testes em `tests/*.test.mjs` e `tests/*.browser.test.mjs` são descobertos automaticamente; as suítes de navegador rodam sequencialmente para respeitar a política de uma aba editora.
+
+O check fica vermelho se algum teste falhar ou exceder seu limite de tempo. A aba Actions mostra o resumo e o artefato `frontend-checks-...`, com logs e capturas, mantido por sete dias. Em falhas de navegador, a captura é feita antes de fechar a aba quando a conexão permite. Novos commits no mesmo PR cancelam a execução antiga e iniciam outra. A revisão humana continua fazendo parte do fluxo; uma regra de proteção da main pode exigir **Frontend checks** antes do merge.
+
+Para reproduzir a mesma verificação localmente, com Node 24+ e Chrome instalados:
+
+```bash
+node scripts/check-frontend.mjs
+```
+
+O comando inicia e encerra seus próprios serviços, com portas livres e perfil isolado. A pasta dos relatórios é mostrada no terminal; `FRONTEND_REPORT_DIR` permite escolher a pasta-base e `CHROME_BIN` indicar o executável. `node scripts/check-frontend.mjs --smoke-only` faz uma verificação rápida de sintaxe/inicialização; o GitHub sempre executa a verificação completa. O navegador de teste usa fontes locais de fallback para não depender da disponibilidade de Google Fonts. Nenhuma instalação npm, build ou alteração no modo normal de executar a aplicação é necessária. Veja os [detalhes e limites](docs/specs/E1-ci-frontend-prd.md).
+
 ## Como executar a entrega 2
 
 **Planejado, ainda não verificado.** Após implementar o backend e versionar o Maven Wrapper:
@@ -191,7 +206,7 @@ O código, a documentação e os resultados dos testes passam por revisão human
 
 | Ferramenta | Finalidade já utilizada | Partes afetadas |
 |---|---|---|
-| ChatGPT / Codex | Leitura dos requisitos, planejamento e PRD; geração da base de navegação, estilos, leitura/escrita de dados, validações, restauração, formulários de referência, CRUD visual de autores/livros/leituras, temas, primeira leitura, releituras, confirmação de limpeza, orientação de status, auditoria das 25 combinações de status, exclusões e testes de integração em navegador; documentação de colaboração | README.md, docs/, frontend/ (exceto seed oficial), tests/ |
+| ChatGPT / Codex | Leitura dos requisitos, planejamento e PRD; geração da base de navegação, estilos, leitura/escrita de dados, validações, restauração, formulários de referência, CRUD visual de autores/livros/leituras, temas, primeira leitura, releituras, confirmação de limpeza, orientação de status, auditoria das 25 combinações de status, exclusões, testes de integração em navegador, automação de verificação no GitHub Actions e diagnóstico de falhas; documentação de colaboração | README.md, docs/, frontend/ (exceto seed oficial), tests/, scripts/, .github/workflows/ |
 
 Para editar, usar uma única aba. Em navegadores com Web Locks, outra aba recebe conflito 409 sem gravar; fechar a aba que estava editando e recarregar a nova antes de continuar. Sem Web Locks, a fila protege somente operações da mesma aba.
 
