@@ -178,6 +178,12 @@ Os exercícios FR-08 a FR-18 são opcionais e não pontuados; nenhum está decla
 
 ## Uso de inteligência artificial
 
+A IA neste trabalho é usada para apoiar a análise dos requisitos, a documentação e a implementação das ideias e soluções definidas pela equipe. O ChatGPT/Codex atua como assistente e agente de programação, auxiliando na geração e adaptação de código, na preparação de testes automatizados e na investigação de falhas. As ferramentas e partes afetadas são declaradas abaixo, conforme a seção 10 do [enunciado oficial](materiais/Reading_Tracker_Web_Application.pdf).
+
+Antes da implementação de funcionalidades, o escopo, os fluxos, os critérios de aceite e o plano de verificação são documentados em PRDs. Os testes automatizados de dados e de interface ajudam a verificar o comportamento esperado e a identificar regressões; seus resultados e limites são registrados na documentação da tarefa.
+
+O código, a documentação e os resultados dos testes passam por revisão humana antes do envio das alterações para revisão do grupo. O scrum master revisa os pull requests antes do merge na main. A assistência de IA e os testes automatizados apoiam esse processo; a equipe mantém a responsabilidade pelas decisões, pela qualidade e pela compreensão de tudo o que é entregue.
+
 | Ferramenta | Finalidade já utilizada | Partes afetadas |
 |---|---|---|
 | ChatGPT / Codex | Leitura dos requisitos, planejamento e PRD; geração da base de navegação, estilos, leitura/escrita de dados, validações, restauração, formulários de referência, CRUD visual de autores e testes de integração em navegador; documentação de colaboração | README.md, docs/, frontend/ (exceto seed oficial), tests/ |
