@@ -1,6 +1,6 @@
 // Test infrastructure only. The application itself remains plain HTML/CSS/JS.
 import { createServer } from 'node:http';
-import { createWriteStream } from 'node:fs';
+import { createWriteStream, existsSync } from 'node:fs';
 import { access, appendFile, mkdir, mkdtemp, readFile, readdir, rm, writeFile } from 'node:fs/promises';
 import { join, resolve, sep, extname } from 'node:path';
 import { tmpdir } from 'node:os';
@@ -83,8 +83,16 @@ async function startServer() {
 }
 
 async function startBrowser() {
-  const candidates = process.env.CHROME_BIN ? [process.env.CHROME_BIN] : ['google-chrome', 'google-chrome-stable', 'chromium', 'chromium-browser'];
-  const executable = candidates.find(candidate => spawnSync(candidate, ['--version'], {timeout: 5000, encoding: 'utf8'}).status === 0);
+  const candidates = process.env.CHROME_BIN
+    ? [process.env.CHROME_BIN]
+    : ['google-chrome', 'google-chrome-stable', 'chromium', 'chromium-browser'];
+
+  const executable = candidates.find(candidate =>
+    process.platform === 'win32'
+      ? candidate.endsWith('.exe') && existsSync(candidate)
+      : spawnSync(candidate, ['--version'], {timeout: 5000, encoding: 'utf8'}).status === 0
+  );
+
   if (!executable) throw Error('Chrome was not found. Install Chrome or set CHROME_BIN to its executable path.');
   profile = await mkdtemp(join(tmpdir(), 'reading-tracker-chrome-'));
   browserLog = createWriteStream(join(reports, 'chrome.log'));

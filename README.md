@@ -4,7 +4,7 @@ Aplicação web para gerenciar autores, livros e leituras, desenvolvida para o T
 
 O projeto será construído em duas etapas: frontend em HTML, CSS e JavaScript puros com armazenamento no navegador; depois, integração com uma API REST em Java e Spring Boot e persistência em banco de dados.
 
-> **Estado atual:** frontend com dados oficiais, CRUD visual de autores, livros e leituras, criação de temas e Reset data. É possível registrar releituras sem alterar o histórico anterior, cadastrar livro com primeira leitura em um Save e excluir obra/leituras com confirmação. A edição de leitura protege a remoção de ano/nota em mudanças de status. O fluxo de status foi auditado nas 25 combinações de origem/destino, com confirmação antes de remover ano/nota. A auditoria completa de FR-06 e a revisão final da entrega continuam pendentes. Backend ainda não implementado.
+> **Estado atual:** frontend com dados oficiais, CRUD visual de autores, livros e leituras, criação de temas e Reset data. É possível registrar releituras sem alterar o histórico anterior, cadastrar livro com primeira leitura em um Save e excluir obra/leituras com confirmação. A edição de leitura protege a remoção de ano/nota em mudanças de status. O fluxo de status foi auditado nas 25 combinações de origem/destino, com confirmação antes de remover ano/nota. A FR-06 foi auditada com testes automatizados e inspeção visual de capturas. Os formulários foram verificados em desktop (1280px) e viewport móvel emulada (390px); testes em aparelho físico não foram realizados. A revisão geral da entrega continua pendente. Backend ainda não implementado.
 
 ## Equipe
 
@@ -42,6 +42,7 @@ Integração, testes de aceitação, documentação, declaração de uso de IA, 
 - [PRD de leituras e matriz dos critérios de FR-03](docs/specs/E1-leituras-crud-prd.md)
 - [PRD do fluxo de status e matriz dos critérios de FR-04](docs/specs/E1-fluxo-status-prd.md)
 - [PRD da verificação contínua do frontend](docs/specs/E1-ci-frontend-prd.md)
+- [PRD de validação e organização do código](docs/specs/E1-validação_e_organização_do_código.md)
 - [Enunciados no Moodle](https://campusvirtual.unifal-mg.edu.br/moodle/course/section.php?id=30335)
 
 ## Fluxo de colaboração e commits
@@ -128,7 +129,7 @@ Com Node 24+ disponível, executar `node tests/foundation.test.mjs` e `node test
 
 Verificado também no Chrome: navegação, contagens oficiais, ordenação, histórico por livro, formulários, Escape, tela de 390px, falha e nova tentativa, estados vazios e tratamento seguro de texto. O CRUD de autores/livros, temas, cadastro combinado e exclusão em cascata também foram verificados na interface; o CRUD de leituras também foi verificado, incluindo releituras e exclusão individual. Também foram verificados confirmação/cancelamento do reset, falha de rede, proteção de edição em outra aba e passagem da edição após recarga.
 
-Os testes de interface estão em `tests/authors.browser.test.mjs` (35 verificações), `tests/books.browser.test.mjs` (44 verificações), `tests/readings.browser.test.mjs` (51 verificações) e `tests/status.browser.test.mjs` (94 verificações, incluindo 25 combinações persistidas de status), sem dependências externas. Veja os comandos e o uso de um perfil isolado no [guia do frontend](docs/GUIA_FRONTEND.md). Inclui criação/edição/exclusão e recarga, validações, quota, conflito real entre abas, foco/teclado, 390px/1280px e regressões de navegação/reset.
+Os testes de interface estão em `tests/authors.browser.test.mjs` (35 verificações), `tests/books.browser.test.mjs` (44 verificações), `tests/readings.browser.test.mjs` (51 verificações) e `tests/status.browser.test.mjs` (124 verificações, incluindo 25 combinações persistidas de status e avisos de remoção de prioridade), sem dependências externas. Veja os comandos e o uso de um perfil isolado no [guia do frontend](docs/GUIA_FRONTEND.md). Inclui criação/edição/exclusão e recarga, validações, quota, conflito real entre abas, foco/teclado, 390px/1280px e regressões de navegação/reset.
 
 ## Verificação automática no GitHub
 
@@ -170,10 +171,10 @@ Atualizar cada célula para **Implementado**, **Parcialmente implementado** ou *
 | FR-03 | CRUD de leituras, cadastro combinado e exclusão em cascata confirmada | Implementado | Não implementado |
 | FR-04 | Fluxo de status e compatibilidade de ano, nota e prioridade | Implementado | Não implementado |
 | FR-05 | Histórico ordenável e tratamento de valores ausentes | Implementado | Não implementado |
-| FR-06 | Validações da seção 4 e mensagens junto aos campos | Parcialmente implementado | Não implementado |
+| FR-06 | Validações da seção 4 e mensagens junto aos campos | Implementado | Não implementado |
 | FR-07 | Seed no primeiro uso, preservação de alterações e Reset data | Implementado | Não implementado |
 
-FR-01 tem CRUD visual completo, persistência, validação e bloqueio de exclusão vinculada. FR-02 tem CRUD visual completo e criação de temas. FR-03 tem CRUD visual de leituras, consulta completa, releituras independentes, cadastro combinado e exclusão em cascata confirmada com contagem. FR-04 tem os cinco critérios auditados nas 25 combinações entre status: ano obrigatório em Read e opcional em Abandoned, nota apenas em Read/Abandoned, prioridade apenas na wishlist, preservação de recomendação/notas e confirmação antes da limpeza. Cancelamento, consentimento invalidado, quota e conflito entre abas também foram verificados. FR-06 já tem validação de domínio e mensagens nos formulários; a revisão completa de todas as regras da seção 4, inclusive cenários de entrada inválida, permanece pendente. FR-07 está implementado e testado, incluindo restauração com confirmação.
+FR-01 tem CRUD visual completo, persistência, validação e bloqueio de exclusão vinculada. FR-02 tem CRUD visual completo e criação de temas. FR-03 tem CRUD visual de leituras, consulta completa, releituras independentes, cadastro combinado e exclusão em cascata confirmada com contagem. FR-04 tem os cinco critérios auditados nas 25 combinações entre status: ano obrigatório em Read e opcional em Abandoned, nota apenas em Read/Abandoned, prioridade apenas na wishlist, preservação de recomendação/notas e confirmação antes da limpeza. Cancelamento, consentimento invalidado, quota e conflito entre abas também foram verificados. FR-06 tem validações de domínio para autores, livros e leituras, mensagens de erro junto aos campos e bloqueio de persistência de dados inválidos. As regras de ano de leitura, nota, status e prioridade são verificadas, incluindo a preservação dos dados quando uma alteração incompatível é cancelada. A organização do código mantém validação, persistência e apresentação em módulos separados. Os testes automatizados cobrem entradas inválidas e os principais fluxos dos formulários. FR-07 está implementado e testado, incluindo restauração com confirmação.
 
 Os exercícios FR-08 a FR-18 são opcionais e não pontuados; nenhum está declarado como implementado neste momento.
 
@@ -206,7 +207,7 @@ O código, a documentação e os resultados dos testes passam por revisão human
 
 | Ferramenta | Finalidade já utilizada | Partes afetadas |
 |---|---|---|
-| ChatGPT / Codex | Leitura dos requisitos, planejamento e PRD; geração da base de navegação, estilos, leitura/escrita de dados, validações, restauração, formulários de referência, CRUD visual de autores/livros/leituras, temas, primeira leitura, releituras, confirmação de limpeza, orientação de status, auditoria das 25 combinações de status, exclusões, testes de integração em navegador, automação de verificação no GitHub Actions e diagnóstico de falhas; documentação de colaboração | README.md, docs/, frontend/ (exceto seed oficial), tests/, scripts/, .github/workflows/ |
+| ChatGPT / Codex | Leitura dos requisitos, planejamento e PRD; geração da base de navegação, estilos, leitura/escrita de dados, validações, restauração, formulários de referência, CRUD visual de autores/livros/leituras, temas, primeira leitura, releituras, confirmação de limpeza, orientação de status, aviso de remoção de prioridade, auditoria de FR-06 e das 25 combinações de status, exclusões, testes de integração em navegador, automação de verificação no GitHub Actions e diagnóstico de falhas; documentação de colaboração | README.md, docs/, frontend/ (exceto seed oficial), tests/, scripts/, .github/workflows/ |
 
 Para editar, usar uma única aba. Em navegadores com Web Locks, outra aba recebe conflito 409 sem gravar; fechar a aba que estava editando e recarregar a nova antes de continuar. Sem Web Locks, a fila protege somente operações da mesma aba.
 

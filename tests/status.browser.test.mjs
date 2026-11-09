@@ -102,6 +102,7 @@ try {
     if(to==='Read')await edit({yearRead:String(reading.yearRead??2025),grade:String(reading.grade??8.5)});
     if(to==='Want to read')await edit({priority:'Low'});
     await check(`document.querySelector('[name=yearRead]').required===${to==='Read'} && document.querySelector('[name=status]').getAttribute('aria-describedby').includes('reading-status-help') && document.querySelector('#reading-status-help').textContent.length>20 && document.querySelector('#reading-status-help').getAttribute('role')==='status'`, `FR04-C1 guidance and required-year metadata: ${from} -> ${to}`);
+    await check(`document.querySelector('#reading-priority-warning').hidden===${!(from==='Want to read'&&to!=='Want to read')} && document.querySelector('[name=priority]').getAttribute('aria-describedby').includes('reading-priority-warning')`, `priority removal warning matches transition: ${from} -> ${to}`);
     const clearing=resultStatuses.includes(from)&&!resultStatuses.includes(to);
     if(clearing){
       await submit();
@@ -117,6 +118,22 @@ try {
     await check(`JSON.stringify(${data}.readings.filter(r=>r.id!==${reading.id}))===JSON.stringify(${JSON.stringify(others)}) && ${data}.books.some(b=>b.id===${book.id})`, `FR04 matrix persisted ${from} -> ${to}, preserving ID/book/notes/recommendation and other readings`);
   }
   // Requirement boundaries are also checked independently of the successful matrix.
+  const wishlist=await fixture('Want to read');await reload();await readAction('edit',wishlist.id);
+  const beforePriorityCancel=await evaluate(storage);
+  await edit({status:'Abandoned'});
+  await check(`!document.querySelector('#reading-priority-warning').hidden && document.querySelector('#reading-priority-warning').textContent.includes('Saving as Abandoned will remove Priority') && document.querySelector('[name=priority]').value==='High' && document.querySelector('[aria-label="Confirm data removal"]').hidden`, 'priority warning explains removal without clearing draft or requiring result consent');
+  for(const width of [1280,390]){
+    await call('Emulation.setDeviceMetricsOverride',{width,height:900,deviceScaleFactor:1,mobile:width===390});
+    await evaluate(`document.querySelector('#reading-priority-warning').scrollIntoView({block:'center'})`);
+    await check(`document.documentElement.scrollWidth<=innerWidth && document.querySelector('#form-dialog').scrollWidth<=document.querySelector('#form-dialog').clientWidth && document.querySelector('#reading-priority-warning').getBoundingClientRect().bottom<=innerHeight`, `priority removal notice fits ${width}px`);
+    const directory=process.env.SCREENSHOT_DIR||'/tmp/reading-tracker-fr04-shots';await mkdir(directory,{recursive:true});
+    const shot=await call('Page.captureScreenshot',{format:'png'});await writeFile(`${directory}/fr06-priority-${width}.png`,Buffer.from(shot.data,'base64'));
+  }
+  await call('Emulation.setDeviceMetricsOverride',{width:1280,height:900,deviceScaleFactor:1,mobile:false});
+  await edit({status:'Want to read'});
+  await check(`document.querySelector('#reading-priority-warning').hidden && document.querySelector('[name=priority]').value==='High'`, 'returning to wishlist hides priority warning and retains draft');
+  await edit({status:'Abandoned'});await click('#form-dialog form button[type=button]');
+  await check(`${storage}===${JSON.stringify(beforePriorityCancel)}`, 'canceling priority removal preserves saved data');
   const abandoned=await fixture('Abandoned',{yearRead:null,grade:null});await reload();await readAction('edit',abandoned.id);await edit({status:'Read'});await evaluate(`window.beforeWrite=${storage}`);await submit();
   await check(`document.querySelector('[name=yearRead]').required && !!document.querySelector('#error-yearRead').textContent && ${storage}===window.beforeWrite`, 'FR04-C1 Abandoned without a year cannot move to Read without entering one');
   await edit({yearRead:'2999'});await submit();await check(`!!document.querySelector('#error-yearRead').textContent && ${storage}===window.beforeWrite`, 'FR04-C1 future completion year rejected without write');
@@ -132,7 +149,7 @@ try {
   }
   for(const status of statuses.filter(item=>item!=='Want to read')){
     await add();await edit({bookId:String(book.id),status,yearRead:status==='Read'?'2025':'',priority:'High'});await evaluate(`window.beforeWrite=${storage}`);await submit();
-    await check(`!!document.querySelector('#error-priority').textContent && ${storage}===window.beforeWrite`, `FR04-C3 new ${status} rejects wishlist priority without write`);await close();
+    await check(`!!document.querySelector('#error-priority').textContent && document.querySelector('#reading-priority-warning').hidden && ${storage}===window.beforeWrite`, `FR04-C3 new ${status} rejects wishlist priority without write`);await close();
   }
   for(const status of statuses.filter(item=>!resultStatuses.includes(item))){
     await add();await edit({bookId:String(book.id),status,grade:'0'});await evaluate(`window.beforeWrite=${storage}`);await submit();

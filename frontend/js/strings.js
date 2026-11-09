@@ -28,6 +28,7 @@ export const TEXT = {
     addLabel: title => `Add reading: ${title}`,
     deleteMessage: (id, title) => `Delete reading #${id} of “${title}”? The book and its other readings will be kept.`,
     clearTitle: 'Confirm data removal', confirmClear: 'I confirm removal of the listed fields when saving.',
+    priorityRemoval: status => `Saving as ${status} will remove Priority. It is only allowed in Want to read. Recommendation and notes will be kept. Cancel keeps the saved priority.`,
     clearMessage: (status, fields) => `Saving as ${status} will remove: ${fields.join(', ')}. The values are kept until you confirm and save.`,
     confirmRequired: 'Confirm removal of the listed fields, or return to the previous status.',
   },
