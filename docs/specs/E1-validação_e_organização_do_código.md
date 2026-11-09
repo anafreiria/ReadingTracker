@@ -1,6 +1,6 @@
 # PRD -- E1: Validação e organização do código
 
-Responsável: Otávio de Oliveira. Branch: `feat/e1-validation-code-organization`
+Responsável: Otávio de Oliveira. Revisão e correções: Ana Flavia Freiria, com apoio de Codex. Branch: `feat/e1-validation-code-organization`
 
 ## Objetivo
 
@@ -17,7 +17,7 @@ Concluir a validação dos formulários e manter a organização do frontend, ga
 - Usar `addEventListener` para eventos; remover atributos `onclick`, estilos inline e blocos `<style>` do HTML.
 - Preservar módulos ES e execução direta no navegador, sem dependência de build.
 
-A tarefa não reimplementa persistência, CRUD ou regras já cobertas pelos contratos do store. Não inclui backend.
+A auditoria reaproveita os validadores e formulários já presentes na main. As alterações funcionais deste PR são a detecção de Chrome por CHROME_BIN no Windows e o aviso de remoção de prioridade na edição de leituras. Não inclui backend.
 
 ## Critérios de aceite
 
@@ -30,8 +30,8 @@ A tarefa não reimplementa persistência, CRUD ou regras já cobertas pelos cont
 - [x] Formulários preservam os valores informados após erro para permitir correção.
 - [x] Páginas não contêm regras de domínio duplicadas nem acesso direto ao `localStorage`.
 - [x] Eventos usam `addEventListener`; HTML não contém `onclick`, estilos inline ou blocos `<style>`.
-- [ ] Fluxos de autores, livros e leituras são verificados em desktop e celular.
-- [x] Testes existentes continuam passando e novos cenários de validação são cobertos.
+- [x] Formulários de autores, livros e leituras verificados em 1280px e viewport móvel emulada de 390px; limites registrados abaixo.
+- [x] Cenários de validação existentes reexecutados; adicionada regressão do aviso de prioridade na matriz de 25 transições, cancelamento e retorno à wishlist.
 - [x] README e declaração de uso de IA permanecem consistentes com a implementação.
 
 ## Organização e decisões
@@ -59,7 +59,7 @@ A implementação foi revisada em relação aos validadores, formulários, persi
 
 ### Testes automatizados
 
-O script `scripts/check-frontend.mjs` foi executado com sucesso, contemplando:
+O script `scripts/check-frontend.mjs` é a verificação reproduzível desta revisão. A execução original tinha 276 verificações existentes; a correção acrescenta 30 verificações do aviso de prioridade, totalizando:
 
 | Suíte | Verificações |
 |---|---:|
@@ -69,15 +69,33 @@ O script `scripts/check-frontend.mjs` foi executado com sucesso, contemplando:
 | Authors browser | 35 |
 | Books browser | 44 |
 | Readings browser | 51 |
-| Status browser | 94 |
-| **Total** | **276** |
+| Status browser | 124 |
+| **Total** | **306** |
 
-### Limitações da verificação
+Resultado em 09/11/2026: todas as 306 verificações aprovadas, sem exceções não tratadas reportadas pelas suítes de navegador. Sintaxe e `git diff --check` também aprovados. Os logs da execução local estão em `/tmp/reading-tracker-check-SGdTdL` (temporários); as capturas abaixo estão versionadas e o check do PR reproduz a suíte.
 
-A execução automatizada não substitui a revisão visual dos fluxos em diferentes tamanhos de tela. A verificação manual de desktop e celular deve ser registrada separadamente antes da conclusão da tarefa.
+### Matriz dos critérios do cartão
+
+| Critério | Implementação e evidência |
+|---|---|
+| Erros junto aos campos; entradas inválidas não persistidas | validation.js, store.js e ui.js; testes de autores, livros e leituras |
+| Ano não futuro nem anterior à publicação | validateReading; data.test.mjs, readings.browser.test.mjs e status.browser.test.mjs |
+| Nota opcional de 0 a 10 em passos de 0,5 | validateReading; testes de limites, nota zero e ausência de nota |
+| Dados, renderização e validação separados; módulos ES | store.js, pages/, forms/, ui.js, validation.js e script type=module no HTML |
+| addEventListener; sem eventos/estilos inline ou blocos style | Inspeção estática do frontend; estilos em css/styles.css |
+
+### Correção após code review
+
+Ao editar uma leitura e sair de Want to read, a prioridade já era removida pelo contrato de transição. Agora um aviso junto ao final dos campos informa essa remoção antes de salvar, mantendo o rascunho até a gravação e explicando a preservação de recomendação/notas. Retornar à wishlist oculta o aviso; cancelar mantém os dados persistidos. A confirmação de limpeza de ano/nota continua independente. Na criação, prioridade incompatível continua sendo rejeitada junto ao campo, sem limpeza silenciosa.
+
+### Verificação responsiva e limites
+
+Em 09/11/2026 foram examinadas capturas dos formulários de autores, livros e leituras em 1280px e 390px. As suítes exercitam CRUD, mensagens junto aos campos, persistência, cancelamento, teclado/foco e verificam ausência de overflow horizontal nas duas larguras. A regressão de prioridade também gera capturas nas duas larguras e verifica se o aviso pode ser visto dentro da tela.
+
+Capturas desta revisão: [autores 390px](../screenshots/fr06-authors-390.png), [autores 1280px](../screenshots/fr06-authors-1280.png), [livros 390px](../screenshots/fr06-books-390.png), [livros 1280px](../screenshots/fr06-books-1280.png), [leituras 390px](../screenshots/fr06-readings-390.png), [leituras 1280px](../screenshots/fr06-readings-1280.png), [aviso de prioridade 390px](../screenshots/fr06-priority-390.png) e [aviso de prioridade 1280px](../screenshots/fr06-priority-1280.png).
+
+A emulação responsiva do Chrome (equivalente ao modo de dispositivos do DevTools) é evidência de layout e navegação em viewport móvel, suficiente para registrar essa verificação com esse escopo explícito. Não comprova execução em aparelho físico, Safari/iOS, teclado virtual ou gestos reais. Essas verificações em dispositivos reais não foram realizadas. A correção de detecção do Chrome foi executada em Linux; Windows permanece sem execução nesta revisão.
 
 ## Próximas tarefas
 
-Concluir a verificação manual dos fluxos de autores, livros e leituras em desktop e celular.
-Revisar README e documentação para manter os registros consistentes.
-Abrir PR para main e aguardar revisão; não fazer commits diretamente na main.
+Atualizar o PR #9 com as correções e evidências, aguardar revisão de outro integrante e integrar somente após essa revisão. Testes em dispositivos físicos podem complementar a evidência de emulação registrada.

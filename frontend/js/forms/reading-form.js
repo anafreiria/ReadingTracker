@@ -33,12 +33,14 @@ export function readingForm({reading = null, bookId = null, books, onBusy, onSuc
   choiceLabel.className = 'checkbox-label';
   choiceLabel.prepend(confirmation);
   const warning = el('p', {className: 'notice', role: 'status'});
+  const priorityWarning = el('p', {id: 'reading-priority-warning', className: 'notice', role: 'status', hidden: ''});
   const statusHelp = el('p', {id: 'reading-status-help', className: 'muted', role: 'status'});
   const clearance = el('section', {hidden: '', 'aria-label': TEXT.readings.clearTitle}, [warning, choice]);
   form.append(el('p', {className: 'notice'}, TEXT.readings.help),
     ...(!books.length ? [el('p', {role: 'status'}, [TEXT.readings.noBooks, el('a', {href: '#books'}, TEXT.pages.books.title)])] : []),
     el('div', {className: 'form-grid'}, [field('bookId', book, {required: true}), field('status', status, {required: true}),
-      field('yearRead', year), field('grade', grade), field('priority', priority), field('recommendedBy', recommendation), field('notes', notes)]), clearance);
+      field('yearRead', year), field('grade', grade), field('priority', priority), field('recommendedBy', recommendation), field('notes', notes)]), priorityWarning, clearance);
+  priority.setAttribute('aria-describedby', 'error-priority reading-priority-warning');
   form.querySelector('[name="status"]').setAttribute('aria-describedby', 'error-status reading-status-help');
   form.querySelector('.form-grid').before(statusHelp);
   const submit = el('button', {type: 'submit'}, TEXT.readings.save);
@@ -60,6 +62,9 @@ export function readingForm({reading = null, bookId = null, books, onBusy, onSuc
     statusHelp.textContent = TEXT.readings.statusHelp[draft.status];
     year.required = draft.status === 'Read';
     const planned = transition(draft);
+    priorityWarning.hidden = !reading || draft.status === reading.status || draft.status === 'Want to read'
+      || !(reading.priority || draft.priority);
+    priorityWarning.textContent = priorityWarning.hidden ? '' : TEXT.readings.priorityRemoval(draft.status);
     const nextSignature = JSON.stringify([draft.status, planned.clearedFields, draft.yearRead, draft.grade]);
     if (signature !== nextSignature) confirmation.checked = false;
     signature = nextSignature;
@@ -67,7 +72,7 @@ export function readingForm({reading = null, bookId = null, books, onBusy, onSuc
     warning.textContent = TEXT.readings.clearMessage(draft.status, planned.clearedFields.map(name => TEXT.labels[name]));
     return planned;
   }
-  for (const control of [status, year, grade]) control.addEventListener('input', () => showClearance(payload(formValues(form))));
+  for (const control of [status, year, grade, priority]) control.addEventListener('input', () => showClearance(payload(formValues(form))));
   showClearance(payload(formValues(form)));
   bindFormAction(form, submit, {onBusy, onSuccess, label: TEXT.readings.save, pending: TEXT.readings.saving,
     operation: values => {

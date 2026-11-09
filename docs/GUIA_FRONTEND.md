@@ -31,7 +31,7 @@ git switch -c feat/readings-crud
 | frontend/js/constants.js | Valores controlados e chave de armazenamento |
 | frontend/css/styles.css | Tokens e estilos; coordenar alterações compartilhadas |
 
-Uma tela chama funções async do store com await. Não acessar localStorage ou fetch de dados em páginas. Não salvar dados inválidos. Não inserir dados de registros com innerHTML. Usar addEventListener; sem onclick/style inline. Os métodos de escrita já estão implementados e testados; o contrato atual está em CONTRATOS_DADOS.md. O PRD inicial registra a fase anterior, na qual só havia leitura. Autores, livros e leituras já têm formulário funcional; o CRUD próprio de leituras também está conectado. FR-04 foi auditado nas 25 combinações entre status. A próxima etapa é auditar FR-06 antes da revisão final.
+Uma tela chama funções async do store com await. Não acessar localStorage ou fetch de dados em páginas. Não salvar dados inválidos. Não inserir dados de registros com innerHTML. Usar addEventListener; sem onclick/style inline. Os métodos de escrita já estão implementados e testados; o contrato atual está em CONTRATOS_DADOS.md. O PRD inicial registra a fase anterior, na qual só havia leitura. Autores, livros e leituras já têm formulário funcional; o CRUD próprio de leituras também está conectado. FR-04 foi auditado nas 25 combinações entre status. A auditoria de FR-06 e a verificação em viewport móvel emulada estão registradas no PRD de validação; testes em aparelho físico não foram realizados.
 
 ## Próximas tarefas sugeridas
 
@@ -39,7 +39,7 @@ Uma tela chama funções async do store com await. Não acessar localStorage ou 
 - FR-02 — livros/temas integrado à main no PR #4.
 - FR-03 — leituras/releituras integrado à main no PR #6, com matriz dos quatro critérios no PRD.
 - FR-04 — cinco critérios e 25 combinações de status auditados nesta branch; aguarda revisão do PR.
-- Próxima etapa sugerida: revisão completa de FR-06 (validação e organização), seguida de testes e revisão final da entrega.
+- FR-06: auditoria e correção do aviso de remoção de prioridade no PR #9; aguarda revisão e integração. Evidências em 1280px/390px no PRD de validação.
 - Equipe: conectar erros/validações aos formulários, confirmar exclusões e transições, revisar ordenação, responsividade e testes de aceitação. FR-07 já está implementado, incluindo reset; preservá-lo nas integrações.
 
 Ana informou a atribuição de FR-01 a ela no Trello. Combinar responsáveis pelos demais cartões; a divisão acima é sugestão, não atribuição automática. Os cartões de dados/validação são compartilhados: combinar quem altera quais exports antes de editar. Não abrir três implementações independentes de persistência. Separar formulários por área quando necessário, preservando componentes comuns e os contratos documentados.
@@ -102,4 +102,6 @@ Usar exclusivamente um perfil isolado de testes e fechar outras abas da aplicaç
 
 ## Mensagem pronta para compartilhar
 
-> O Reading Tracker já tem CRUD de autores/livros/leituras, temas, primeira leitura opcional, releituras e exclusões confirmadas. O fluxo de status foi auditado nos cinco critérios do cartão e nas 25 combinações, com confirmação de limpeza, preservação de notas/recomendação e recuperação de falhas. Leiam docs/specs/E1-fluxo-status-prd.md e docs/GUIA_FRONTEND.md. A próxima etapa é auditar FR-06 e revisar a entrega. Depois do merge, atualizem main e criem uma branch por tarefa, combinando responsáveis e alterações compartilhadas.
+> O Reading Tracker já tem CRUD de autores/livros/leituras, temas, primeira leitura opcional, releituras e exclusões confirmadas. O fluxo de status foi auditado nos cinco critérios do cartão e nas 25 combinações, com confirmação de limpeza, preservação de notas/recomendação e recuperação de falhas. Leiam docs/specs/E1-fluxo-status-prd.md e docs/GUIA_FRONTEND.md. A auditoria de FR-06 está no PR #9, com aviso de remoção de prioridade e evidências em viewport móvel emulada; revisar o PR e a entrega. Depois do merge, atualizem main e criem uma branch por tarefa, combinando responsáveis e alterações compartilhadas.
+
+Na edição de leituras, sair da wishlist mostra um aviso de remoção de Priority quando houver prioridade salva ou no rascunho. Essa remoção segue o contrato existente; a confirmação explícita continua sendo exigida apenas para ano/nota. Cancelar preserva a prioridade salva. Em Add reading, prioridade incompatível gera erro no campo.

@@ -4,7 +4,7 @@ Aplicação web para gerenciar autores, livros e leituras, desenvolvida para o T
 
 O projeto será construído em duas etapas: frontend em HTML, CSS e JavaScript puros com armazenamento no navegador; depois, integração com uma API REST em Java e Spring Boot e persistência em banco de dados.
 
-> **Estado atual:** frontend com dados oficiais, CRUD visual de autores, livros e leituras, criação de temas e Reset data. É possível registrar releituras sem alterar o histórico anterior, cadastrar livro com primeira leitura em um Save e excluir obra/leituras com confirmação. A edição de leitura protege a remoção de ano/nota em mudanças de status. O fluxo de status foi auditado nas 25 combinações de origem/destino, com confirmação antes de remover ano/nota. A FR-06 foi implementada e passou pelos testes automatizados e pelas verificações manuais de validação. A revisão visual final em diferentes tamanhos de tela e a revisão geral da entrega continuam pendentes. Backend ainda não implementado.
+> **Estado atual:** frontend com dados oficiais, CRUD visual de autores, livros e leituras, criação de temas e Reset data. É possível registrar releituras sem alterar o histórico anterior, cadastrar livro com primeira leitura em um Save e excluir obra/leituras com confirmação. A edição de leitura protege a remoção de ano/nota em mudanças de status. O fluxo de status foi auditado nas 25 combinações de origem/destino, com confirmação antes de remover ano/nota. A FR-06 foi auditada com testes automatizados e inspeção visual de capturas. Os formulários foram verificados em desktop (1280px) e viewport móvel emulada (390px); testes em aparelho físico não foram realizados. A revisão geral da entrega continua pendente. Backend ainda não implementado.
 
 ## Equipe
 
@@ -129,7 +129,7 @@ Com Node 24+ disponível, executar `node tests/foundation.test.mjs` e `node test
 
 Verificado também no Chrome: navegação, contagens oficiais, ordenação, histórico por livro, formulários, Escape, tela de 390px, falha e nova tentativa, estados vazios e tratamento seguro de texto. O CRUD de autores/livros, temas, cadastro combinado e exclusão em cascata também foram verificados na interface; o CRUD de leituras também foi verificado, incluindo releituras e exclusão individual. Também foram verificados confirmação/cancelamento do reset, falha de rede, proteção de edição em outra aba e passagem da edição após recarga.
 
-Os testes de interface estão em `tests/authors.browser.test.mjs` (35 verificações), `tests/books.browser.test.mjs` (44 verificações), `tests/readings.browser.test.mjs` (51 verificações) e `tests/status.browser.test.mjs` (94 verificações, incluindo 25 combinações persistidas de status), sem dependências externas. Veja os comandos e o uso de um perfil isolado no [guia do frontend](docs/GUIA_FRONTEND.md). Inclui criação/edição/exclusão e recarga, validações, quota, conflito real entre abas, foco/teclado, 390px/1280px e regressões de navegação/reset.
+Os testes de interface estão em `tests/authors.browser.test.mjs` (35 verificações), `tests/books.browser.test.mjs` (44 verificações), `tests/readings.browser.test.mjs` (51 verificações) e `tests/status.browser.test.mjs` (124 verificações, incluindo 25 combinações persistidas de status e avisos de remoção de prioridade), sem dependências externas. Veja os comandos e o uso de um perfil isolado no [guia do frontend](docs/GUIA_FRONTEND.md). Inclui criação/edição/exclusão e recarga, validações, quota, conflito real entre abas, foco/teclado, 390px/1280px e regressões de navegação/reset.
 
 ## Verificação automática no GitHub
 
@@ -207,7 +207,7 @@ O código, a documentação e os resultados dos testes passam por revisão human
 
 | Ferramenta | Finalidade já utilizada | Partes afetadas |
 |---|---|---|
-| ChatGPT / Codex | Leitura dos requisitos, planejamento e PRD; geração da base de navegação, estilos, leitura/escrita de dados, validações, restauração, formulários de referência, CRUD visual de autores/livros/leituras, temas, primeira leitura, releituras, confirmação de limpeza, orientação de status, auditoria das 25 combinações de status, exclusões, testes de integração em navegador, automação de verificação no GitHub Actions e diagnóstico de falhas; documentação de colaboração | README.md, docs/, frontend/ (exceto seed oficial), tests/, scripts/, .github/workflows/ |
+| ChatGPT / Codex | Leitura dos requisitos, planejamento e PRD; geração da base de navegação, estilos, leitura/escrita de dados, validações, restauração, formulários de referência, CRUD visual de autores/livros/leituras, temas, primeira leitura, releituras, confirmação de limpeza, orientação de status, aviso de remoção de prioridade, auditoria de FR-06 e das 25 combinações de status, exclusões, testes de integração em navegador, automação de verificação no GitHub Actions e diagnóstico de falhas; documentação de colaboração | README.md, docs/, frontend/ (exceto seed oficial), tests/, scripts/, .github/workflows/ |
 
 Para editar, usar uma única aba. Em navegadores com Web Locks, outra aba recebe conflito 409 sem gravar; fechar a aba que estava editando e recarregar a nova antes de continuar. Sem Web Locks, a fila protege somente operações da mesma aba.
 
