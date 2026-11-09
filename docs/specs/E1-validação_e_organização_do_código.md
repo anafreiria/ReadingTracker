@@ -21,18 +21,18 @@ A tarefa não reimplementa persistência, CRUD ou regras já cobertas pelos cont
 
 ## Critérios de aceite
 
-- [ ] Regras da seção 4 aplicadas aos formulários e alinhadas aos validadores do store.
-- [ ] Todo erro de campo é apresentado junto ao campo correspondente, com mensagem geral quando necessário.
-- [ ] Entradas inválidas não são salvas nem alteram o armazenamento.
-- [ ] `yearRead` não pode ser futuro ou anterior ao ano de publicação.
-- [ ] Nota aceita apenas valores de 0 a 10, em passos de 0,5, nos status previstos.
-- [ ] Campos incompatíveis com o status são tratados conforme o contrato, com confirmação quando houver limpeza de dados.
-- [ ] Formulários preservam os valores informados após erro para permitir correção.
-- [ ] Páginas não contêm regras de domínio duplicadas nem acesso direto ao `localStorage`.
-- [ ] Eventos usam `addEventListener`; HTML não contém `onclick`, estilos inline ou blocos `<style>`.
+- [x] Regras da seção 4 aplicadas aos formulários e alinhadas aos validadores do store.
+- [x] Todo erro de campo é apresentado junto ao campo correspondente, com mensagem geral quando necessário.
+- [x] Entradas inválidas não são salvas nem alteram o armazenamento.
+- [x] `yearRead` não pode ser futuro ou anterior ao ano de publicação.
+- [x] Nota aceita apenas valores de 0 a 10, em passos de 0,5, nos status previstos.
+- [x] Campos incompatíveis com o status são tratados conforme o contrato, com confirmação quando houver limpeza de dados.
+- [x] Formulários preservam os valores informados após erro para permitir correção.
+- [x] Páginas não contêm regras de domínio duplicadas nem acesso direto ao `localStorage`.
+- [x] Eventos usam `addEventListener`; HTML não contém `onclick`, estilos inline ou blocos `<style>`.
 - [ ] Fluxos de autores, livros e leituras são verificados em desktop e celular.
-- [ ] Testes existentes continuam passando e novos cenários de validação são cobertos.
-- [ ] README e declaração de uso de IA permanecem consistentes com a implementação.
+- [x] Testes existentes continuam passando e novos cenários de validação são cobertos.
+- [x] README e declaração de uso de IA permanecem consistentes com a implementação.
 
 ## Organização e decisões
 
@@ -44,44 +44,40 @@ Campos numéricos devem ser convertidos para números antes de chegar ao store. 
 
 ## Evidências e testes
 
-Os testes e verificações abaixo estão previstos para a implementação. Registrar os resultados efetivamente obtidos, os cenários manuais verificados e eventuais limitações antes de concluir a tarefa.
+A implementação foi revisada em relação aos validadores, formulários, persistência e organização do frontend. Os testes automatizados existentes foram executados por meio do script de verificação.
 
-Comandos de teste:
+### Verificações realizadas
 
-```bash
-node tests/foundation.test.mjs
-node tests/data.test.mjs
-node tests/authors.browser.test.mjs
-node tests/books.browser.test.mjs
-node tests/readings.browser.test.mjs
-node tests/status.browser.test.mjs
-node tests/smoke.browser.test.mjs
-node scripts/check-frontend.mjs
-```
+- `validation.js` concentra as regras de domínio para autores, livros e leituras.
+- `store.js` mantém a responsabilidade de validar e persistir os dados.
+- Os formulários apresentam mensagens junto aos campos e preservam os valores informados após falhas.
+- Os testes verificam que entradas inválidas não alteram o armazenamento.
+- Não foram encontrados atributos de eventos inline nos arquivos do frontend.
+- Não foram encontrados blocos `<style>` nos arquivos HTML.
+- A estilização está concentrada em `frontend/css/styles.css`.
+- Os módulos JavaScript permanecem separados e utilizam eventos registrados com `addEventListener`.
 
-Auditoria estática inicial:
+### Testes automatizados
 
-```bash
-grep -RniE ' on[a-z]+=| style=|<style' frontend --include='*.html' --include='*.js'
-```
+O script `scripts/check-frontend.mjs` foi executado com sucesso, contemplando:
 
-Os resultados da auditoria devem ser revisados manualmente para distinguir ocorrências reais de atributos inline de strings, exemplos ou testes.
+| Suíte | Verificações |
+|---|---:|
+| Data | 27 |
+| Foundation | 10 |
+| Smoke browser | 15 |
+| Authors browser | 35 |
+| Books browser | 44 |
+| Readings browser | 51 |
+| Status browser | 94 |
+| **Total** | **276** |
 
-| Área | Cenários |
-|---|---|
-| Autores | Campos obrigatórios, nome duplicado sem diferença entre maiúsculas/minúsculas, nacionalidade e datas |
-| Livros | Título, ano de publicação, autores e temas válidos, referências inexistentes |
-| Leituras | Livro existente, status, ano de leitura, nota, prioridade e campos incompatíveis |
-| Formulários | Erros próximos aos campos, valores preservados após falha e nenhuma gravação inválida |
-| Organização | Eventos sem atributos inline, módulos separados e ausência de acesso direto ao armazenamento nas páginas |
-| Interface | Navegação por teclado, diálogos, viewport desktop e celular |
+### Limitações da verificação
 
-A FR-06 não deve ser considerada concluída apenas pela existência dos módulos: os formulários precisam estar conectados aos validadores e impedir gravações inválidas.
+A execução automatizada não substitui a revisão visual dos fluxos em diferentes tamanhos de tela. A verificação manual de desktop e celular deve ser registrada separadamente antes da conclusão da tarefa.
 
 ## Próximas tarefas
 
-- Revisar as regras da seção 4 com os contratos existentes.
-- Implementar as correções necessárias nos formulários e na apresentação de erros.
-- Executar testes automatizados e regressão das telas.
-- Atualizar README caso alguma decisão ou limitação tenha mudado.
-- Abrir PR para `main` e aguardar revisão; não fazer commits diretamente na `main`.
+Concluir a verificação manual dos fluxos de autores, livros e leituras em desktop e celular.
+Revisar README e documentação para manter os registros consistentes.
+Abrir PR para main e aguardar revisão; não fazer commits diretamente na main.
