@@ -3,9 +3,15 @@ import { el, showFieldErrors } from '../ui.js';
 
 const activeForms = new WeakSet();
 export function formValues(form) {
-  return Object.fromEntries([...form.elements].filter(control => control.name && !control.matches(':disabled'))
+  const values = Object.fromEntries([...form.elements].filter(control => control.name && !control.matches(':disabled'))
     .map(control => [control.name, control.multiple ? [...control.selectedOptions].map(option => Number(option.value))
       : control.type === 'checkbox' ? control.checked : control.value]));
+  for (const name of ['authorIds', 'themeIds']) {
+    if (form.querySelector('.multiple-field')) {
+      values[name] = [...form.querySelectorAll(`input[name="${name}"]:checked`)].map(control => Number(control.value));
+    }
+  }
+  return values;
 }
 
 // Share pending/error behavior, while each form owns its payload and store call.

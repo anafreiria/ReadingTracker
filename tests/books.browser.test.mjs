@@ -67,7 +67,7 @@ const close = async () => {
   await click('#close-dialog');
   await evaluate(`new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))`);
 };
-const choose = values => evaluate(`Object.entries(${JSON.stringify(values)}).forEach(([key,ids])=>{for(const option of document.querySelector('[name="'+key+'"]').options)option.selected=ids.includes(Number(option.value))})`);
+const choose = values => evaluate(`Object.entries(${JSON.stringify(values)}).forEach(([key,ids])=>{for(const option of document.querySelectorAll('input[name="'+key+'"]')) {if(option.checked!==ids.includes(Number(option.value)))option.click()}})`);
 const themeButton = '#form-dialog section button';
 const createTheme = async () => {
   await click(themeButton);
@@ -80,8 +80,20 @@ try {
   await wait(`document.querySelector('#content')?.getAttribute('aria-busy')==='false' && !!document.querySelector('tbody')`);
   await evaluate(`localStorage.removeItem('reading-tracker:data:v1')`);await reload();
   await check(`document.querySelector('#page-title').textContent==='Your books' && ${data}.books.length===143`, 'official books and page title loaded');
+  const mobileShots = process.env.SCREENSHOT_DIR || '/tmp/reading-tracker-fr-ui-01';
+  await mkdir(mobileShots, {recursive:true});
+  for (const width of [360,390,768,1280]) {
+    await call('Emulation.setDeviceMetricsOverride', {width,height:900,deviceScaleFactor:1,mobile:width<768});
+    for (const route of ['readings','authors','books']) {
+      await evaluate(`location.hash='${route}'`);
+      await wait(`document.querySelector('[aria-current=page]')?.dataset.route==='${route}' && document.querySelector('#content').getAttribute('aria-busy')==='false'`);
+      await check(`document.documentElement.scrollWidth<=innerWidth && [...document.querySelectorAll('tbody tr:first-child button')].every(button=>{const r=button.getBoundingClientRect();return r.left>=0 && r.right<=innerWidth})`, `${route} actions fit ${width}px without horizontal scrolling`);
+      const shot = await call('Page.captureScreenshot', {format:'png'});
+      await writeFile(`${mobileShots}/fr-ui-01-${route}-${width}.png`, Buffer.from(shot.data,'base64'));
+    }
+  }
   await add();
-  await check(`document.activeElement.name==='title' && document.querySelector('[name=authorIds]').options.length===101 && document.querySelector('[name=themeIds]').options.length===135`, 'title focus and official selections');
+  await check(`document.activeElement.name==='title' && document.querySelectorAll('input[name=authorIds]' ).length===101 && document.querySelectorAll('input[name=themeIds]' ).length===135`, 'title focus and official selections');
   await evaluate(`window.beforeWrite=${storage}`);await submit();
   await check(`document.activeElement.name==='title' && !!document.querySelector('#error-title').textContent && ${storage}===window.beforeWrite`, 'empty title has field feedback without write');
   await fill({title:'Minimal Book'});
@@ -96,17 +108,17 @@ try {
   await createTheme();
   await check(`!!document.querySelector('#error-newTheme').textContent && document.querySelector('[name=title]').value==='Full Book'`, 'empty theme rejected without losing draft');
   const existingTheme = await evaluate(`${data}.themes[0].name`);await fill({newTheme:existingTheme.toUpperCase()});await createTheme();
-  await check(`!!document.querySelector('#error-newTheme').textContent && document.querySelector('[name=themeIds]').selectedOptions.length===2`, 'case-insensitive theme duplicate preserves selections');
+  await check(`!!document.querySelector('#error-newTheme').textContent && document.querySelectorAll('input[name=themeIds]:checked').length===2`, 'case-insensitive theme duplicate preserves selections');
   await fill({newTheme:'New Browser Theme'});await submit();
   await check(`document.activeElement.name==='newTheme' && !${data}.books.some(b=>b.title==='Full Book')`, 'uncreated theme cannot be silently discarded by Save');
   await createTheme();
-  await check(`document.querySelector('[name=themeIds]').selectedOptions.length===3 && document.querySelector('[name=authorIds]').selectedOptions.length===2 && document.querySelector('[name=title]').value==='Full Book' && document.querySelector('[name=publicationYear]').value==='-429' && document.querySelector('[name=newTheme]').value===''`, 'new theme selected while draft and existing selections survive');
+  await check(`document.querySelectorAll('input[name=themeIds]:checked').length===3 && document.querySelectorAll('input[name=authorIds]:checked').length===2 && document.querySelector('[name=title]').value==='Full Book' && document.querySelector('[name=publicationYear]').value==='-429' && document.querySelector('[name=newTheme]').value===''`, 'new theme selected while draft and existing selections survive');
   await submit();await reload();
   await check(`${data}.books.some(b=>b.title==='Full Book' && b.publicationYear===-429 && b.form==='Novel' && b.mode==='Prose' && b.content==='Fiction' && b.authorIds.length===2 && b.themeIds.length===3)`, 'negative year and all fields persist');
   await evaluate(`document.querySelector('[aria-label="View details: Full Book"]').click()`);await wait(`document.querySelector('.book-details')!==null`);
   await check(`document.querySelector('.book-details').textContent.includes('New Browser Theme') && document.querySelector('.book-details').textContent.includes('Prose') && document.querySelector('.book-details').textContent.includes('-429')`, 'details show themes, classifications and year');await close();
   await open('Edit','Full Book');
-  await check(`document.querySelector('[name=authorIds]').selectedOptions.length===2 && document.querySelector('[name=themeIds]').selectedOptions.length===3 && !document.querySelector('#include-first-reading')`, 'edit preloads multi-selects and does not add another reading');
+  await check(`document.querySelectorAll('input[name=authorIds]:checked').length===2 && document.querySelectorAll('input[name=themeIds]:checked').length===3 && !document.querySelector('#include-first-reading')`, 'edit preloads multi-selects and does not add another reading');
   const editId=await evaluate(`${data}.books.find(b=>b.title==='Full Book').id`);
   await fill({title:'Edited Full Book',publicationYear:'',form:'',mode:'',content:''});await choose({authorIds:[],themeIds:[]});await submit();await reload();
   await check(`${data}.books.some(b=>b.id===${editId} && b.title==='Edited Full Book' && b.publicationYear===null && b.form===null && b.mode===null && b.content===null && !b.authorIds.length && !b.themeIds.length)`, 'edit clears selections and optional fields, preserving ID after reload');
@@ -158,9 +170,11 @@ try {
   await call('Input.dispatchKeyEvent',{type:'keyDown',key:'Tab',code:'Tab',windowsVirtualKeyCode:9});await call('Input.dispatchKeyEvent',{type:'keyUp',key:'Tab',code:'Tab',windowsVirtualKeyCode:9});
   await check(`document.querySelector('#form-dialog').contains(document.activeElement)`, 'keyboard focus remains inside dialog');
   const shotDir=process.env.SCREENSHOT_DIR || '/tmp/reading-tracker-fr02-shots';await mkdir(shotDir,{recursive:true});
-  for(const width of [1280,390]){
+  for(const width of [360,390,768,1280]){
     await call('Emulation.setDeviceMetricsOverride',{width,height:900,deviceScaleFactor:1,mobile:width===390});
     await check(`document.documentElement.scrollWidth<=innerWidth && document.querySelector('#form-dialog').scrollWidth<=document.querySelector('#form-dialog').clientWidth`, `book form and page fit ${width}px`);
+    await evaluate(`document.querySelector('[name=title]').focus(); document.querySelector('#form-dialog [type=submit]').focus()`);
+    await check(`(()=>{const r=document.querySelector('#form-dialog [type=submit]').getBoundingClientRect();return r.top>=0 && r.bottom<=innerHeight})()`, `Save reachable by focus in long form at ${width}px`);
     await evaluate(`document.querySelector('#form-dialog').scrollTop=0`);
     const shot=await call('Page.captureScreenshot',{format:'png'});await writeFile(`${shotDir}/fr02-book-${width}.png`,Buffer.from(shot.data,'base64'));
   }
