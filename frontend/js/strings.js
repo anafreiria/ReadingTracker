@@ -36,7 +36,7 @@ export const TEXT = {
     add: 'Add book', editTitle: 'Edit book', details: 'View details', deleteTitle: 'Delete book?',
     save: 'Save book', saving: 'Saving book…', deleting: 'Deleting book…',
     help: 'Title is required. All other book details are optional.',
-    selectionHelp: 'Choose existing authors and themes. You may leave either selection empty. On desktop, hold Ctrl or Command to select more than one.',
+    selectionHelp: 'Choose existing authors and themes. You may leave either selection empty. Check each author or theme to select it; uncheck it to remove it.',
     created: 'Book added.', updated: 'Book updated.', deleted: 'Book and its readings deleted.',
     refreshFailed: 'Your change was saved, but the list could not be refreshed. Reload the page to see it.',
     deleteMessage: (title, count) => `Delete “${title}” and its ${count} reading(s)? This cannot be undone.`,

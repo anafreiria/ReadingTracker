@@ -37,10 +37,10 @@ export function table(columns, rows, {sortKey, direction = 'asc', onSort} = {}) 
   const body = el('tbody');
   for (const row of rows) {
     const tr = el('tr');
-    for (const column of columns) tr.append(el('td', {}, column.render ? column.render(row) : display(row[column.key])));
+    for (const column of columns) tr.append(el('td', {'data-label': column.label}, column.render ? column.render(row) : display(row[column.key])));
     body.append(tr);
   }
-  return el('div', {className: 'table-scroll', tabindex: '0', role: 'region', 'aria-label': TEXT.appName}, el('table', {}, [el('caption', {className: 'sr-only'}, TEXT.appName), el('thead', {}, head), body]));
+  return el('div', {className: 'table-scroll', tabindex: '0', role: 'region', 'aria-label': TEXT.appName}, el('table', {role: 'table'}, [el('caption', {className: 'sr-only'}, TEXT.appName), el('thead', {}, head), body]));
 }
 export function openDialog(title, content) {
   document.getElementById('dialog-title').textContent = title;

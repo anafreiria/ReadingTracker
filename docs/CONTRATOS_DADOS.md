@@ -29,7 +29,7 @@ IDs devem ser números inteiros positivos. Leituras e retornos de gravação sã
 
 Atualizações podem enviar somente id e campos alterados. Campos omitidos são preservados. Para apagar um campo opcional, enviar null; arrays vazios removem seleções. Criação usa null e arrays vazios para opcionais omitidos. Strings de texto são aparadas. Não há conversão implícita de números: o formulário deve converter valores numéricos de inputs/selects antes de chamar o store. Ano inválido não deve ser convertido em null para esconder o erro.
 
-Use `Number(input.value)` para um input numérico preenchido e válido; vazio vira null. Para multiselect, mapear as opções selecionadas para IDs numéricos. Verificar o validity do input antes da conversão: entradas inválidas podem resultar em NaN ou valor vazio. As regras de domínio também são reforçadas pelo store.
+Use `Number(input.value)` para um input numérico preenchido e válido; vazio vira null. Para os grupos de autores/temas, mapear os checkboxes marcados para arrays de IDs numéricos, inclusive array vazio sem seleção. Verificar o validity do input antes da conversão: entradas inválidas podem resultar em NaN ou valor vazio. As regras de domínio também são reforçadas pelo store.
 
 Em saveBookWithReading, ambos os objetos devem estar sem id. O bookId da leitura é atribuído ao livro recém-criado. Se qualquer validação ou gravação falhar, nenhum dos dois é adicionado. Novos IDs vêm do maior ID atual da coleção mais um; não usar índices ou tamanho do array.
 

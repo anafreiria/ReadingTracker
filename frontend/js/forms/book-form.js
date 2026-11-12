@@ -5,31 +5,40 @@ import { TEXT } from '../strings.js';
 import { el, field } from '../ui.js';
 import { bindFormAction } from './form-action.js';
 
-function select(options, {multiple = false, optional = true, value = null} = {}) {
-  const control = el('select', multiple ? {multiple: '', size: '5'} : {}, [
-    ...(!multiple && optional ? [el('option', {value: ''}, TEXT.optional)] : []),
+function select(options, {optional = true, value = null} = {}) {
+  const control = el('select', {}, [
+    ...(optional ? [el('option', {value: ''}, TEXT.optional)] : []),
     ...options.map(item => typeof item === 'string' ? el('option', {value: item}, item)
       : el('option', {value: item.id}, item.name)),
   ]);
-  if (multiple) for (const option of control.options) option.selected = (value ?? []).includes(Number(option.value));
-  else if (value !== null) control.value = value;
+  if (value !== null) control.value = value;
   return control;
 }
 const input = (type = 'text', attributes = {}) => el('input', {type, ...attributes});
 const number = value => value === undefined || value === '' ? null : Number(value);
-function multipleField(name, control) {
+function multipleField(name, options, selected = []) {
+  const choices = el('div', {className: 'checkbox-options'});
+  const add = (item, checked = false) => {
+    const control = input('checkbox', {name, value: item.id});
+    control.checked = checked;
+    choices.append(el('label', {className: 'checkbox-label'}, [control, item.name]));
+  };
+  for (const item of options) add(item, selected.includes(item.id));
   const clear = el('button', {type: 'button', className: 'button-link'}, TEXT.books.clearSelection);
-  clear.addEventListener('click', () => { for (const option of control.options) option.selected = false; control.focus(); });
-  const host = field(name, control);
-  host.append(clear);
-  return host;
+  clear.addEventListener('click', () => {
+    for (const control of choices.querySelectorAll('input')) control.checked = false;
+    choices.querySelector('input')?.focus();
+  });
+  return {host: el('fieldset', {className: 'multiple-field'}, [
+    el('legend', {}, TEXT.labels[name]), choices, clear,
+  ]), add};
 }
 export function bookForm({book = null, authors, themes, onBusy, onSuccess, onCancel}) {
   const form = el('form', {novalidate: ''});
   const title = input(); title.value = book?.title ?? '';
   const year = input('number', {step: '1'}); year.value = book?.publicationYear ?? '';
-  const authorsControl = select(authors, {multiple: true, value: book?.authorIds});
-  const themesControl = select(themes, {multiple: true, value: book?.themeIds});
+  const authorsControl = multipleField('authorIds', authors, book?.authorIds);
+  const themesControl = multipleField('themeIds', themes, book?.themeIds);
   const newTheme = input();
   const createTheme = el('button', {type: 'button', className: 'button-secondary'}, TEXT.books.createTheme);
   const themeStatus = el('p', {role: 'status', className: 'muted'});
@@ -38,7 +47,7 @@ export function bookForm({book = null, authors, themes, onBusy, onSuccess, onCan
   form.append(el('p', {className: 'notice'}, TEXT.books.help),
     el('p', {className: 'muted'}, TEXT.books.selectionHelp), el('div', {className: 'form-grid'}, [
       field('title', title, {required: true}), field('publicationYear', year),
-      multipleField('authorIds', authorsControl), multipleField('themeIds', themesControl),
+      authorsControl.host, themesControl.host,
       field('form', select(VALUES.forms, {value: book?.form})),
       field('mode', select(VALUES.modes, {value: book?.mode})),
       field('content', select(VALUES.contents, {value: book?.content})),
@@ -65,9 +74,7 @@ export function bookForm({book = null, authors, themes, onBusy, onSuccess, onCan
       ? [{field: 'newTheme', message: error.message}]
       : error.errors?.map(item => ({...item, field: item.field === 'name' ? 'newTheme' : item.field})),
     onSuccess: theme => {
-      const option = el('option', {value: theme.id}, theme.name);
-      option.selected = true;
-      themesControl.append(option);
+      themesControl.add(theme, true);
       newTheme.value = '';
       themeStatus.textContent = TEXT.books.themeCreated;
       newTheme.focus();
