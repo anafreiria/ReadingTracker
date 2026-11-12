@@ -131,6 +131,8 @@ Verificado também no Chrome: navegação, contagens oficiais, ordenação, hist
 
 Os testes de interface estão em `tests/authors.browser.test.mjs` (35 verificações), `tests/books.browser.test.mjs` (62 verificações), `tests/readings.browser.test.mjs` (51 verificações) e `tests/status.browser.test.mjs` (124 verificações, incluindo 25 combinações persistidas de status e avisos de remoção de prioridade), sem dependências externas. Veja os comandos e o uso de um perfil isolado no [guia do frontend](docs/GUIA_FRONTEND.md). Inclui criação/edição/exclusão e recarga, validações, quota, conflito real entre abas, foco/teclado, matriz de listagens em 360px/390px/768px/1280px e regressões de navegação/reset.
 
+A suíte `tests/mobile-acceptance.browser.test.mjs` acrescenta 74 verificações de aceite de FR-UI-01: textos longos, ações nos três módulos em 360/390/768/1280px, seleção e remoção individual por toque com recarga, e Tab/Space nos checkboxes. É executada automaticamente pelo check completo e pelo CI, com dados temporários em perfil isolado. A emulação de toque no Chrome não substitui teste em aparelho físico.
+
 ## Verificação automática no GitHub
 
 O workflow [Frontend](.github/workflows/frontend.yml) executa o check **Frontend checks** em cada PR para main e a cada push na main. Também pode ser iniciado pela aba Actions após a integração do workflow. Ele verifica a sintaxe JavaScript, inicia um servidor HTTP e um Chrome temporários, confirma a inicialização/navegação dos três módulos e executa todos os testes de dados e interface existentes. Novos testes em `tests/*.test.mjs` e `tests/*.browser.test.mjs` são descobertos automaticamente; as suítes de navegador rodam sequencialmente para respeitar a política de uma aba editora.

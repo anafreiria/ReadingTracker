@@ -68,3 +68,25 @@ Não foi identificada divergência bloqueadora nos fluxos examinados. Os dados a
 Ajuste solicitado na revisão visual: ações em uma única linha no desktop, botões compactos e coluna dimensionada pelo conteúdo; quebra de linha somente nos cartões até 850px. Altura mínima de 44px mantida. Capturas atualizadas para refletir esse ajuste.
 
 Verificação após o ajuste: `node scripts/check-frontend.mjs` aprovado novamente com 324 verificações e sintaxe, em Node v24.21.0/Chrome 156.0.8078.73 no Linux. Relatório local: /tmp/reading-tracker-check-NVa1tS. Matriz das três telas em 360/390/768/1280px aprovada; capturas desktop conferidas visualmente. Limites de emulação e revisão humana permanecem os descritos acima.
+
+## Automação complementar após o merge do PR #11
+
+Base: main `ba46922`; branch `test/fr-ui-01-acceptance`. Nova suíte: `tests/mobile-acceptance.browser.test.mjs`, descoberta automaticamente por `node scripts/check-frontend.mjs` e pelo workflow existente, sem mudar o produto ou introduzir dependências.
+
+- Textos longos: títulos e nomes com centenas de caracteres, inclusive trechos sem espaços, além de notas com quebras de linha. Matriz das três listagens em 360/390/768/1280px; verifica largura da página/linha e posição das ações, consulta o registro correto e confere as quebras das notas.
+- Ações: toques reais pelo protocolo DevTools em 360/390/768px e mouse em 1280px; cada alvo passa por verificação de hit testing. View em Books/Reading History; consulta na listagem e por Edit em Authors, que não tem View separado. Edição grava o registro esperado, cancelamento de exclusão preserva o armazenamento e confirmação remove o registro esperado nos três módulos.
+- Seleção: tocar em dois autores e dois temas, desmarcar somente um de cada, salvar, recarregar e verificar arrays de IDs e valores recuperados em Edit.
+- Teclado: partir do foco inicial do diálogo, usar Tab até autores/temas, Space para marcar/desmarcar, verificar foco visível e seleção nativa; Escape cancela sem alterar os dados.
+
+A preparação usa o store em perfil isolado, com recarga para atualizar o snapshot da interface. Os testes não alteram seed.json nem dados do navegador da usuária. A execução termina restaurando o seed no perfil de teste. Não foi necessário alterar código funcional para os novos cenários.
+
+Execução isolada: 74 verificações de aceite aprovadas em Chrome 156.0.8078.73/Node v24.21.0 no Linux. Relatório temporário: /tmp/reading-tracker-check-95hYmo. Os toques são emulação no Chrome; não foi testado aparelho físico, Safari/iOS, teclado virtual ou leitor de tela.
+
+Capturas representativas:
+
+- [Livro longo em 390px](../screenshots/fr-ui-01-acceptance-books-long-390.png)
+- [Histórico longo em 390px](../screenshots/fr-ui-01-acceptance-readings-long-390.png)
+- [Autor longo em 390px](../screenshots/fr-ui-01-acceptance-authors-long-390.png)
+- [Checkboxes pelo teclado](../screenshots/fr-ui-01-acceptance-checkbox-keyboard-390.png)
+
+Regressão completa integrada: `node scripts/check-frontend.mjs` aprovado com 398 verificações (27 dados, 10 foundation, 15 smoke, 35 autores, 62 livros, 74 aceite mobile, 51 leituras e 124 status), além da sintaxe. Relatório: /tmp/reading-tracker-check-Cp4lay. Não houve exceção não tratada nos cenários de navegador. O resultado é local; requer revisão e publicação desta branch para existir uma execução remota no Actions.
