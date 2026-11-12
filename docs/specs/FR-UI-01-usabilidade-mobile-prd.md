@@ -43,6 +43,28 @@ Busca, filtros, paginação, redesign, backend, dependências de build e auditor
 - [Autores em 390px](../screenshots/fr-ui-01-authors-390.png)
 - [Livros em 390px](../screenshots/fr-ui-01-books-390.png)
 - [Livros em 1280px](../screenshots/fr-ui-01-books-1280.png)
+- [Histórico em 1280px](../screenshots/fr-ui-01-readings-1280.png)
 - [Formulário em 390px](../screenshots/fr-ui-01-form-390.png)
 
 Implementado e verificado localmente; pendente revisão de outro integrante e integração via PR. As capturas documentam o resultado; não foi produzida comparação visual antes/depois nesta sessão.
+
+## Revisão dos materiais e ajuste das ações — 12/11/2026
+
+Conferidos os PDFs e seed de Instrucoes_site.zip: conteúdo idêntico aos arquivos versionados em materiais/. O seed do frontend também permanece idêntico ao JSON do ZIP. A revisão confrontou as seções 3–6 e 11 do enunciado com os módulos de interface, validação e armazenamento e com as suítes existentes.
+
+| Exigência | Comportamento conferido |
+| --- | --- |
+| Stack e idioma | HTML/CSS/JavaScript puros, módulos ES, interface en-US, sem dependências de build no produto. Node e Chrome são ferramentas de teste. |
+| FR-01 | CRUD de autores, nome único sem distinguir caixa, nacionalidade fixa/opcional, datas opcionais e validação; exclusão de autor vinculado informa livros. |
+| FR-02 | Livro apenas com título, autores/temas existentes por IDs, múltiplas seleções e criação imediata de tema; anos negativos aceitos, zero/futuro rejeitados. |
+| FR-03 | Leituras independentes para releitura, livro e primeira leitura em uma gravação, exclusão em cascata com confirmação e contagem. |
+| FR-04 | Cinco status, ano obrigatório em Read, ano/nota somente em Read/Abandoned, nota 0–10 em passos de 0,5; prioridade removida ao sair da wishlist, notas/recomendação preservadas e limpeza de resultados confirmada. |
+| FR-05 | Cinco colunas ordenáveis, ausentes mostrados como traço e ordenados por último; padrão ano decrescente e ID crescente. |
+| FR-06 | Regras de domínio e erros associados aos campos nas operações examinadas; falhas não persistem candidatos inválidos. |
+| FR-07 | Seed apenas no primeiro uso; alterações persistem após recarga; Reset confirmado restaura o original, incluindo campos intencionalmente ausentes. |
+
+Não foi identificada divergência bloqueadora nos fluxos examinados. Os dados ausentes não foram enriquecidos automaticamente. A revisão não substitui aceite do colega, avaliação completa de acessibilidade ou a regressão final em dois navegadores.
+
+Ajuste solicitado na revisão visual: ações em uma única linha no desktop, botões compactos e coluna dimensionada pelo conteúdo; quebra de linha somente nos cartões até 850px. Altura mínima de 44px mantida. Capturas atualizadas para refletir esse ajuste.
+
+Verificação após o ajuste: `node scripts/check-frontend.mjs` aprovado novamente com 324 verificações e sintaxe, em Node v24.21.0/Chrome 156.0.8078.73 no Linux. Relatório local: /tmp/reading-tracker-check-NVa1tS. Matriz das três telas em 360/390/768/1280px aprovada; capturas desktop conferidas visualmente. Limites de emulação e revisão humana permanecem os descritos acima.
