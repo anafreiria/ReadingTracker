@@ -94,6 +94,7 @@ python3 -m http.server 8087 --bind 127.0.0.1 --directory frontend
 google-chrome --headless=new --disable-gpu --no-first-run --no-default-browser-check --remote-debugging-port=9337 --user-data-dir=/tmp/reading-tracker-fr01-chrome about:blank
 node tests/authors.browser.test.mjs
 node tests/books.browser.test.mjs
+node tests/mobile-acceptance.browser.test.mjs
 node tests/readings.browser.test.mjs
 node tests/status.browser.test.mjs
 ```
@@ -105,3 +106,11 @@ Usar exclusivamente um perfil isolado de testes e fechar outras abas da aplicaç
 > O Reading Tracker já tem CRUD de autores/livros/leituras, temas, primeira leitura opcional, releituras e exclusões confirmadas. O fluxo de status foi auditado nos cinco critérios do cartão e nas 25 combinações, com confirmação de limpeza, preservação de notas/recomendação e recuperação de falhas. Leiam docs/specs/E1-fluxo-status-prd.md e docs/GUIA_FRONTEND.md. A auditoria de FR-06 está no PR #9, com aviso de remoção de prioridade e evidências em viewport móvel emulada; revisar o PR e a entrega. Depois do merge, atualizem main e criem uma branch por tarefa, combinando responsáveis e alterações compartilhadas.
 
 Na edição de leituras, sair da wishlist mostra um aviso de remoção de Priority quando houver prioridade salva ou no rascunho. Essa remoção segue o contrato existente; a confirmação explícita continua sendo exigida apenas para ano/nota. Cancelar preserva a prioridade salva. Em Add reading, prioridade incompatível gera erro no campo.
+
+### Aceite mobile de FR-UI-01
+
+`tests/mobile-acceptance.browser.test.mjs` complementa a regressão com dados temporários longos e entrada real pelo protocolo DevTools. Em 360/390/768px, envia touchStart/touchEnd; em 1280px, cliques de mouse. Antes de acionar cada alvo, verifica posição e hit testing para rejeitar controles cortados ou encobertos. Testa consulta, edição e exclusão confirmada/cancelada nos três módulos; Authors não possui View separado, e a consulta ocorre na listagem e no formulário Edit.
+
+A suíte também seleciona dois autores e dois temas, remove somente uma seleção de cada, salva e confere armazenamento/edição após recarga. Tab/Space percorrem os grupos e alternam checkboxes, verificando foco visível e cancelamento por Escape. Registros de teste são criados via store no perfil isolado; o seed versionado permanece intacto e a suíte termina restaurando o seed. Capturas são salvas em SCREENSHOT_DIR, ou /tmp/reading-tracker-mobile-acceptance.
+
+São testes em Chrome com emulação de viewport/toque, sem comprovar gestos de um aparelho físico, teclado virtual ou Safari/iOS. O runner completo descobre a suíte automaticamente e a executa também no GitHub Actions.
