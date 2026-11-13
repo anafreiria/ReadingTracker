@@ -133,6 +133,8 @@ Os testes de interface estão em `tests/authors.browser.test.mjs` (35 verificaç
 
 A suíte `tests/mobile-acceptance.browser.test.mjs` acrescenta 74 verificações de aceite de FR-UI-01: textos longos, ações nos três módulos em 360/390/768/1280px, seleção e remoção individual por toque com recarga, e Tab/Space nos checkboxes. É executada automaticamente pelo check completo e pelo CI, com dados temporários em perfil isolado. A emulação de toque no Chrome não substitui teste em aparelho físico.
 
+`tests/accessibility.browser.test.mjs` acrescenta 85 verificações de FR-UI-02 para nomes/rótulos/erros, contraste, teclado/foco, toque, feedback, recuperação de falhas e zoom real de 200% no Chrome isolado. Os pares medidos e as capturas antes/depois estão no [PRD de FR-UI-02](docs/specs/FR-UI-02-acabamento-acessibilidade-prd.md). Não representa certificação de acessibilidade.
+
 ## Verificação automática no GitHub
 
 O workflow [Frontend](.github/workflows/frontend.yml) executa o check **Frontend checks** em cada PR para main e a cada push na main. Também pode ser iniciado pela aba Actions após a integração do workflow. Ele verifica a sintaxe JavaScript, inicia um servidor HTTP e um Chrome temporários, confirma a inicialização/navegação dos três módulos e executa todos os testes de dados e interface existentes. Novos testes em `tests/*.test.mjs` e `tests/*.browser.test.mjs` são descobertos automaticamente; as suítes de navegador rodam sequencialmente para respeitar a política de uma aba editora.
@@ -209,7 +211,7 @@ O código, a documentação e os resultados dos testes passam por revisão human
 
 | Ferramenta | Finalidade já utilizada | Partes afetadas |
 |---|---|---|
-| ChatGPT / Codex | Leitura dos requisitos, planejamento e PRD; geração da base de navegação, estilos, leitura/escrita de dados, validações, restauração, formulários de referência, CRUD visual de autores/livros/leituras, temas, primeira leitura, releituras, confirmação de limpeza, orientação de status, aviso de remoção de prioridade, auditoria de FR-06 e das 25 combinações de status, exclusões, testes de integração em navegador, automação de verificação no GitHub Actions e diagnóstico de falhas; documentação de colaboração; PRD FR-UI-01, listagens mobile e seleção por checkboxes | README.md, docs/, frontend/ (exceto seed oficial), tests/, scripts/, .github/workflows/ |
+| ChatGPT / Codex | Leitura dos requisitos, planejamento e PRD; geração da base de navegação, estilos, leitura/escrita de dados, validações, restauração, formulários de referência, CRUD visual de autores/livros/leituras, temas, primeira leitura, releituras, confirmação de limpeza, orientação de status, aviso de remoção de prioridade, auditoria de FR-06 e das 25 combinações de status, exclusões, testes de integração em navegador, automação de verificação no GitHub Actions e diagnóstico de falhas; documentação de colaboração; PRDs FR-UI-01/02, listagens mobile, seleção por checkboxes, feedback e acessibilidade | README.md, docs/, frontend/ (exceto seed oficial), tests/, scripts/, .github/workflows/ |
 
 Para editar, usar uma única aba. Em navegadores com Web Locks, outra aba recebe conflito 409 sem gravar; fechar a aba que estava editando e recarregar a nova antes de continuar. Sem Web Locks, a fila protege somente operações da mesma aba.
 

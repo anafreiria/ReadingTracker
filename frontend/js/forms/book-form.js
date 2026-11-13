@@ -2,7 +2,7 @@ import { saveBook, saveBookWithReading, saveTheme, deleteBook } from '../store.j
 import { StoreError } from '../validation.js';
 import { VALUES } from '../constants.js';
 import { TEXT } from '../strings.js';
-import { el, field } from '../ui.js';
+import { el, field, setRequired } from '../ui.js';
 import { bindFormAction } from './form-action.js';
 
 function select(options, {optional = true, value = null} = {}) {
@@ -19,18 +19,19 @@ const number = value => value === undefined || value === '' ? null : Number(valu
 function multipleField(name, options, selected = []) {
   const choices = el('div', {className: 'checkbox-options'});
   const add = (item, checked = false) => {
-    const control = input('checkbox', {name, value: item.id});
+    const control = input('checkbox', {name, value: item.id, 'aria-describedby': `error-${name}`});
     control.checked = checked;
     choices.append(el('label', {className: 'checkbox-label'}, [control, item.name]));
   };
   for (const item of options) add(item, selected.includes(item.id));
-  const clear = el('button', {type: 'button', className: 'button-link'}, TEXT.books.clearSelection);
+  const clear = el('button', {type: 'button', className: 'button-link', 'aria-label': `${TEXT.books.clearSelection}: ${TEXT.labels[name]}`}, TEXT.books.clearSelection);
   clear.addEventListener('click', () => {
     for (const control of choices.querySelectorAll('input')) control.checked = false;
     choices.querySelector('input')?.focus();
   });
-  return {host: el('fieldset', {className: 'multiple-field'}, [
+  return {host: el('fieldset', {className: 'multiple-field', 'data-field': name, tabindex: '-1', 'aria-describedby': `error-${name}`}, [
     el('legend', {}, TEXT.labels[name]), choices, clear,
+    el('span', {id: `error-${name}`, className: 'field-error', 'aria-live': 'polite'}),
   ]), add};
 }
 export function bookForm({book = null, authors, themes, onBusy, onSuccess, onCancel}) {
@@ -60,6 +61,9 @@ export function bookForm({book = null, authors, themes, onBusy, onSuccess, onCan
         field('yearRead', input('number', {step: '1'})), field('grade', input('number', {min: '0', max: '10', step: '0.5'})),
         field('priority', select(VALUES.priorities)), field('recommendedBy', input()), field('notes', el('textarea', {rows: '3'})),
       ])]);
+    const firstStatus = first.querySelector('[name=status]');
+    const firstYear = first.querySelector('[name=yearRead]');
+    firstStatus.addEventListener('change', () => setRequired(firstYear, firstStatus.value === 'Read'));
     include.addEventListener('change', () => { first.hidden = !include.checked; first.disabled = !include.checked; });
     form.append(el('label', {className: 'checkbox-label', for: include.id}, [include, TEXT.firstReading]), first);
   }

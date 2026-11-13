@@ -12,6 +12,17 @@ export function el(tag, attributes = {}, children = []) {
   }
   return node;
 }
+// Prefixes communicate the state without relying on its color.
+export function feedback(message, kind = 'info') {
+  return el('p', {className: `feedback feedback-${kind}`, role: kind === 'error' ? 'alert' : 'status'}, [
+    el('strong', {}, `${TEXT.feedback[kind]}: `), message,
+  ]);
+}
+export function setRequired(control, required) {
+  control.required = required;
+  const hint = control.closest('.field')?.querySelector('[data-required-hint]');
+  if (hint) hint.textContent = required ? TEXT.required : '';
+}
 export function display(value) { return value === null || value === undefined || value === '' ? TEXT.missing : String(value); }
 export function authorNames(book, authors) {
   return book.authorIds.map(id => authors.find(author => author.id === id)?.name).filter(Boolean).join(', ');
@@ -53,17 +64,19 @@ export function field(name, control, {label = TEXT.labels[name], required = fals
   control.required = required;
   const error = el('span', {id: `error-${name}`, className: 'field-error', 'aria-live': 'polite'});
   control.setAttribute('aria-describedby', error.id);
-  return el('div', {className: 'field'}, [el('label', {for: control.id}, label), control, error]);
+  return el('div', {className: 'field'}, [el('label', {for: control.id}, [label, el('span', {'data-required-hint': ''}, required ? TEXT.required : '')]), control, error]);
 }
 export function showFieldErrors(form, errors = []) {
   for (const control of form.elements) control.removeAttribute('aria-invalid');
   for (const error of form.querySelectorAll('.field-error')) error.textContent = '';
+  for (const group of form.querySelectorAll('[data-field]')) group.removeAttribute('aria-invalid');
   for (const error of errors) {
     const control = form.elements.namedItem(error.field);
-    if (!control?.setAttribute) continue;
-    control.setAttribute('aria-invalid', 'true');
-    const message = document.getElementById(`error-${error.field}`);
-    if (message) message.textContent = error.message;
+    const group = [...form.querySelectorAll('[data-field]')].find(node => node.dataset.field === error.field);
+    const targets = group ? [...group.querySelectorAll('input'), group] : control?.setAttribute ? [control] : [];
+    for (const target of targets) target.setAttribute('aria-invalid', 'true');
+    const message = form.querySelector(`#error-${error.field}`);
+    if (message) message.textContent = `${TEXT.labels[error.field] || error.field}: ${error.message}`;
   }
   form.querySelector('[aria-invalid="true"]')?.focus();
 }
