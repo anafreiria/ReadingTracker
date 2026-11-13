@@ -1,5 +1,7 @@
 // Shared US English interface copy. Titles and author names come from the data.
 export const TEXT = {
+  feedback: {success: 'Saved', warning: 'Please note', error: 'Unable to complete', loading: 'Working', info: 'Information'},
+  required: ' (required)',
   appName: 'Reading Tracker', missing: '-', close: 'Close', cancel: 'Cancel', retry: 'Try again',
   bookNotFound: 'Book not found', loading: 'Opening your library…', loadError: 'We couldn’t open your library.',
   storageError: 'Your saved library could not be read. Existing data has been kept. Check your browser storage settings and try again.',
@@ -7,7 +9,7 @@ export const TEXT = {
   invalidData: 'The library data has an unexpected format. Existing data has been kept.',
   previewNotice: 'Form preview — saving will be available in a future update.',
   saveUnavailable: 'Save unavailable in preview', empty: 'No records yet.',
-  emptyHelp: 'Your records will appear here when you add them.',
+  emptyHelp: 'Use the Add button above to create your first record.',
   bookHistory: 'Reading history', noReadings: 'No readings for this book yet.',
   firstReading: 'Include a first reading', optional: 'Optional',
   formLegend: 'Book details', readingLegend: 'Reading details',
@@ -90,7 +92,7 @@ export const TEXT = {
     title: 'Title', authors: 'Authors', authorIds: 'Authors', status: 'Status', yearRead: 'Year read', grade: 'Grade',
     name: 'Name', countryId: 'Nationality', birthDate: 'Birth date', deathDate: 'Death date',
     publicationYear: 'Publication year', form: 'Form', mode: 'Mode of expression', content: 'Content',
-    themeIds: 'Themes', newTheme: 'New theme', bookId: 'Book', recommendedBy: 'Recommended by',
+    confirmFieldClear: 'Confirmation', themeIds: 'Themes', newTheme: 'New theme', bookId: 'Book', recommendedBy: 'Recommended by',
     priority: 'Priority', notes: 'Notes', books: 'Books', readings: 'Readings', viewHistory: 'View history',
   },
   pages: {

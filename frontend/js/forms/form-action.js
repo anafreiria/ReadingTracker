@@ -1,5 +1,5 @@
 import { TEXT } from '../strings.js';
-import { el, showFieldErrors } from '../ui.js';
+import { el, feedback, showFieldErrors } from '../ui.js';
 
 const activeForms = new WeakSet();
 export function formValues(form) {
@@ -19,9 +19,11 @@ export function bindFormAction(form, button, {onBusy, onSuccess, operation, pend
   event = 'submit', errorFields = error => error.errors}) {
   let message = form.querySelector('[data-form-message]');
   if (!message) {
-    message = el('p', {'data-form-message': '', className: 'error-panel', role: 'alert', tabindex: '-1', hidden: ''});
+    message = el('p', {'data-form-message': '', className: 'feedback feedback-error', role: 'alert', tabindex: '-1', hidden: ''});
     form.prepend(message);
   }
+  const progress = el('p', {className: 'feedback feedback-loading', 'aria-hidden': 'true', hidden: ''});
+  form.prepend(progress);
   const target = event === 'submit' ? form : button;
   target.addEventListener(event, async eventObject => {
     eventObject.preventDefault();
@@ -38,17 +40,23 @@ export function bindFormAction(form, button, {onBusy, onSuccess, operation, pend
     for (const [control] of controls) control.disabled = true;
     form.setAttribute('aria-busy', 'true');
     button.textContent = pending;
+    progress.textContent = `${TEXT.feedback.loading}: ${pending}`;
+    progress.hidden = false;
+    const liveProgress = document.getElementById('dialog-progress');
+    if (liveProgress) liveProgress.textContent = progress.textContent;
     let succeeded = false, result;
     try {
       result = await operation(values);
       succeeded = true;
     } catch (error) {
-      message.textContent = error.message;
+      message.replaceChildren(...feedback(error.message, 'error').childNodes);
       message.hidden = false;
       for (const [control, disabled] of controls) control.disabled = disabled;
       showFieldErrors(form, errorFields(error));
       if (!form.querySelector('[aria-invalid="true"]')) message.focus();
     } finally {
+      progress.hidden = true;
+      if (liveProgress) liveProgress.textContent = '';
       activeForms.delete(form);
       for (const [control, disabled] of controls) control.disabled = disabled;
       form.setAttribute('aria-busy', 'false');

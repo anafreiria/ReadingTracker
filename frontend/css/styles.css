@@ -3,7 +3,9 @@
   --paper:#f8f7f3;
   --surface:#fff;
   --ink:#253831;
-  --muted:#69756f;
+  --muted:#59665f;
+  --control-line:#7a8a80;
+  --focus:#85521f;
   --green:#234c40;
   --line:#e1e5dd;
   --accent:#eaf0e8;
@@ -536,3 +538,46 @@ td { overflow-wrap:anywhere; }
   .book-details { grid-template-columns:minmax(0,1fr); gap:8px; }
   .book-details dd { margin-bottom:12px; }
 }
+
+/* FR-UI-02: measured contrast, predictable focus and explicit feedback. */
+button,a,input,select,textarea { scroll-margin:12px; }
+button { min-width:44px; min-height:44px; }
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,
+.table-scroll:focus-visible,[data-field]:focus-visible {
+  outline:3px solid var(--focus);
+  outline-offset:3px;
+}
+.site-header nav a { display:inline-flex; align-items:center; min-height:44px; }
+.brand { min-height:44px; }
+.field input,.field select,.field textarea { border-color:var(--control-line); min-height:44px; }
+.field input[type=checkbox],.checkbox-label input { accent-color:var(--green); }
+.checkbox-label { min-height:44px; padding:8px 4px; }
+.checkbox-label input { flex-shrink:0; }
+.field .checkbox-label input { min-height:18px; }
+.sort-button,.button-link { min-height:44px; min-width:44px; padding:8px; }
+.table-scroll:focus-visible { outline-offset:-4px; }
+.checkbox-options { padding:8px; scroll-padding:8px; }
+.checkbox-options .checkbox-label { padding:8px; }
+.collection-panel { overflow:visible; }
+.table-scroll { border-radius:0 0 var(--radius) var(--radius); }
+.feedback { padding:16px 18px; border:1px solid var(--control-line); border-left:4px solid var(--green); border-radius:8px; line-height:1.6; overflow-wrap:anywhere; }
+.feedback-success { background:#eaf1e7; }
+.feedback-loading,.feedback-info { background:var(--accent); }
+.feedback-warning,.notice.warning { background:#faf0dc; border-left:4px solid #785b24; }
+.feedback-error { background:#f7e9e7; border-color:var(--danger); color:var(--danger); }
+.feedback:empty { display:none; }
+.feedback strong { font-weight:700; }
+.field-error { line-height:1.5; overflow-wrap:anywhere; }
+[data-required-hint] { font-size:12px; font-weight:400; }
+[data-field][aria-invalid=true] { border-color:var(--danger); }
+.dialog-heading { align-items:flex-start; }
+#close-dialog { flex-shrink:0; }
+.dialog-actions { margin-top:8px; }
+#announcement:focus { outline:3px solid var(--focus); outline-offset:4px; }
+.book-details { margin:0; }
+@media(max-width:580px) {
+  .site-header nav { flex-wrap:wrap; gap:4px; }
+  .summary-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .summary-card { overflow-wrap:anywhere; }
+}
+.error-panel { background:#f7e9e7; color:var(--danger); border:1px solid var(--danger); border-left-width:4px; }

@@ -114,3 +114,11 @@ Na edição de leituras, sair da wishlist mostra um aviso de remoção de Priori
 A suíte também seleciona dois autores e dois temas, remove somente uma seleção de cada, salva e confere armazenamento/edição após recarga. Tab/Space percorrem os grupos e alternam checkboxes, verificando foco visível e cancelamento por Escape. Registros de teste são criados via store no perfil isolado; o seed versionado permanece intacto e a suíte termina restaurando o seed. Capturas são salvas em SCREENSHOT_DIR, ou /tmp/reading-tracker-mobile-acceptance.
 
 São testes em Chrome com emulação de viewport/toque, sem comprovar gestos de um aparelho físico, teclado virtual ou Safari/iOS. O runner completo descobre a suíte automaticamente e a executa também no GitHub Actions.
+
+### Acabamento e acessibilidade de FR-UI-02
+
+`tests/accessibility.browser.test.mjs` verifica os controles na árvore de acessibilidade, rótulos e erros, alvos de 44x44px, teclado/foco, mensagens, falhas recuperáveis e zoom real de 200% no perfil de teste do Chrome. O teste usa a API interna de configurações do navegador somente na automação e restaura zoom 100% antes de fechar a aba. Nenhuma dependência adicional é usada pelo produto.
+
+`field` marca campos obrigatórios no rótulo; `setRequired` mantém essa indicação quando a regra depende de status. Os grupos de seleção usam data-field e um erro associado aos checkboxes; showFieldErrors aplica aria-invalid ao grupo e controles e inclui o nome do campo. `feedback` gera mensagem com prefixo textual e papel status/alert. Progresso de carga e Save usa regiões fora de aria-busy. Diálogo nativo mantém Escape/fundo inerte; Tab/Shift+Tab circulam entre as extremidades e cancelamento devolve foco ao acionador.
+
+Pares de contraste e capturas antes/depois estão no PRD FR-UI-02. A suíte é evidência dos cenários examinados, sem equivaler a certificação WCAG, teste de leitor de tela ou aparelho físico.

@@ -1,7 +1,7 @@
 import { STORAGE_KEY } from './constants.js';
 import { getLibrary, getAuthor, getCountries, getBook, getReading, resetData } from './store.js';
 import { TEXT } from './strings.js';
-import { el, openDialog, confirmAction } from './ui.js';
+import { el, feedback, openDialog, confirmAction } from './ui.js';
 import { readingForm, deleteReadingForm } from './forms/reading-form.js';
 import { renderReadings, readingDetails } from './pages/readings.js';
 import { bookForm, deleteBookForm } from './forms/book-form.js';
@@ -14,6 +14,7 @@ const content = document.getElementById('content');
 const preview = document.getElementById('preview-button');
 const resetButton = document.getElementById('reset-data');
 const announcement = document.getElementById('announcement');
+const loadingStatus = document.getElementById('loading-status');
 resetButton.textContent = TEXT.reset.action;
 let library;
 let busy = false;
@@ -22,9 +23,12 @@ let dialogBusy = false;
 let dialogOpener;
 const dialog = document.getElementById('form-dialog');
 const closeDialog = document.getElementById('close-dialog');
-function announce(message, failed = false) {
-  announcement.setAttribute('role', failed ? 'alert' : 'status');
-  announcement.replaceChildren(el('p', {className: failed ? 'error-panel' : 'notice'}, message));
+function announce(message, failed = false, kind = failed ? 'error' : 'success') {
+  announcement.setAttribute('role', kind === 'error' ? 'alert' : 'status');
+  announcement.setAttribute('aria-live', kind === 'error' ? 'assertive' : 'polite');
+  const notice = feedback(message, kind);
+  notice.removeAttribute('role'); // The enclosing live region announces this message once.
+  announcement.replaceChildren(notice);
 }
 function setBusy(value) {
   busy = value;
@@ -63,13 +67,16 @@ function render() {
 async function load() {
   library = undefined;
   setBusy(true);
-  content.replaceChildren(el('p', {className: 'notice', role: 'status'}, TEXT.loading));
+  loadingStatus.textContent = `${TEXT.feedback.loading}: ${TEXT.loading}`;
+  const pending = feedback(TEXT.loading, 'loading');
+  pending.removeAttribute('role'); // loadingStatus is outside aria-busy and owns the announcement.
+  content.replaceChildren(pending);
   try { library = await getLibrary(); render(); }
   catch (error) {
     const retry = el('button', {type: 'button'}, TEXT.retry);
     retry.addEventListener('click', load);
     content.replaceChildren(el('section', {className: 'error-panel', role: 'alert'}, [el('h2', {}, TEXT.loadError), el('p', {}, error.message), retry]));
-  } finally { setBusy(false); }
+  } finally { loadingStatus.textContent = ''; setBusy(false); }
 }
 function setDialogBusy(value) {
   dialogBusy = value;
@@ -85,7 +92,7 @@ async function recordSaved(message) {
     render();
     announce(message);
   } catch {
-    announce(TEXT.authors.refreshFailed, true);
+    announce(TEXT.authors.refreshFailed, true, 'warning');
   } finally {
     setBusy(false);
     announcement.focus();
@@ -168,16 +175,26 @@ async function openReading(id, mode = 'edit', bookId = null) {
     }
   } finally { setBusy(false); }
 }
+// Keep Tab at the modal boundaries; native dialog still owns Escape and inert background.
+dialog.addEventListener('keydown', event => {
+  if (event.key !== 'Tab') return;
+  const controls = [...dialog.querySelectorAll('button,input,select,textarea,a[href],[tabindex]:not([tabindex="-1"])')]
+    .filter(control => !control.matches(':disabled') && control.getClientRects().length);
+  const first = controls[0], last = controls.at(-1);
+  if (!first) { event.preventDefault(); return; }
+  if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+  else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+});
 dialog.addEventListener('cancel', event => { if (dialogBusy) event.preventDefault(); });
 resetButton.addEventListener('click', async () => {
   if (busy) return;
-  setBusy(true);
+  dialogOpener = document.activeElement;
   const confirmed = await confirmAction({
     title: TEXT.reset.title, message: TEXT.reset.message, confirmLabel: TEXT.reset.confirm,
   });
   if (!confirmed) { setBusy(false); return; }
   setBusy(true);
-  announce(TEXT.reset.pending);
+  announce(TEXT.reset.pending, false, 'loading');
   try {
     library = await resetData();
     render();

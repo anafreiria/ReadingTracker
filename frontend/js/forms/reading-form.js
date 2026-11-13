@@ -2,7 +2,7 @@ import { saveReading, deleteReading } from '../store.js';
 import { prepareReadingTransition, StoreError } from '../validation.js';
 import { VALUES } from '../constants.js';
 import { TEXT } from '../strings.js';
-import { el, field } from '../ui.js';
+import { el, field, setRequired } from '../ui.js';
 import { bindFormAction, formValues } from './form-action.js';
 
 const input = (type = 'text', attributes = {}) => el('input', {type, ...attributes});
@@ -32,8 +32,8 @@ export function readingForm({reading = null, bookId = null, books, onBusy, onSuc
   const choiceLabel = choice.querySelector('label');
   choiceLabel.className = 'checkbox-label';
   choiceLabel.prepend(confirmation);
-  const warning = el('p', {className: 'notice', role: 'status'});
-  const priorityWarning = el('p', {id: 'reading-priority-warning', className: 'notice', role: 'status', hidden: ''});
+  const warning = el('p', {className: 'notice warning', role: 'status'});
+  const priorityWarning = el('p', {id: 'reading-priority-warning', className: 'notice warning', role: 'status', hidden: ''});
   const statusHelp = el('p', {id: 'reading-status-help', className: 'muted', role: 'status'});
   const clearance = el('section', {hidden: '', 'aria-label': TEXT.readings.clearTitle}, [warning, choice]);
   form.append(el('p', {className: 'notice'}, TEXT.readings.help),
@@ -60,7 +60,7 @@ export function readingForm({reading = null, bookId = null, books, onBusy, onSuc
   }
   function showClearance(draft) {
     statusHelp.textContent = TEXT.readings.statusHelp[draft.status];
-    year.required = draft.status === 'Read';
+    setRequired(year, draft.status === 'Read');
     const planned = transition(draft);
     priorityWarning.hidden = !reading || draft.status === reading.status || draft.status === 'Want to read'
       || !(reading.priority || draft.priority);
