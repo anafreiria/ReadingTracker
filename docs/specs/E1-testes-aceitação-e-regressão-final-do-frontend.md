@@ -1,6 +1,6 @@
 # PRD — FR-QA-01: Testes de aceitação e regressão final do frontend
 
-Responsável: Otávio de Oliveira. Revisão e correções: a definir com a equipe. Branch: `fr-qa-01`.
+Responsável: Otávio de Oliveira. Revisão: aguardando revisão de outro integrante da equipe. Branch: `fr-qa-01`. Pull Request: aberto no GitHub, aguardando revisão e aprovação.
 
 ## Objetivo
 
@@ -39,10 +39,10 @@ Não inclui implementação de backend.
 - [x] Responsividade verificada em 360px, 390px, 768px e 1280px.
 - [x] Navegação por teclado, foco visível e zoom de 200% verificados.
 - [x] Testes manuais realizados no Chrome e no Edge.
-- [ ] Investigação do cadastro de livros com títulos duplicados encaminhada para revisão da equipe.
+- [ ] Investigação do cadastro de livros com títulos duplicados concluída e resultado validado pela equipe.
 - [x] Teste exploratório realizado por uma pessoa que não participou da implementação.
 - [x] Versões dos navegadores registradas.
-- [ ] Relatório versionado na branch `fr-qa-01` e disponibilizado para revisão no GitHub.
+- [x] Relatório versionado na branch `fr-qa-01` e disponibilizado para revisão no GitHub por meio de Pull Request.
 
 ## Organização e decisões
 
@@ -128,6 +128,7 @@ Os arquivos são temporários e não devem ser tratados como evidências version
 Foram examinadas as larguras de viewport de 360px, 390px, 768px e 1280px. A interface permaneceu utilizável durante a navegação e as operações manuais realizadas.
 
 Também foram verificados:
+
 - Navegação por teclado com foco visível.
 - Acionamento de botões com Enter.
 - Uso da interface com zoom de 200%.
@@ -148,15 +149,17 @@ Os testes manuais foram realizados nos dois navegadores. Firefox não foi testad
 
 ### Limitações e pendências
 
-- A investigação sobre a aceitação de títulos duplicados foi encaminhada para outra pessoa da equipe.
+- A investigação sobre a aceitação de títulos duplicados foi encaminhada para outra pessoa da equipe e ainda aguarda conclusão.
 - Firefox não foi testado por indisponibilidade no ambiente.
 - Não foram realizados testes em dispositivos móveis físicos.
 - Os logs automatizados permanecem em diretório temporário local; não estão versionados no repositório.
+- O Pull Request está aberto e aguarda revisão e aprovação de outro integrante da equipe.
 
 ## Próximas tarefas
 
-Concluir a investigação sobre títulos duplicados e incorporar a conclusão ao relatório após a revisão da equipe.
+- Aguardar a revisão do Pull Request por outro integrante da equipe.
+- Concluir a investigação sobre a aceitação de títulos duplicados e registrar a conclusão após validação da equipe.
+- Incorporar eventuais correções solicitadas durante a revisão.
+- Após aprovação, integrar o Pull Request à branch `main`.
 
-Versionar este documento na branch `fr-qa-01`, revisar as alterações, executar novamente as verificações pertinentes e publicar a branch no GitHub para abertura ou atualização do Pull Request.
-
-A integração na branch `main` deve ocorrer somente após a revisão da equipe e a aprovação do Pull Request.
+A branch `fr-qa-01` já foi publicada no GitHub e o Pull Request está aberto. A integração na branch `main` permanece pendente de revisão e aprovação.
