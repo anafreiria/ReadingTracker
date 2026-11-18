@@ -1,0 +1,15 @@
+PASS HTTP index and seed
+PASS application modules initialize with US English and local stylesheet
+PASS readings route loads official records
+PASS readings form opens and can be used
+PASS readings page fits 1280px
+PASS readings page fits 390px
+PASS books route loads official records
+PASS books form opens and can be used
+PASS books page fits 1280px
+PASS books page fits 390px
+PASS authors route loads official records
+PASS authors form opens and can be used
+PASS authors page fits 1280px
+PASS authors page fits 390px
+PASS 15 smoke checks; no uncaught exceptions or failed local resources

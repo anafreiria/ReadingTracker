@@ -1,0 +1,35 @@
+✔ all official records satisfy domain rules (23.327155ms)
+✔ author dates must be real, nonfuture at birth and strictly ordered (4.237531ms)
+✔ author names and theme names are trimmed and unique without case sensitivity (4.406111ms)
+✔ book can contain only a title; IDs and years remain numeric (4.019153ms)
+✔ foreign IDs, duplicate selections and uncontrolled values are rejected (2.849662ms)
+✔ reading status, dates, grade and priority enforce allowed combinations (2.910307ms)
+✔ transition planning is pure, handles zero grade and preserves notes (2.09483ms)
+✔ author CRUD uses highest ID, supports partial edits and survives module reload (71.686863ms)
+✔ linked author conflict names books and makes no write (14.670927ms)
+✔ book, theme and reading writes preserve optional values and independent copies (82.016178ms)
+✔ failed combined creation leaves no book, reading or consumed ID (24.897232ms)
+✔ combined creation accepts no first reading and binds reading to the newly created book (22.540545ms)
+✔ book deletion atomically removes all readings of that work (58.993814ms)
+✔ editing book year cannot invalidate an existing reading (26.183958ms)
+✔ status-only edit preserves recommendation/notes and clears wishlist priority (19.469512ms)
+✔ incompatible transition requires explicit confirmation even if caller pre-clears fields (29.764123ms)
+✔ moving to Read still requires a year and re-reading creates a new record (43.574856ms)
+✔ invalid IDs, missing records and duplicate names never write (64.242591ms)
+✔ quota failure leaves persisted data and subsequent reads unchanged (28.254259ms)
+✔ concurrent operations in one tab do not lose records or reuse IDs (57.040061ms)
+✔ every operation rereads external changes instead of overwriting an old snapshot (27.371475ms)
+✔ reset restores exactly the official seed without removing unrelated keys (27.549928ms)
+✔ failed fetch, malformed seed and quota errors during reset preserve all prior data (43.568007ms)
+✔ explicit reset can recover malformed existing storage (29.880542ms)
+✔ native writer lock rejects a second editing tab without changing its data (34.438365ms)
+✔ validation errors serialize in the future API format (12.003911ms)
+✔ safe integer ID exhaustion fails without writing (20.319349ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 812.69287

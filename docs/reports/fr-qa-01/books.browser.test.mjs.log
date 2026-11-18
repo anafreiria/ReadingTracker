@@ -1,0 +1,62 @@
+PASS official books and page title loaded
+PASS readings actions fit 360px without horizontal scrolling
+PASS authors actions fit 360px without horizontal scrolling
+PASS books actions fit 360px without horizontal scrolling
+PASS readings actions fit 390px without horizontal scrolling
+PASS authors actions fit 390px without horizontal scrolling
+PASS books actions fit 390px without horizontal scrolling
+PASS readings actions fit 768px without horizontal scrolling
+PASS authors actions fit 768px without horizontal scrolling
+PASS books actions fit 768px without horizontal scrolling
+PASS readings actions fit 1280px without horizontal scrolling
+PASS authors actions fit 1280px without horizontal scrolling
+PASS books actions fit 1280px without horizontal scrolling
+PASS title focus and official selections
+PASS empty title has field feedback without write
+PASS title-only creation, one write, duplicate-send protection and success focus
+PASS minimal optional values persist after reload
+PASS minimal details and empty history render safely
+PASS empty theme rejected without losing draft
+PASS case-insensitive theme duplicate preserves selections
+PASS uncreated theme cannot be silently discarded by Save
+PASS new theme selected while draft and existing selections survive
+PASS negative year and all fields persist
+PASS details show themes, classifications and year
+PASS edit preloads multi-selects and does not add another reading
+PASS edit clears selections and optional fields, preserving ID after reload
+PASS publication 0 rejected without writing
+PASS publication 2999 rejected without writing
+PASS publication 1.5 rejected without writing
+PASS explicit theme creation survives canceling book, as disclosed
+PASS wishlist book and reading saved atomically in one write
+PASS first reading survives reload
+PASS Read requires year and leaves no partial book
+PASS first reading cannot precede publication
+PASS invalid grade leaves no partial book
+PASS Read rejects wishlist priority without partial writes
+PASS Read with year and grade persists
+PASS editing publication cannot invalidate existing readings
+PASS unchecked first reading ignores disabled invalid values
+PASS theme quota failure retains entire draft
+PASS book quota failure retains input and permits retry
+PASS retry after quota failure saves once
+PASS delete confirmation states current reading count and focuses Cancel
+PASS cancel cascade makes no write
+PASS Escape cancels cascade and restores trigger focus
+PASS confirmed cascade persists and preserves all unrelated readings
+PASS zero-reading deletion count correct
+PASS deletion without readings succeeds
+PASS book titles rendered as safe text
+PASS keyboard focus remains inside dialog
+PASS book form and page fit 360px
+PASS Save reachable by focus in long form at 360px
+PASS book form and page fit 390px
+PASS Save reachable by focus in long form at 390px
+PASS book form and page fit 768px
+PASS Save reachable by focus in long form at 768px
+PASS book form and page fit 1280px
+PASS Save reachable by focus in long form at 1280px
+PASS real second-tab conflict retains book draft
+PASS new readings appear in sortable history
+PASS reset restores original books, readings and themes
+PASS 62 checks; no uncaught browser exceptions

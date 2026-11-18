@@ -42,6 +42,8 @@ Integração, testes de aceitação, documentação, declaração de uso de IA, 
 - [PRD de leituras e matriz dos critérios de FR-03](docs/specs/E1-leituras-crud-prd.md)
 - [PRD do fluxo de status e matriz dos critérios de FR-04](docs/specs/E1-fluxo-status-prd.md)
 - [PRD da verificação contínua do frontend](docs/specs/E1-ci-frontend-prd.md)
+- [Matriz e pendências do aceite FR-QA-01](docs/specs/E1-testes-aceitação-e-regressão-final-do-frontend.md)
+- [Evidências da revisão de QA e correção do reset](docs/reports/FR-QA-01-revisao.md)
 - [PRD de validação e organização do código](docs/specs/E1-validação_e_organização_do_código.md)
 - [Enunciados no Moodle](https://campusvirtual.unifal-mg.edu.br/moodle/course/section.php?id=30335)
 
@@ -211,7 +213,7 @@ O código, a documentação e os resultados dos testes passam por revisão human
 
 | Ferramenta | Finalidade já utilizada | Partes afetadas |
 |---|---|---|
-| ChatGPT / Codex | Leitura dos requisitos, planejamento e PRD; geração da base de navegação, estilos, leitura/escrita de dados, validações, restauração, formulários de referência, CRUD visual de autores/livros/leituras, temas, primeira leitura, releituras, confirmação de limpeza, orientação de status, aviso de remoção de prioridade, auditoria de FR-06 e das 25 combinações de status, exclusões, testes de integração em navegador, automação de verificação no GitHub Actions e diagnóstico de falhas; documentação de colaboração; PRDs FR-UI-01/02, listagens mobile, seleção por checkboxes, feedback e acessibilidade | README.md, docs/, frontend/ (exceto seed oficial), tests/, scripts/, .github/workflows/ |
+| ChatGPT / Codex | Leitura dos requisitos, planejamento e PRD; geração da base de navegação, estilos, leitura/escrita de dados, validações, restauração, formulários de referência, CRUD visual de autores/livros/leituras, temas, primeira leitura, releituras, confirmação de limpeza, orientação de status, aviso de remoção de prioridade, auditoria de FR-06 e das 25 combinações de status, exclusões, testes de integração em navegador, automação de verificação no GitHub Actions e diagnóstico de falhas; documentação de colaboração; PRDs FR-UI-01/02, listagens mobile, seleção por checkboxes, feedback e acessibilidade; revisão FR-QA-01, diagnóstico da reabertura de Reset, regressão e relatório com evidências | README.md, docs/, frontend/ (exceto seed oficial), tests/, scripts/, .github/workflows/ |
 
 Para editar, usar uma única aba. Em navegadores com Web Locks, outra aba recebe conflito 409 sem gravar; fechar a aba que estava editando e recarregar a nova antes de continuar. Sem Web Locks, a fila protege somente operações da mesma aba.
 
