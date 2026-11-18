@@ -1,0 +1,37 @@
+PASS official seed is displayed
+PASS name focus and official optional countries
+PASS empty name has field feedback without writing
+PASS future birth rejected
+PASS death before birth rejected
+PASS duplicate submission writes once; pending close protected; success focused
+PASS creation with all fields survives reload
+PASS editing preloads current values
+PASS edit clears optional fields, preserving ID after reload
+PASS unchanged author name may be saved
+PASS case-insensitive duplicate preserves input and storage
+PASS quota failure retains values and permits retry
+PASS retry after quota failure succeeds
+PASS death without birth is allowed
+PASS refresh failure reports saved change without false save failure
+PASS saved change after refresh failure persists exactly once
+PASS storage refresh does not replace an open draft
+PASS stale row lookup failure reports error without opening stale data
+PASS deletion initially focuses Cancel
+PASS cancel deletion keeps record
+PASS Escape cancels deletion and restores trigger focus
+PASS accepted deletion survives reload
+PASS linked author cannot be deleted and message names books
+PASS editing linked author preserves book references
+PASS second real tab preserves values and distinguishes writer conflict from duplicate name
+PASS user text is rendered safely
+PASS keyboard Tab reaches nationality
+PASS dialog and page fit 1280px
+PASS dialog and page fit 390px
+PASS readings now offers a functional form
+PASS books now offers a functional form
+PASS reading history retains five sortable columns
+PASS reset confirmation blocks a second page action until close resolves
+PASS immediate reset retry after Cancel cannot reopen a pending confirmation; focus returns
+PASS cancel reset preserves edits
+PASS confirmed reset restores seed
+PASS 37 checks; no uncaught browser exceptions

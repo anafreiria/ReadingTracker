@@ -1,0 +1,18 @@
+✔ official seed has complete reference integrity and remains unchanged (12.68016ms)
+✔ first use shares one fetch across consumers, persists the seed and returns isolated copies (65.580334ms)
+✔ later visits keep stored changes and never fetch seed again (15.807609ms)
+✔ malformed saved data is preserved instead of silently replaced (4.855958ms)
+✔ failed first load can be retried and does not write data (22.024234ms)
+✔ storage failure is visible and unrelated keys survive initialization (24.870971ms)
+✔ invalid references and duplicate IDs are rejected before use (4.43026ms)
+✔ book history follows bookId instead of matching reading IDs (35.100261ms)
+✔ default history sorts newest first, missing last and ties by ID (1.275972ms)
+✔ text sorting ignores case and keeps blanks last in either direction (18.409653ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 222.996644
