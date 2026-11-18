@@ -61,7 +61,7 @@ A rubrica oficial da Entrega 1 atribui 5,0 pontos ao frontend.
 - Esta execução foi realizada localmente em Linux com Chrome.
 - Não representa certificação WCAG nem validação com leitor de tela.
 - Não foram realizados testes nesta execução em Safari/iOS ou Firefox.
-- A execução local não substitui a validação independente em cópia limpa.
+- A execução local não é evidência de execução independente por outro integrante; Ana encerrou essa exigência interna mediante seu aceite manual geral.
 - A pontuação de 5,0/5,0 é a autoavaliação acordada pela equipe, não uma garantia da nota atribuída pelo professor.
 
 ## Aceite da interface
@@ -70,10 +70,10 @@ Ana aprovou a interface e relatou teste manual geral em 18/11/2026. Ver [registr
 
 ## 5. Pendências para conclusão
 
-- [ ] Outro integrante executa as instruções do README em cópia limpa do commit candidato e registra o resultado.
-- [ ] Equipe confirma a visibilidade pública do repositório em sessão sem autenticação.
+- [x] Aceite manual de Ana registrado; exigência de outro integrante substituída por sua decisão expressa em 18/11/2026.
+- [x] README e seed da tag delivery-1 acessíveis sem credenciais, HTTP 200 em 18/11/2026.
 - [x] Equipe revisou e aprovou a autoavaliação e sua justificativa.
-- [ ] Revisão final identifica o commit avaliado e registra as pendências restantes.
+- [x] Versão de produto identificada: `55b31a6`, frontend idêntico ao validado em `d1d5a328`; correção posterior de CI e publicação final acompanhadas em FR-REL-01.
 
 ## 6. Revisão da equipe
 

@@ -46,16 +46,16 @@ A matriz abaixo referencia o commit de correção `63a6806` e a execução Linux
 - Revisão de 18/11/2026: Node `v24.21.0`, Chrome `157.0.8103.78`, Linux, perfil isolado e portas temporárias, comando `node scripts/check-frontend.mjs`. Execução de correção detalhada em [FR-QA-01-revisao.md](../reports/FR-QA-01-revisao.md), com logs, resumo e capturas versionados.
 - `assertLibrary` rejeita coleções obrigatórias ausentes/nulas e referências inválidas. Coleção vazia é válida quando não quebra referências. O seed oficial com campos opcionais ausentes permanece íntegro; não foi completado com dados inventados.
 
-## Pendências de aceite humano e limites
+## Aceite humano e limites
 
 - [x] Corrigir a descrição das cinco ordenações.
 - [x] Concluir a análise de títulos duplicados segundo o enunciado.
 - [x] Corrigir a janela de reabertura do reset e acrescentar regressão específica.
-- [ ] Detalhar quais cenários foram executados nas três telas em cada navegador e seus resultados; manter versões informadas.
-- [ ] Completar o registro do teste com pessoa que não implementou: livro com primeira leitura, edição, releitura, dificuldades e resolução de bloqueadoras. Preservado o relato original de que a irmã do responsável conseguiu usar a aplicação; os detalhes não foram fornecidos.
-- [ ] Confirmar check verde no head publicado e revisão final de Ana antes do merge.
+- [x] Registrar o aceite manual geral de Ana em 18/11/2026; o detalhamento por navegador permanece um limite documental, sem atribuir resultados não informados.
+- [x] Critério interno de teste por outra pessoa encerrado por determinação de Ana em 18/11/2026: substituído pelo seu aceite manual geral, conforme [registro](../reports/E1-aceite-humano-ana.md). Não se declara execução por outro integrante.
+- [x] PR #14 integrado após revisão; PR #15 com check verde em `26e4962` e integração por Ana. A nova validação do ambiente de CI pertence ao fechamento FR-REL-01.
 
-Não houve teste em aparelho físico, Safari/iOS, Firefox ou leitor de tela nesta revisão. Chrome e Edge satisfazem a exigência de dois navegadores disponíveis; Firefox não é obrigatório no cartão. Emulação de viewport/toque e verificações de DOM/teclado/contraste não equivalem a certificação de acessibilidade nem a teste em dispositivo físico. Um agente automatizado não substitui a pessoa exigida no aceite exploratório.
+Não houve teste em aparelho físico, Safari/iOS, Firefox ou leitor de tela nesta revisão. Chrome e Edge satisfazem a exigência de dois navegadores disponíveis; Firefox não é obrigatório no cartão. Emulação de viewport/toque e verificações de DOM/teclado/contraste não equivalem a certificação de acessibilidade nem a teste em dispositivo físico. A exigência interna de aceite por outra pessoa foi substituída por decisão expressa de Ana; a automação continua identificada separadamente.
 
 ## Uso de IA
 

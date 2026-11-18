@@ -44,3 +44,7 @@ As imagens mostram dados temporários do perfil de teste. São viewport/emulaç�
 Esta evidência cobre a automação Linux/Chrome; os testes manuais Windows/Chrome/Edge são relatos originais de Otávio, com versões registradas no documento principal. Ainda faltam a discriminação dos cenários por navegador e o registro detalhado do teste humano de livro com primeira leitura, edição e releitura. A automação não substitui esses aceites. Sem certificação WCAG, leitor de tela, aparelho físico, Safari/iOS ou Firefox nesta revisão.
 
 O Actions deve executar novamente no head publicado. Verificar o check **Frontend checks** do PR antes do merge; o resultado local acima não é declaração de aprovação remota. Não houve merge nem publicação da entrega.
+
+## Encerramento posterior do aceite humano
+
+Em 18/11/2026, Ana confirmou teste manual e validação geral da interface, determinando o encerramento da exigência interna de teste por outro integrante. O [registro do aceite](E1-aceite-humano-ana.md) preserva os limites do relato. As pendências de detalhamento descritas na revisão original são mantidas como contexto histórico; não impedem o aceite geral decidido por Ana. A execução final do CI é tratada em FR-REL-01.
