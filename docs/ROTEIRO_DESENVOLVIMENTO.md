@@ -4,19 +4,19 @@
 
 Este documento organiza o Trabalho 2 de Programação Web em uma sequência de execução para Aurelio Junior, Ana Flavia Freiria, Otávio de Oliveira, Pedro Luccas e Raissa Peret. O objetivo é concluir primeiro o frontend obrigatório e depois integrar o backend, preservando as funcionalidades e preparando as duas submissões.
 
-O README acompanha o repositório e deve refletir o estado real do projeto. Este roteiro serve para organizar o trabalho da equipe. A divisão definida para a equipe é: Aurelio Junior, Ana Flavia Freiria e Otávio de Oliveira no frontend; Pedro Luccas e Raissa Peret no backend. As sugestões de organização dentro de cada frente podem ser ajustadas pelo grupo.
+O README acompanha o repositório e deve refletir o estado real do projeto. Este roteiro serve para organizar o trabalho da equipe. A divisão definida para a equipe é: Ana Flavia Freiria e Otávio de Oliveira no frontend; Aurelio Junior, Pedro Luccas e Raissa Peret no backend. As sugestões de organização dentro de cada frente podem ser ajustadas pelo grupo.
 
 ## Equipe e prazos
 
 | Integrante | Matrícula | Frente responsável |
 |---|---|---|
 | Ana Flavia Freiria | 2024.1.08.001 | Frontend |
-| Aurelio Junior | A informar | Frontend |
+| Aurelio Junior | 2024.2.08.008 | Backend |
 | Otávio de Oliveira | 2025.1.08.034 | Frontend |
 | Pedro Luccas | 2022.2.08.009 | Backend |
-| Raissa Peret | A informar | Backend |
+| Raissa Peret | 2024.1.08.021 | Backend |
 
-Completar as matrículas de Aurelio e Raissa no README antes da primeira entrega e manter os mesmos cinco integrantes na segunda. Todos devem contribuir com commits próprios e compreender a aplicação entregue.
+As matrículas dos cinco integrantes estão identificadas na tabela. Todos devem contribuir com commits próprios, compreender a aplicação entregue e participar das revisões conforme a organização da equipe.
 
 Entrega 1: 20/11/2026 às 23h59 de Brasília. Entrega 2: 11/12/2026 às 23h59 de Brasília. Datas intermediárias são metas sugeridas, não prazos adicionais do professor. As metas de até 25/10 já passaram na atualização de 27/10/2026; conferir as pendências das etapas 1 a 3 e resolvê-las junto ao início das etapas 4 e 5, sem presumir que foram concluídas.
 
@@ -34,7 +34,7 @@ Concluído quando todos conhecerem FR-01 a FR-07 e os dados oficiais estiverem d
 
 **Responsáveis:** equipe completa, conforme a divisão de frentes abaixo.
 
-Até 25/10. Usar o repositório público PedroBrassi/reading-tracker. Pedro já informou que o clonou; os demais integrantes precisam preparar suas cópias e combinar o fluxo de colaboração. Colocar README.md na raiz e este roteiro em docs/ROTEIRO_DESENVOLVIMENTO.md. Preencher matrículas, definir responsáveis e revisores por tarefa e combinar commits frequentes. Não guardar credenciais no repositório.
+Até 25/10. O planejamento inicial previa usar o repositório PedroBrassi/reading-tracker. O repositório adotado pela equipe é https://github.com/anafreiria/ReadingTracker. A equipe deve manter suas cópias atualizadas e combinar o fluxo de colaboração. Colocar README.md na raiz e este roteiro em docs/ROTEIRO_DESENVOLVIMENTO.md. Definir responsáveis e revisores por tarefa e combinar commits frequentes. Não guardar credenciais no repositório.
 
 Sugestão: cada tarefa em uma branch curta, revisada por outro integrante antes de integrar. Todos devem contribuir com código e entender a aplicação inteira. O Trello já contém as tarefas e seus checklists.
 
@@ -48,7 +48,7 @@ Para a segunda entrega, estudar Java, HTTP/REST, Spring Boot, JPA, relacionament
 
 ### Etapa 4 Definir telas e estrutura do frontend
 
-**Responsáveis:** Aurelio, Ana e Otávio (frontend).
+**Responsáveis:** Ana e Otávio (frontend).
 
 De 26/10 a 01/11. Criar uma pasta frontend com index.html, authors.html, books.html e readings.html; css/styles.css; js/store.js, validation.js, ui.js, authors.js, books.js e readings.js; data/seed.json e assets/images.
 
@@ -58,7 +58,7 @@ Desenhar navegação, formulários, confirmações, mensagens de erro e estados 
 
 ### Etapa 5 Implementar os dados e o armazenamento
 
-**Responsáveis:** Aurelio, Ana e Otávio (frontend).
+**Responsáveis:** Ana e Otávio (frontend).
 
 De 26/10 a 01/11. Usar cinco coleções: countries, authors, themes, books e readings. Separar a obra de cada ocasião de leitura. Respeitar o formato do seed, com referências por IDs, null para campos ausentes e arrays vazios para relações sem valores.
 
@@ -68,7 +68,7 @@ Validar recarregando a página após uma alteração. O dado alterado deve perma
 
 ### Etapa 6 Implementar autores
 
-**Responsáveis:** Aurelio, Ana e Otávio (frontend).
+**Responsáveis:** Ana e Otávio (frontend).
 
 De 02 a 08/11. Implementar criar, consultar, editar e excluir autores. Aplicar nome obrigatório e único sem diferenciar maiúsculas de minúsculas, nacionalidade opcional da lista fixa e validações de datas. Bloquear exclusão de autor vinculado a livros e mostrar os títulos relacionados.
 
@@ -76,7 +76,7 @@ Testar cadastro válido, duplicação por diferença de caixa, datas inválidas,
 
 ### Etapa 7 Implementar livros e temas
 
-**Responsáveis:** Aurelio, Ana e Otávio (frontend).
+**Responsáveis:** Ana e Otávio (frontend).
 
 De 02 a 08/11. Implementar CRUD de livros, seleção de zero ou mais autores e temas e criação de tema no formulário. Permitir livro apenas com título. Usar as listas controladas do enunciado e validar o ano de publicação, incluindo anos negativos e rejeição do ano zero.
 
@@ -84,7 +84,7 @@ Testar livro incompleto válido, tema duplicado, publicação futura, ano negati
 
 ### Etapa 8 Implementar leituras e mudanças de status
 
-**Responsáveis:** Aurelio, Ana e Otávio (frontend).
+**Responsáveis:** Ana e Otávio (frontend).
 
 De 02 a 08/11. Implementar leituras vinculadas a livros, com criação, edição e exclusão. No formulário do livro, permitir cadastrar a primeira leitura opcional no mesmo Save. Para releitura, criar um novo registro. Ao excluir um livro, informar e confirmar quantas leituras serão removidas.
 
@@ -94,11 +94,13 @@ Testar o fluxo completo autor, livro e leitura; wishlist; releitura; exclusão e
 
 ### Etapa 9 Completar histórico e qualidade da interface
 
-**Responsáveis:** Aurelio, Ana e Otávio (frontend).
+**Responsáveis:** Ana e Otávio (frontend).
 
 De 09 a 15/11. Mostrar título, autores, status, ano e nota em histórico ordenável por cada coluna. Ausências aparecem como hífen e ficam depois dos valores preenchidos em qualquer ordenação. Ordem inicial por ano decrescente e, no empate, ID crescente.
 
 Concluir validações e mensagens junto aos campos. Conferir HTML semântico, navegação, notebook e celular. Testar dados incompletos sem null, undefined ou NaN visíveis. Priorizar os sete requisitos obrigatórios antes de melhorias opcionais.
+
+**Registro de conclusão:** histórico implementado conforme os critérios de FR-05. A função `sortReadings` aplica a ordenação inicial por ano decrescente, mantém ausências após valores preenchidos e usa ID crescente como desempate. Os testes em `tests/foundation.test.mjs` verificam a ordenação inicial, os empates e os valores ausentes em ambas as direções.
 
 ### Etapa 10 Validar e enviar a primeira entrega
 
@@ -110,7 +112,7 @@ Até 20/11 às 23h59. Publicar o commit final e a tag delivery-1, verificar que 
 
 ### Etapa 11 Preparar backend e banco persistente
 
-**Responsáveis:** Pedro e Raissa (backend).
+**Responsáveis:** Aurelio, Pedro e Raissa (backend).
 
 De 21 a 27/11. Criar projeto Java 21 ou superior com Spring Boot 4.x e Maven Wrapper. Escolha recomendada: Spring Web, Spring Data JPA, Validation e H2 em arquivo. Criar pacotes controller, service, repository, model e config. Manter regras nos services, não nos controllers.
 
@@ -120,7 +122,7 @@ Deixar o banco gerar IDs e mapear IDs do seed para entidades salvas, importando 
 
 ### Etapa 12 Implementar a API e as validações do servidor
 
-**Responsáveis:** Pedro e Raissa (backend).
+**Responsáveis:** Aurelio, Pedro e Raissa (backend).
 
 De 21/11 a 04/12. Implementar os endpoints mínimos listados na referência técnica deste roteiro, com formatos JSON compatíveis com o seed. Revalidar todas as regras no servidor, incluindo vínculos e exclusões. Usar corretamente 200, 201, 204, 400, 404 e 409.
 
@@ -146,21 +148,21 @@ Até 11/12 às 23h59. Publicar commit e tag delivery-2; enviar e-mail com GitHub
 
 ## Organização da equipe de cinco integrantes
 
-### Frontend — Aurelio, Ana e Otávio
+### Frontend — Ana e Otávio
 
-Aurelio Junior, Ana Flavia Freiria e Otávio de Oliveira são responsáveis pelas telas, HTML/CSS/JavaScript, navegação, validações no navegador, autores, livros, temas, leituras, histórico, carga do seed e armazenamento em localStorage da entrega 1. Também cuidam da adaptação de store.js para a API e da apresentação dos erros do servidor na entrega 2.
+Ana Flavia Freiria e Otávio de Oliveira são responsáveis pelas telas, HTML/CSS/JavaScript, navegação, validações no navegador, autores, livros, temas, leituras, histórico, carga do seed e armazenamento em localStorage da entrega 1. Também cuidam da adaptação de store.js para a API e da apresentação dos erros do servidor na entrega 2.
 
-Distribuir as tarefas das etapas 4 a 9 entre os três no Trello, incluindo responsáveis e revisores. Arquivos compartilhados, como styles.css, store.js, validation.js e ui.js, precisam de coordenação para evitar alterações conflitantes. A divisão de funcionalidades entre os três permanece a combinar.
+Distribuir as tarefas das etapas 4 a 9 entre os dois no Trello, incluindo responsáveis e revisores. Arquivos compartilhados, como styles.css, store.js, validation.js e ui.js, precisam de coordenação para evitar alterações conflitantes. A divisão de funcionalidades entre os dois permanece a combinar.
 
-### Backend — Pedro e Raissa
+### Backend — Aurelio, Pedro e Raissa
 
-Pedro Luccas e Raissa Peret são responsáveis pelo projeto Spring Boot, entidades e relacionamentos, banco persistente, importação e restauração do seed, repositories, services, controllers, endpoints, validações e respostas de erro. Dividir as tarefas das etapas 11 e 12 entre os dois no Trello, com revisão cruzada; a divisão interna permanece a combinar.
+Aurelio Junior, Pedro Luccas e Raissa Peret são responsáveis pelo projeto Spring Boot, entidades e relacionamentos, banco persistente, importação e restauração do seed, repositories, services, controllers, endpoints, validações e respostas de erro. Dividir as tarefas das etapas 11 e 12 entre os três no Trello, com revisão cruzada; a divisão interna permanece a combinar.
 
-Durante a preparação da entrega 1, Pedro e Raissa estudam Java/Spring Boot, revisam com o trio de frontend os formatos de dados e as funções de store.js e ajudam na revisão dos requisitos, nos testes e na documentação. Podem preparar o backend em branch própria, preservando o funcionamento da versão da entrega 1. Não precisam esperar novembro para começar os estudos e o planejamento.
+Durante a preparação da entrega 1, Aurelio, Pedro e Raissa estudam Java/Spring Boot, revisam com a dupla de frontend os formatos de dados e as funções de store.js e ajudam na revisão dos requisitos, nos testes e na documentação. Podem preparar o backend em branch própria, preservando o funcionamento da versão da entrega 1. Não precisam esperar novembro para começar os estudos e o planejamento.
 
 ### Integração, revisão e entregas — equipe completa
 
-Na etapa 13, Aurelio, Ana e Otávio adaptam as chamadas e a interface; Pedro e Raissa garantem os endpoints, as regras do servidor e a persistência. As duas frentes combinam previamente campos, tipos, valores ausentes, IDs, códigos HTTP e estrutura de erros. Validar juntos o fluxo autor → livro → leitura e os casos de exclusão, restauração e falha de validação.
+Na etapa 13, Ana e Otávio adaptam as chamadas e a interface; Aurelio, Pedro e Raissa garantem os endpoints, as regras do servidor e a persistência. As duas frentes combinam previamente campos, tipos, valores ausentes, IDs, códigos HTTP e estrutura de erros. Validar juntos o fluxo autor → livro → leitura e os casos de exclusão, restauração e falha de validação.
 
 README, checklist, declaração de IA, revisão dos requisitos, testes de aceitação, autoavaliação e vídeo são responsabilidades compartilhadas. A responsabilidade principal por uma camada não dispensa nenhum integrante de compreender o código apresentado. Cada pessoa deve registrar suas próprias contribuições em commits descritivos; não criar commits vazios apenas para contabilizar participação.
 

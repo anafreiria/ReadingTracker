@@ -2,7 +2,7 @@
 
 ## Começar
 
-1. Após o merge do PR da base, atualizar main e criar uma branch por tarefa. Nunca trabalhar ou publicar diretamente em main.
+1. Atualizar a main com as alterações integradas e criar uma branch própria para cada nova tarefa. Nunca trabalhar ou publicar diretamente em main.
 2. Ler também os [contratos implementados de dados e validação](CONTRATOS_DADOS.md). Abrir `frontend/index.html` pelo Live Server. Alternativa: `python3 -m http.server 8087 --directory frontend`, acessando http://localhost:8087.
 3. Ler o [PRD](specs/E1-planejamento-base-prd.md) e a seção 4 do enunciado em `materiais/`.
 4. Authors, Books e Reading History oferecem cadastro, consulta, edição e exclusão. Books inclui temas, detalhes e primeira leitura opcional; o histórico da obra permite registrar releituras e manter suas leituras individuais.
@@ -10,7 +10,7 @@
 ```bash
 git switch main
 git pull --ff-only origin main
-git switch -c feat/readings-crud
+git switch -c feat/nome-da-tarefa
 ```
 
 ## Onde trabalhar
@@ -19,7 +19,7 @@ git switch -c feat/readings-crud
 |---|---|
 | frontend/js/pages/authors.js | Listagem de autores e callbacks de edição/exclusão |
 | frontend/js/pages/books.js | Livros, detalhes e histórico da obra |
-| frontend/js/pages/readings.js | Histórico e ordenação; futuro fluxo de leituras |
+| frontend/js/pages/readings.js | Histórico global, ordenação e apresentação das leituras |
 | frontend/js/forms/reading-form.js | Cadastro, edição, confirmação de limpeza e exclusão individual de leituras |
 | frontend/js/forms/book-form.js | Cadastro/edição de livro, temas, primeira leitura e exclusão em cascata |
 | frontend/js/forms/form-action.js | Ciclo compartilhado de envio, bloqueio e apresentação de erros |
@@ -33,21 +33,28 @@ git switch -c feat/readings-crud
 
 Uma tela chama funções async do store com await. Não acessar localStorage ou fetch de dados em páginas. Não salvar dados inválidos. Não inserir dados de registros com innerHTML. Usar addEventListener; sem onclick/style inline. Os métodos de escrita já estão implementados e testados; o contrato atual está em CONTRATOS_DADOS.md. O PRD inicial registra a fase anterior, na qual só havia leitura. Autores, livros e leituras já têm formulário funcional; o CRUD próprio de leituras também está conectado. FR-04 foi auditado nas 25 combinações entre status. A auditoria de FR-06 e a verificação em viewport móvel emulada estão registradas no PRD de validação; testes em aparelho físico não foram realizados.
 
-## Próximas tarefas sugeridas
+## Estado das funcionalidades
 
-- FR-01 — autores integrado à main no PR #3, conforme confirmação de Ana.
-- FR-02 — livros/temas integrado à main no PR #4.
-- FR-03 — leituras/releituras integrado à main no PR #6, com matriz dos quatro critérios no PRD.
-- FR-04 — cinco critérios e 25 combinações de status auditados nesta branch; aguarda revisão do PR.
-- FR-06: auditoria e correção do aviso de remoção de prioridade no PR #9; aguarda revisão e integração. Evidências em 1280px/390px no PRD de validação.
-- Equipe: conectar erros/validações aos formulários, confirmar exclusões e transições, revisar ordenação, responsividade e testes de aceitação. FR-07 já está implementado, incluindo reset; preservá-lo nas integrações.
+As funcionalidades obrigatórias FR-01 a FR-07 estão implementadas na versão integrada à main:
 
-Ana informou a atribuição de FR-01 a ela no Trello. Combinar responsáveis pelos demais cartões; a divisão acima é sugestão, não atribuição automática. Os cartões de dados/validação são compartilhados: combinar quem altera quais exports antes de editar. Não abrir três implementações independentes de persistência. Separar formulários por área quando necessário, preservando componentes comuns e os contratos documentados.
+- FR-01 — cadastro, consulta, edição e exclusão de autores; PR #3.
+- FR-02 — cadastro e gerenciamento de livros e temas; PR #4.
+- FR-03 — cadastro, consulta, edição, exclusão e releituras; PR #6.
+- FR-04 — regras de transição entre status, com auditoria das 25 combinações; PR #7.
+- FR-05 — histórico ordenável, com tratamento de valores ausentes e desempate por ID.
+- FR-06 — validações de domínio e apresentação de erros nos formulários; PR #9.
+- FR-07 — restauração dos dados oficiais mediante confirmação.
+
+As melhorias de interface e a revisão de qualidade também foram integradas. A revisão FR-QA-01 entrou na main pelo PR #14. Consulte o README e os PRDs para os critérios, evidências e limitações de cada verificação.
+
+## Colaboração
+
+Antes de iniciar uma nova tarefa, confira o Trello para identificar o responsável e um revisor diferente. Atualize a branch a partir da main, preserve os contratos compartilhados e evite implementações paralelas de persistência. Separe formulários por área quando necessário, reutilizando os componentes comuns. Toda alteração deve ter testes e evidências compatíveis com seu escopo.
 
 ## Verificar e pedir revisão
 
 - Exercitar o fluxo alterado no navegador, em celular e desktop; recarregar para verificar persistência.
-- Rodar `node tests/foundation.test.mjs` e `node tests/data.test.mjs` se Node 24+ estiver disponível; nenhum pacote é necessário.
+- Rodar `node scripts/check-frontend.mjs` com Node 24+ e Chrome instalados. Esse é o comando principal para executar a verificação automatizada completa. Os testes históricos `node tests/foundation.test.mjs` e `node tests/data.test.mjs` também podem ser executados separadamente.
 - Atualizar o checklist real do README e a declaração de IA.
 - Enviar a branch e abrir PR com comportamento alterado e evidência de verificação. Outro integrante revisa antes do merge.
 

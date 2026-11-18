@@ -1,0 +1,79 @@
+PASS authors: measured text/focus contrast at 390px
+PASS authors: action targets at least 44x44 at 390px
+PASS authors: fields labelled and buttons named at 390px
+PASS authors: form text and control borders meet contrast at 390px
+PASS authors: form action and checkbox label targets at 390px
+PASS authors: Shift+Tab wraps inside modal
+PASS authors: Tab wraps to visible Close focus
+PASS authors: Close focus ring stays inside scroll clips at 390px
+PASS authors: Escape restores opener at 390px
+PASS books: measured text/focus contrast at 390px
+PASS books: action targets at least 44x44 at 390px
+PASS books: fields labelled and buttons named at 390px
+PASS books: form text and control borders meet contrast at 390px
+PASS books: form action and checkbox label targets at 390px
+PASS books: Shift+Tab wraps inside modal
+PASS books: Tab wraps to visible Close focus
+PASS books: Close focus ring stays inside scroll clips at 390px
+PASS books: Escape restores opener at 390px
+PASS readings: measured text/focus contrast at 390px
+PASS readings: action targets at least 44x44 at 390px
+PASS readings: fields labelled and buttons named at 390px
+PASS readings: form text and control borders meet contrast at 390px
+PASS readings: form action and checkbox label targets at 390px
+PASS readings: Shift+Tab wraps inside modal
+PASS readings: Tab wraps to visible Close focus
+PASS readings: Close focus ring stays inside scroll clips at 390px
+PASS readings: Escape restores opener at 390px
+PASS authors: measured text/focus contrast at 1280px
+PASS authors: action targets at least 44x44 at 1280px
+PASS authors: fields labelled and buttons named at 1280px
+PASS authors: form text and control borders meet contrast at 1280px
+PASS authors: form action and checkbox label targets at 1280px
+PASS authors: Shift+Tab wraps inside modal
+PASS authors: Tab wraps to visible Close focus
+PASS authors: Close focus ring stays inside scroll clips at 1280px
+PASS authors: Escape restores opener at 1280px
+PASS books: measured text/focus contrast at 1280px
+PASS books: action targets at least 44x44 at 1280px
+PASS books: fields labelled and buttons named at 1280px
+PASS books: form text and control borders meet contrast at 1280px
+PASS books: form action and checkbox label targets at 1280px
+PASS books: Shift+Tab wraps inside modal
+PASS books: Tab wraps to visible Close focus
+PASS books: Close focus ring stays inside scroll clips at 1280px
+PASS books: Escape restores opener at 1280px
+PASS readings: measured text/focus contrast at 1280px
+PASS readings: action targets at least 44x44 at 1280px
+PASS readings: fields labelled and buttons named at 1280px
+PASS readings: form text and control borders meet contrast at 1280px
+PASS readings: form action and checkbox label targets at 1280px
+PASS readings: Shift+Tab wraps inside modal
+PASS readings: Tab wraps to visible Close focus
+PASS readings: Close focus ring stays inside scroll clips at 1280px
+PASS readings: Escape restores opener at 1280px
+PASS Tab from main reaches Add author
+PASS invalid keyboard submit names and associates error; focuses field
+PASS keyboard correction persists before success feedback
+PASS Cancel reset returns focus and preserves saved data
+PASS group error names Authors, associates checkboxes and moves focus
+PASS quota failure preserves draft, permits retry and announces no false success
+PASS retry shows pending feedback, prevents duplicate save and persists once
+PASS long theme wraps, stays selected and preserves book draft
+PASS feedback kinds have distinct text, live roles and measured contrast
+PASS storage read failure offers retry and leaves existing bytes unchanged
+PASS read retry recovers without replacing saved data
+PASS authors: empty view explains Add action
+PASS books: empty view explains Add action
+PASS readings: empty view explains Add action
+PASS loading state announces work and disables actions
+PASS failed seed offers retry without writing an empty library
+PASS seed retry restores official library
+PASS Chrome browser zoom is actually 200% (DPR and CSS viewport checked)
+PASS books: controls available at browser zoom 200%
+PASS books: long form Save reachable at browser zoom 200%
+PASS authors: controls available at browser zoom 200%
+PASS authors: long form Save reachable at browser zoom 200%
+PASS readings: controls available at browser zoom 200%
+PASS readings: long form Save reachable at browser zoom 200%
+PASS 85 accessibility checks; no uncaught application exceptions

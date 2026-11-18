@@ -1,0 +1,35 @@
+✔ all official records satisfy domain rules (8.838587ms)
+✔ author dates must be real, nonfuture at birth and strictly ordered (1.368107ms)
+✔ author names and theme names are trimmed and unique without case sensitivity (1.626627ms)
+✔ book can contain only a title; IDs and years remain numeric (1.163671ms)
+✔ foreign IDs, duplicate selections and uncontrolled values are rejected (1.027123ms)
+✔ reading status, dates, grade and priority enforce allowed combinations (1.175303ms)
+✔ transition planning is pure, handles zero grade and preserves notes (0.742965ms)
+✔ author CRUD uses highest ID, supports partial edits and survives module reload (27.958148ms)
+✔ linked author conflict names books and makes no write (4.716951ms)
+✔ book, theme and reading writes preserve optional values and independent copies (30.422409ms)
+✔ failed combined creation leaves no book, reading or consumed ID (9.241168ms)
+✔ combined creation accepts no first reading and binds reading to the newly created book (7.343699ms)
+✔ book deletion atomically removes all readings of that work (22.783762ms)
+✔ editing book year cannot invalidate an existing reading (8.647876ms)
+✔ status-only edit preserves recommendation/notes and clears wishlist priority (7.701396ms)
+✔ incompatible transition requires explicit confirmation even if caller pre-clears fields (10.412473ms)
+✔ moving to Read still requires a year and re-reading creates a new record (16.668336ms)
+✔ invalid IDs, missing records and duplicate names never write (26.252722ms)
+✔ quota failure leaves persisted data and subsequent reads unchanged (10.324147ms)
+✔ concurrent operations in one tab do not lose records or reuse IDs (20.802595ms)
+✔ every operation rereads external changes instead of overwriting an old snapshot (10.468931ms)
+✔ reset restores exactly the official seed without removing unrelated keys (11.333536ms)
+✔ failed fetch, malformed seed and quota errors during reset preserve all prior data (13.582219ms)
+✔ explicit reset can recover malformed existing storage (11.029701ms)
+✔ native writer lock rejects a second editing tab without changing its data (13.008484ms)
+✔ validation errors serialize in the future API format (5.031055ms)
+✔ safe integer ID exhaustion fails without writing (6.665096ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 301.124289
