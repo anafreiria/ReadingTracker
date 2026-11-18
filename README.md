@@ -1,10 +1,75 @@
 # Reading Tracker
 
-Aplicação web para gerenciar autores, livros e leituras, desenvolvida para o Trabalho #2 da disciplina **Programação Web (DCE701), UNIFAL-MG, 2026/2**.
+Aplicação web para gerenciar autores, livros e histórico de leituras. Trabalho #2 de **Programação Web — DCE701, UNIFAL-MG, 2026/2**.
 
-O projeto será construído em duas etapas: frontend em HTML, CSS e JavaScript puros com armazenamento no navegador; depois, integração com uma API REST em Java e Spring Boot e persistência em banco de dados.
+**Entrega 1:** frontend implementado em HTML, CSS e JavaScript puros, com persistência no navegador. **Entrega 2:** API REST com Java/Spring Boot e banco de dados, ainda em desenvolvimento e fora desta versão.
 
-> **Estado atual:** frontend da entrega 1 implementado, com dados oficiais, CRUD visual de autores, livros e leituras, criação de temas e Reset data. É possível registrar releituras sem alterar o histórico anterior, cadastrar livro com primeira leitura em um Save e excluir obra/leituras com confirmação. A edição de leitura protege a remoção de ano/nota em mudanças de status. O fluxo de status foi auditado nas 25 combinações de origem/destino, com confirmação antes de remover ano/nota. A FR-06 foi auditada com testes automatizados e inspeção visual de capturas. A revisão de QA FR-QA-01 foi integrada à main pelo PR #14, com 485 verificações automatizadas aprovadas e 13 módulos JavaScript com sintaxe válida. Permanecem limitações de aceite manual: o registro dos cenários por navegador e o detalhamento do teste com usuário externo precisam ser complementados. Os formulários foram verificados em desktop (1280px) e viewport móvel emulada (390px); testes em aparelho físico não foram realizados. Não houve validação com leitor de tela, Safari/iOS ou Firefox. Backend ainda não implementado.
+[Executar o projeto](#como-executar-a-entrega-1) · [Requisitos](#requisitos-obrigatórios) · [Testes e aceite](#testes-e-aceite) · [Processo SDD e uso de IA](#processo-sdd-e-uso-de-inteligência-artificial)
+
+## Como executar a entrega 1
+
+É necessário um navegador atualizado com armazenamento local permitido e **uma** das opções de servidor abaixo. A aplicação não exige Node.js, npm, build, Java ou backend nesta etapa.
+
+### 1. Obter o código
+
+Com Git:
+
+```bash
+git clone --branch main https://github.com/anafreiria/ReadingTracker.git
+cd ReadingTracker
+```
+
+Sem Git: no GitHub, selecione **main → Code → Download ZIP**, extraia o arquivo e abra a pasta extraída.
+
+### 2. Iniciar um servidor HTTP
+
+**Opção A — VS Code com Live Server**
+
+1. Instale a extensão **Live Server**, de Ritwick Dey.
+2. Abra a pasta do projeto no VS Code.
+3. Clique com o botão direito em `frontend/index.html` e selecione **Open with Live Server**.
+4. Use a página HTTP aberta pela extensão e mantenha o VS Code/Live Server em execução.
+
+**Opção B — Python 3**
+
+Na raiz do projeto:
+
+```bash
+python3 -m http.server 8087 --directory frontend
+```
+
+No Windows, com Python 3 instalado, você também pode usar:
+
+```powershell
+py -3 -m http.server 8087 --directory frontend
+```
+
+Abra **http://localhost:8087**. Mantenha o terminal aberto; `Ctrl+C` encerra o servidor. Se a porta estiver ocupada, troque `8087` por outra porta livre no comando e na URL.
+
+### 3. Conferir o funcionamento
+
+- Navegue entre **Reading History**, **Books** e **Authors**. A base inicial contém 143 leituras, 143 livros e 101 autores.
+- Crie um registro e atualize a página: a alteração deve permanecer salva.
+- **Reset data**, no rodapé, pede confirmação e restaura a base oficial, removendo as alterações da aplicação naquele endereço.
+
+O seed é carregado no primeiro uso e as visitas seguintes usam os dados do `localStorage`. Use sempre o mesmo endereço, porta e perfil do navegador: `localhost`, `127.0.0.1` e portas diferentes têm armazenamentos independentes. Uma janela anônima não conserva os dados após encerrar a sessão.
+
+**Se a página não carregar:** confira se o servidor continua ativo e se a URL está correta. Não abra o HTML por duplo clique ou `file://`, pois os módulos e o seed precisam de HTTP. Em erro de carregamento dos dados, confira o servidor e use **Retry**.
+
+## Funcionalidades
+
+| Área | O que permite fazer |
+|---|---|
+| Authors | Cadastrar, consultar, editar e excluir autores; bloquear exclusão de autor vinculado a livros |
+| Books | Gerenciar livros, selecionar autores/temas, criar temas e consultar detalhes e histórico |
+| Readings | Cadastrar e editar leituras, registrar releituras independentes e excluir registros |
+| Status | Aplicar as regras de ano, nota e prioridade, com confirmação antes da remoção de ano/nota em transições incompatíveis |
+| Reading History | Ordenar por título, autores, status, ano e nota; manter valores ausentes ao final |
+| Persistência | Salvar alterações no navegador e restaurar os dados oficiais mediante confirmação |
+
+O livro pode ser salvo apenas com título ou junto com sua primeira leitura em um único **Save**. **Create theme** salva o tema imediatamente, mesmo se o cadastro do livro for cancelado. Excluir um livro exige confirmação e informa quantas leituras serão removidas. Para registrar uma releitura, use **Add reading**: a leitura anterior é preservada.
+
+A interface e os valores controlados estão em inglês dos Estados Unidos. Títulos e nomes de autores permanecem no idioma original.
 
 ## Equipe
 
@@ -28,182 +93,9 @@ A composição da equipe deve ser mantida entre as duas entregas. Cada integrant
 
 Integração, testes de aceitação, documentação, declaração de uso de IA, revisão e preparação das entregas são responsabilidades compartilhadas. Durante a primeira etapa, Aurelio, Pedro e Raissa também preparam o backend e apoiam a revisão e os testes do frontend. A divisão interna das tarefas de cada frente será registrada no Trello.
 
-## Repositório e planejamento
-
-- [Repositório público](https://github.com/anafreiria/ReadingTracker)
-- [Quadro de tarefas no Trello](https://trello.com/b/BSpxAKlv)
-- [Roteiro de desenvolvimento](docs/ROTEIRO_DESENVOLVIMENTO.md)
-- [PRD da base E1](docs/specs/E1-planejamento-base-prd.md)
-- [Guia para os colegas do frontend](docs/GUIA_FRONTEND.md)
-- [Contratos implementados de dados e validação](docs/CONTRATOS_DADOS.md)
-- [PRD de dados, validação e reset](docs/specs/E1-dados-validacao-reset-prd.md)
-- [PRD do CRUD visual de autores](docs/specs/E1-autores-crud-prd.md)
-- [PRD de livros e temas](docs/specs/E1-livros-crud-prd.md)
-- [PRD de leituras e matriz dos critérios de FR-03](docs/specs/E1-leituras-crud-prd.md)
-- [PRD do fluxo de status e matriz dos critérios de FR-04](docs/specs/E1-fluxo-status-prd.md)
-- [PRD da verificação contínua do frontend](docs/specs/E1-ci-frontend-prd.md)
-- [Matriz e pendências do aceite FR-QA-01](docs/specs/E1-testes-aceitação-e-regressão-final-do-frontend.md)
-- [Evidências da revisão de QA e correção do reset](docs/reports/FR-QA-01-revisao.md)
-- [PRD de validação e organização do código](docs/specs/E1-validação_e_organização_do_código.md)
-- [PRD de usabilidade mobile FR-UI-01](docs/specs/FR-UI-01-usabilidade-mobile-prd.md)
-- [PRD de acabamento e acessibilidade FR-UI-02](docs/specs/FR-UI-02-acabamento-acessibilidade-prd.md)
-- [Relatório de verificação FR-UI-02](docs/reports/FR-UI-02-verificacao.md)
-- [Medições de contraste FR-UI-02](docs/reports/FR-UI-02-contrast.json)
-- [Enunciados no Moodle](https://campusvirtual.unifal-mg.edu.br/moodle/course/section.php?id=30335)
-
-## Fluxo de colaboração e commits
-
-1. Antes de começar uma tarefa, atualizar a cópia local de main e criar uma branch a partir dela.
-2. Criar uma branch por tarefa, com nome descritivo, como feat/authors-page, feat/books-page, feat/readings-page, feat/backend-setup ou feat/authors-api. Não manter uma branch permanente por integrante.
-3. Cada integrante faz seus próprios commits, com seu nome e e-mail configurados no Git. Cada commit deve representar uma mudança coerente; arquivos relacionados podem ficar juntos, sem exigir um commit por arquivo.
-4. Enviar a branch ao GitHub e abrir um pull request para main, descrevendo a mudança e como foi verificada.
-5. Outro integrante revisa o pull request antes da integração. Resolver os comentários e confirmar que a aplicação continua funcionando antes de fazer o merge.
-6. Integrar as tarefas em main exclusivamente por pull request revisado. Nunca fazer commits ou push direto em main. Depois do merge, atualizar main local antes de iniciar outra tarefa.
-
-Coordenar alterações em arquivos compartilhados, especialmente store.js, validation.js, ui.js e styles.css, e registrar responsáveis e revisores no Trello. A autoria dos commits deve refletir quem realizou cada contribuição.
-
-A atualização dos integrantes, das responsabilidades e deste fluxo no README e no roteiro de desenvolvimento pertence ao mesmo commit de documentação, por exemplo: docs: atualiza equipe e fluxo de colaboração. Alterações de funcionalidades devem ficar em commits separados dessa atualização.
-
-## Entregas
-
-| Etapa | Prazo no horário de Brasília | Escopo | Valor |
-|---|---|---|---|
-| Entrega 1 | **20/11/2026 às 23h59** | Frontend completo, FR-01 a FR-07 e localStorage | 5,0 |
-| Entrega 2 | **11/12/2026 às 23h59** | API REST, persistência e frontend integrado | 5,0 |
-
-## Tecnologias
-
-| Camada | Tecnologia prevista |
-|---|---|
-| Frontend | HTML, CSS e JavaScript puros; módulos ES; Fetch API e JSON |
-| Dados da entrega 1 | localStorage com importação inicial de seed.json |
-| Backend da entrega 2 | Java 21 ou superior e Spring Boot 4.x |
-| Build do backend | Maven com wrapper (escolha proposta para o projeto) |
-| Persistência | Spring Data JPA e H2 em arquivo (caminho recomendado pelo enunciado) |
-
-A interface e os valores controlados serão em **inglês dos Estados Unidos**. Os nomes de autores e títulos de livros permanecem no idioma original.
-
-Não usar React, Vue, Angular, Svelte, jQuery, Bootstrap, Tailwind, TypeScript, Vite, Webpack ou pacotes npm/build tools para construir o frontend. Não usar Thymeleaf/JSP para renderização no servidor. Bibliotecas adicionais dependem das permissões do enunciado ou de aprovação registrada do professor.
-
-## Estrutura da base do frontend
-
-```text
-frontend/
-├── index.html
-├── css/styles.css
-├── data/seed.json
-└── js/
-    ├── app.js
-    ├── constants.js
-    ├── strings.js
-    ├── forms/author-form.js
-    ├── forms/book-form.js
-    ├── forms/reading-form.js
-    ├── forms/form-action.js
-    ├── store.js
-    ├── validation.js
-    ├── ui.js
-    └── pages/
-        ├── authors.js
-        ├── books.js
-        └── readings.js
-```
-
-Navegação por hash em uma página, usando módulos ES. `store.js` concentra dados em funções async e retorna cópias independentes; páginas não acessam localStorage diretamente. `validation.js` verifica a estrutura e as regras de domínio da seção 4. O store oferece leitura e escrita com erros padronizados; veja os contratos em docs/CONTRATOS_DADOS.md. Os formulários de autores, livros e leituras estão conectados aos mesmos contratos; livros também permitem primeira leitura opcional. A implementação antiga de prévias foi removida.
-
-## Como executar a entrega 1
-
-1. Clonar `https://github.com/anafreiria/ReadingTracker.git` e abrir a pasta no VS Code.
-2. Abrir `frontend/index.html` com **Open with Live Server**.
-3. Acessar a URL HTTP indicada pela extensão. Não abrir por `file://`.
-
-Alternativa com Python 3, a partir da raiz:
-
-```bash
-python3 -m http.server 8087 --directory frontend
-```
-
-Abrir http://localhost:8087. Não há instalação npm, build ou backend para esta etapa. Usar navegador moderno com suporte a módulos ES e dialog.
-
-No primeiro acesso, o seed oficial é carregado e salvo na chave `reading-tracker:data:v1`. Nas próximas visitas, a base lê o que já está salvo. Um erro no armazenamento é apresentado sem substituir silenciosamente os dados. A ação **Reset data**, no rodapé, pede confirmação e restaura o seed somente depois de baixá-lo e validá-lo. Cancelar mantém os dados; falhas também preservam o estado anterior. Em Authors, Add author cadastra registros e as ações Edit/Delete permitem mantê-los. Nome é obrigatório; nacionalidade e datas são opcionais. Em Books, Add book permite título apenas ou dados completos, seleção de autores/temas e primeira leitura opcional. Create theme salva o tema imediatamente, mesmo se cancelar o livro. View details mostra dados completos e histórico; Delete informa a quantidade de leituras removidas. Em Reading History, Add reading registra uma nova leitura de um livro existente; View, Edit e Delete atuam sobre uma leitura específica. Para uma releitura, use Add reading: o registro anterior é preservado. Essas ações também aparecem no histórico e nos detalhes de cada obra. A exclusão individual mantém o livro e suas demais leituras. Ao editar para um status que não permite ano/nota, uma confirmação no formulário identifica os campos removidos; os valores permanecem até confirmar e salvar. A orientação junto ao formulário explica as regras do status escolhido; Year read é sinalizado como obrigatório apenas em Read.
-
-Materiais oficiais baixados do Moodle em 04/11/2026 estão em `materiais/`; `frontend/data/seed.json` é uma cópia idêntica. O guia atual é `Seed_Data_Guide.pdf`. O JSON tem 135 temas, embora o guia cite 132; mantivemos o arquivo oficial sem alterações.
-
-## Verificação da base
-
-Os testes históricos da base são executados com Node 24+:
-
-    node tests/foundation.test.mjs
-    node tests/data.test.mjs
-
-Essas duas suítes somam 37 testes (10 de fundação e 27 de dados). Esse número registra a verificação inicial da base; não representa o resultado da regressão final.
-
-A revisão final FR-QA-01, integrada à main pelo PR #14, executou:
-
-    node scripts/check-frontend.mjs
-
-**Resultado final: 485 verificações automatizadas aprovadas e 13 módulos JavaScript com sintaxe válida.** A distribuição das verificações foi:
-
-| Suíte | Verificações |
-|---|---:|
-| Dados | 27 |
-| Fundação | 10 |
-| Smoke | 15 |
-| Acessibilidade FR-UI-02 | 85 |
-| Autores | 37 |
-| Livros e temas | 62 |
-| Aceite mobile FR-UI-01 | 74 |
-| Leituras | 51 |
-| Fluxo de status | 124 |
-| **Total** | **485** |
-
-A regressão cobre dados, navegação, CRUD de autores/livros/leituras, temas, primeira leitura, releituras, exclusões, persistência, validações, confirmações, ordenação, recuperação de falhas, responsividade, teclado, foco, contraste e zoom de 200%. O fluxo de status inclui as 25 combinações de origem e destino.
-
-A suíte `tests/mobile-acceptance.browser.test.mjs` verifica os fluxos em viewports de 360px, 390px, 768px e 1280px, incluindo interação por toque emulada e teclado. A emulação do Chrome não substitui testes em aparelho físico.
-
-A suíte `tests/accessibility.browser.test.mjs` verifica nomes acessíveis, rótulos, mensagens de erro, contraste, foco, teclado, alvos de toque, feedback, recuperação de falhas e zoom de 200%. Os pares medidos estão no [relatório de contraste FR-UI-02](docs/reports/FR-UI-02-contrast.json), e os critérios e limites estão no [PRD de FR-UI-02](docs/specs/FR-UI-02-acabamento-acessibilidade-prd.md).
-
-A revisão foi executada em Linux, com Node 24.21.0 e Chrome 157.0.8103.78, usando perfil isolado. Os resultados e as limitações estão registrados em [FR-QA-01](docs/reports/FR-QA-01-revisao.md) e na [matriz de aceite](docs/specs/E1-testes-aceitação-e-regressão-final-do-frontend.md).
-
-**Limitações:** a emulação não substitui testes em aparelho físico. Não houve validação com leitor de tela, Safari/iOS ou Firefox. O registro dos cenários manuais por navegador e o detalhamento do teste com usuário externo ainda precisam ser complementados. Os testes automatizados não substituem o aceite humano.
-
-Veja os comandos adicionais e as instruções para usar um perfil isolado no [guia do frontend](docs/GUIA_FRONTEND.md).
-
-
-## Verificação automática no GitHub
-
-O workflow [Frontend](.github/workflows/frontend.yml) executa o check **Frontend checks** em cada PR para main e a cada push na main. Também pode ser iniciado pela aba Actions após a integração do workflow. Ele verifica a sintaxe JavaScript, inicia um servidor HTTP e um Chrome temporários, confirma a inicialização/navegação dos três módulos e executa todos os testes de dados e interface existentes. Novos testes em `tests/*.test.mjs` e `tests/*.browser.test.mjs` são descobertos automaticamente; as suítes de navegador rodam sequencialmente para respeitar a política de uma aba editora.
-
-O check fica vermelho se algum teste falhar ou exceder seu limite de tempo. A aba Actions mostra o resumo e o artefato `frontend-checks-...`, com logs e capturas, mantido por sete dias. Em falhas de navegador, a captura é feita antes de fechar a aba quando a conexão permite. Novos commits no mesmo PR cancelam a execução antiga e iniciam outra. A revisão humana continua fazendo parte do fluxo; uma regra de proteção da main pode exigir **Frontend checks** antes do merge.
-
-Para reproduzir a mesma verificação localmente, com Node 24+ e Chrome instalados:
-
-```bash
-node scripts/check-frontend.mjs
-```
-
-O comando inicia e encerra seus próprios serviços, com portas livres e perfil isolado. A pasta dos relatórios é mostrada no terminal; `FRONTEND_REPORT_DIR` permite escolher a pasta-base e `CHROME_BIN` indicar o executável. `node scripts/check-frontend.mjs --smoke-only` faz uma verificação rápida de sintaxe/inicialização; o GitHub sempre executa a verificação completa. O navegador de teste usa fontes locais de fallback para não depender da disponibilidade de Google Fonts. Nenhuma instalação npm, build ou alteração no modo normal de executar a aplicação é necessária. Veja os [detalhes e limites](docs/specs/E1-ci-frontend-prd.md).
-
-## Como executar a entrega 2
-
-**Planejado, ainda não verificado.** Após implementar o backend e versionar o Maven Wrapper:
-
-1. Ter Java 21 ou superior instalado e conferir `java -version`.
-2. Na raiz do repositório, executar:
-
-   ```powershell
-   .\mvnw.cmd spring-boot:run
-   ```
-
-3. Abrir `http://localhost:8080`.
-
-Registrar aqui, antes da entrega, a versão exata do Java utilizada. O banco H2 deve estar em arquivo, preservar dados após reinícios e ter sua pasta gerada ignorada pelo Git. Não será necessário instalar Maven separadamente quando o wrapper estiver completo.
-
 ## Requisitos obrigatórios
 
-A tabela apresenta o estado verificado de cada requisito, distinguindo a implementação do frontend na entrega 1 da implementação prevista para a entrega 2.
-
-A indicação de implementação refere-se às funcionalidades verificadas no frontend; não significa que todas as atividades de aceite manual e revisão documental estejam concluídas.
+O checklist registra a implementação das funcionalidades. Os limites da validação estão em [Testes e aceite](#testes-e-aceite).
 
 | ID | Requisito | Entrega 1 | Entrega 2 |
 |---|---|---|---|
@@ -215,58 +107,85 @@ A indicação de implementação refere-se às funcionalidades verificadas no fr
 | FR-06 | Validações da seção 4 e mensagens junto aos campos | Implementado | Não implementado |
 | FR-07 | Seed no primeiro uso, preservação de alterações e Reset data | Implementado | Não implementado |
 
-FR-01 tem CRUD visual completo, persistência, validação e bloqueio de exclusão vinculada. FR-02 tem CRUD visual completo e criação de temas. FR-03 tem CRUD visual de leituras, consulta completa, releituras independentes, cadastro combinado e exclusão em cascata confirmada com contagem. FR-04 tem os cinco critérios auditados nas 25 combinações entre status: ano obrigatório em Read e opcional em Abandoned, nota apenas em Read/Abandoned, prioridade apenas na wishlist, preservação de recomendação/notas e confirmação antes da limpeza. Cancelamento, consentimento invalidado, quota e conflito entre abas também foram verificados. FR-05 apresenta o histórico de leituras com título, autores, status, ano e nota. As cinco colunas permitem ordenação crescente e decrescente; valores ausentes ficam por último e a ordenação inicial usa ano decrescente, com ID crescente como desempate. FR-06 tem validações de domínio para autores, livros e leituras, mensagens de erro junto aos campos e bloqueio de persistência de dados inválidos. As regras de ano de leitura, nota, status e prioridade são verificadas, incluindo a preservação dos dados quando uma alteração incompatível é cancelada. A organização do código mantém validação, persistência e apresentação em módulos separados. Os testes automatizados cobrem entradas inválidas e os principais fluxos dos formulários. FR-07 está implementado e testado, incluindo restauração com confirmação.
+Os exercícios FR-08 a FR-18 são opcionais e não pontuados; nenhum é declarado como implementado.
 
-Os exercícios FR-08 a FR-18 são opcionais e não pontuados; nenhum está declarado como implementado neste momento.
+## Organização e tecnologias
 
-## API da entrega 2
+```text
+frontend/
+├── index.html          # Entrada e navegação
+├── css/styles.css      # Estilos e responsividade
+├── data/seed.json      # Dados oficiais
+└── js/
+    ├── app.js          # Inicialização
+    ├── store.js        # Acesso assíncrono e persistência
+    ├── validation.js   # Regras de domínio
+    ├── ui.js           # Componentes compartilhados
+    ├── constants.js
+    ├── strings.js      # Textos da interface
+    ├── forms/          # Formulários
+    └── pages/          # Autores, livros e histórico
+```
 
-**Contrato previsto, ainda não implementado.** Atualizar a tabela se os caminhos forem alterados.
+JavaScript usa módulos ES, Fetch API e JSON. As páginas acessam os dados pelas funções assíncronas de `store.js`; a validação e a apresentação ficam em módulos separados. Não há frameworks ou dependências de build no frontend. O [guia do frontend](docs/GUIA_FRONTEND.md) e os [contratos de dados](docs/CONTRATOS_DADOS.md) detalham a implementação.
 
-| Métodos | Caminho | Finalidade |
+Os materiais oficiais estão em `materiais/`. A cópia em `frontend/data/seed.json` é idêntica ao seed fornecido. O JSON contém 135 temas, embora o guia cite 132; o arquivo oficial foi preservado.
+
+Para edição, use uma única aba. Com Web Locks, uma segunda aba recebe conflito sem gravar; feche a aba editora e recarregue a outra para continuar. Sem Web Locks, a fila protege somente operações da mesma aba.
+
+## Testes e aceite
+
+A regressão documentada aprovou **485 verificações automatizadas e a sintaxe de 13 módulos JavaScript**. Cobre dados, CRUD, validações, persistência, restauração, 25 combinações de status, responsividade, teclado, foco, contraste e zoom de 200%.
+
+Para executar a automação, são necessários **Node.js 24+ e Chrome**:
+
+```bash
+node scripts/check-frontend.mjs
+```
+
+O comando inicia e encerra servidor e navegador temporários, com perfil isolado, e informa a pasta dos relatórios. Não exige instalação npm. `CHROME_BIN` permite indicar o executável do Chrome. Esses requisitos são exclusivos dos testes, não da execução da aplicação.
+
+O workflow [Frontend](.github/workflows/frontend.yml) executa **Frontend checks** em PRs para `main` e pushes na `main`. As evidências e os ambientes de execução estão nos [resultados de QA](docs/reports/FR-QA-01-revisao.md) e nos [logs de documentação](docs/reports/fr-doc-01/summary.md).
+
+**Aceite humano:** Ana aprovou a interface e relatou teste manual geral em 18/11/2026. O [registro do aceite](docs/reports/E1-aceite-humano-ana.md) documenta o relato e a versão utilizada.
+
+**Limites:** a automação usou Linux/Chrome e viewports de 360, 390, 768 e 1280 pixels, incluindo emulação. Não representa teste em aparelho físico, certificação WCAG ou validação com leitor de tela, Safari/iOS ou Firefox. Os detalhes dos cenários manuais por navegador e do teste com pessoa que não implementou permanecem pendentes na [matriz de aceite](docs/specs/E1-testes-aceitação-e-regressão-final-do-frontend.md).
+
+## Processo SDD e uso de inteligência artificial
+
+**Ana Flavia Freiria e Otávio de Oliveira adotaram SDD (Spec-Driven Development), com a especificação estruturada antes da implementação.** Conforme o processo adotado pela dupla:
+
+1. As issues e os cartões do backlog, junto com o enunciado e a documentação do trabalho, orientaram a elaboração de um **PRD** com escopo, regras, critérios de aceite e plano de validação.
+2. A implementação seguiu o PRD, a organização do projeto e as restrições de tecnologia do enunciado, com apoio de IA na geração e adaptação de código.
+3. As alterações foram verificadas com testes automatizados e validação humana, com resultados e limitações registrados na documentação.
+4. O trabalho foi enviado em branches por tarefa e apresentado em **pull requests**. Ana realizou o **code review antes da aprovação e integração na main**, conferindo os requisitos, o código e as evidências de validação e solicitando correções quando necessárias.
+
+**A IA foi utilizada na implementação**, além de apoiar a especificação, a documentação, os testes e a investigação de falhas. Seu uso foi documentado e submetido à revisão humana. A equipe mantém a responsabilidade pelas decisões, pela validação e pela compreensão do código entregue, conforme a seção 10 do [enunciado oficial](materiais/Reading_Tracker_Web_Application.pdf).
+
+| Ferramenta | Finalidade | Partes afetadas |
 |---|---|---|
-| GET, POST | /api/authors | Listar e criar autores |
-| GET, PUT, DELETE | /api/authors/{id} | Consultar, atualizar e excluir autor |
-| GET, POST | /api/books | Listar e criar livros |
-| GET, PUT, DELETE | /api/books/{id} | Consultar, atualizar e excluir livro |
-| GET, POST | /api/books/{id}/readings | Listar e adicionar leituras de um livro |
-| GET | /api/readings | Listar todas as leituras |
-| PUT, DELETE | /api/readings/{id} | Atualizar e excluir leitura |
-| GET, POST | /api/themes | Listar e criar temas |
-| GET | /api/countries | Listar os países fixos |
-| POST | /api/reset | Restaurar o seed |
+| ChatGPT / Codex | Análise de requisitos e PRDs; geração e adaptação do frontend; validações e persistência; testes automatizados e CI; diagnóstico e correção de falhas; revisão assistida e documentação | `frontend/` (exceto seed oficial), `tests/`, `scripts/`, `.github/workflows/`, `README.md` e `docs/` |
 
-**Pendente para a entrega 2:** acrescentar exemplos reais de requisição e resposta para autores, livros e leituras. Registrar códigos HTTP, erros de validação e exemplos com os IDs efetivamente retornados pela API.
+Os enunciados e o seed foram obtidos do Moodle. A equipe revisa e deve conseguir explicar o código produzido com assistência de IA. As evidências do processo estão nos [PRDs](docs/specs/), no histórico de commits e nos [pull requests](https://github.com/anafreiria/ReadingTracker/pulls).
 
-## Uso de inteligência artificial
+## Entregas e autoavaliação
 
-A IA neste trabalho é usada para apoiar a análise dos requisitos, a documentação e a implementação das ideias e soluções definidas pela equipe. O ChatGPT/Codex atua como assistente e agente de programação, auxiliando na geração e adaptação de código, na preparação de testes automatizados e na investigação de falhas. As ferramentas e partes afetadas são declaradas abaixo, conforme a seção 10 do [enunciado oficial](materiais/Reading_Tracker_Web_Application.pdf).
+| Etapa | Prazo — horário de Brasília | Escopo | Valor |
+|---|---|---|---|
+| Entrega 1 | **20/11/2026 às 23h59** | Frontend, FR-01 a FR-07 e localStorage | 5,0 |
+| Entrega 2 | **11/12/2026 às 23h59** | API REST, persistência e frontend integrado | 5,0 |
 
-Antes da implementação de funcionalidades, o escopo, os fluxos, os critérios de aceite e o plano de verificação são documentados em PRDs. Os testes automatizados de dados e de interface ajudam a verificar o comportamento esperado e a identificar regressões; seus resultados e limites são registrados na documentação da tarefa.
+A autoavaliação acordada pela equipe para a Entrega 1 é **5,0/5,0**, com [justificativa por critério e pendências](docs/reports/FR-DOC-01-autoavaliacao.md). É uma estimativa da equipe; a nota cabe ao professor.
 
-O código, a documentação e os resultados dos testes passam por revisão humana antes do envio das alterações para revisão do grupo. O scrum master revisa os pull requests antes do merge na main. A assistência de IA e os testes automatizados apoiam esse processo; a equipe mantém a responsabilidade pelas decisões, pela qualidade e pela compreensão de tudo o que é entregue.
+A submissão exige repositório GitHub público e tag `delivery-1` no commit avaliado, enviada antes do prazo. Um integrante envia o link do repositório e a autoavaliação para **pagliares@bcc.unifal-mg.edu.br**, com os demais em cópia e assunto `Reading Tracker – Delivery 1 – [nomes dos estudantes]`. **A Entrega 1 não exige vídeo.**
 
-| Ferramenta | Finalidade já utilizada | Partes afetadas |
-|---|---|---|
-| ChatGPT / Codex | Leitura dos requisitos, planejamento e PRD; geração da base de navegação, estilos, leitura/escrita de dados, validações, restauração, formulários de referência, CRUD visual de autores/livros/leituras, temas, primeira leitura, releituras, confirmação de limpeza, orientação de status, aviso de remoção de prioridade, auditoria de FR-06 e das 25 combinações de status, exclusões, testes de integração em navegador, automação de verificação no GitHub Actions e diagnóstico de falhas; documentação de colaboração; PRDs FR-UI-01/02, listagens mobile, seleção por checkboxes, feedback e acessibilidade; revisão FR-QA-01, diagnóstico da reabertura de Reset, regressão e relatório com evidências | README.md, docs/, frontend/ (exceto seed oficial), tests/, scripts/, .github/workflows/ |
+A Entrega 2 prevê Java 21+, Spring Boot 4.x, API REST e persistência em banco, além de vídeo de até 15 minutos acessível sem login e tag `delivery-2`. As instruções de execução dessa etapa serão incluídas quando a integração estiver implementada e verificada. O planejamento está no [roteiro de desenvolvimento](docs/ROTEIRO_DESENVOLVIMENTO.md).
 
-Para editar, usar uma única aba. Em navegadores com Web Locks, outra aba recebe conflito 409 sem gravar; fechar a aba que estava editando e recarregar a nova antes de continuar. Sem Web Locks, a fila protege somente operações da mesma aba.
+## Documentação
 
-Os arquivos oficiais em materiais/ e o seed foram obtidos do Moodle, sem geração por IA. A equipe deve revisar, compreender e conseguir explicar todo o código entregue. Atualizar esta seção conforme novas contribuições.
-
-## Submissão e vídeo
-
-Enviar para **pagliares@bcc.unifal-mg.edu.br**, com todos os demais integrantes em cópia:
-
-- Entrega 1: assunto `Reading Tracker – Delivery 1 – [nomes dos estudantes]`; incluir GitHub e autoavaliação de 0 a 5.
-- Entrega 2: assunto `Reading Tracker – Delivery 2 – [nomes dos estudantes]`; incluir GitHub, autoavaliação de 0 a 5 e vídeo de até 15 minutos acessível sem login.
-- **Autoavaliação da Entrega 1:** [avaliação aprovada pela equipe, evidências e pendências](docs/reports/FR-DOC-01-autoavaliacao.md). Pontuação acordada: 5,0/5,0.
-
-**Vídeo da entrega 2:** link pendente. Adicionar aqui antes do envio. Demonstrar primeiro a aplicação e a persistência após reinício; depois explicar as principais partes do código.
-
-Marcar e enviar ao GitHub as tags `delivery-1` e `delivery-2` nos commits a serem avaliados, dentro dos respectivos prazos. Não criar as tags finais antecipadamente. Fazer commits descritivos durante todo o trabalho.
-
-## Referência
-
-Enunciado **Reading Tracker Web Application**, atualizado em **16/10/2026**, disponibilizado no Moodle da disciplina. O roteiro de desenvolvimento diferencia exigências oficiais de sugestões de organização.
-
+- [Enunciado oficial — Reading Tracker Web Application](materiais/Reading_Tracker_Web_Application.pdf), atualizado em 16/10/2026.
+- [Repositório](https://github.com/anafreiria/ReadingTracker) e [quadro de tarefas](https://trello.com/b/VOzz4fDx).
+- [Guia de desenvolvimento do frontend](docs/GUIA_FRONTEND.md).
+- [Contratos de dados e validação](docs/CONTRATOS_DADOS.md).
+- [Especificações e critérios de aceite](docs/specs/).
+- [Relatórios e evidências](docs/reports/).

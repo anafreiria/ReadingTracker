@@ -64,6 +64,10 @@ A rubrica oficial da Entrega 1 atribui 5,0 pontos ao frontend.
 - A execução local não substitui a validação independente em cópia limpa.
 - A pontuação de 5,0/5,0 é a autoavaliação acordada pela equipe, não uma garantia da nota atribuída pelo professor.
 
+## Aceite da interface
+
+Ana aprovou a interface e relatou teste manual geral em 18/11/2026. Ver [registro do aceite humano](E1-aceite-humano-ana.md), com a versão servida, o resultado automatizado independente e os limites do relato. A aprovação geral não comprova execução independente das instruções de instalação nem os cenários discriminados por navegador.
+
 ## 5. Pendências para conclusão
 
 - [ ] Outro integrante executa as instruções do README em cópia limpa do commit candidato e registra o resultado.
