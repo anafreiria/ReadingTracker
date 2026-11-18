@@ -189,10 +189,12 @@ dialog.addEventListener('cancel', event => { if (dialogBusy) event.preventDefaul
 resetButton.addEventListener('click', async () => {
   if (busy) return;
   dialogOpener = document.activeElement;
+  // Keep a second reset from reopening the dialog before its queued close event.
+  setBusy(true);
   const confirmed = await confirmAction({
     title: TEXT.reset.title, message: TEXT.reset.message, confirmLabel: TEXT.reset.confirm,
   });
-  if (!confirmed) { setBusy(false); return; }
+  if (!confirmed) { setBusy(false); resetButton.focus(); return; }
   setBusy(true);
   announce(TEXT.reset.pending, false, 'loading');
   try {

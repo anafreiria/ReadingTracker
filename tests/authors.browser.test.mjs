@@ -172,8 +172,11 @@ try {
   await check(`!document.querySelector('[type=submit]').disabled && document.activeElement.name==='title'`, 'books now offers a functional form');await click('#close-dialog');
   await evaluate(`location.hash='readings'`);await wait(`document.querySelector('[aria-current=page]').dataset.route==='readings'`);
   await check(`document.querySelectorAll('th[aria-sort]').length===5`, 'reading history retains five sortable columns');
-  await click('#reset-data');await click('#form-dialog .dialog-actions button[type=button]');
+  await click('#reset-data');
+  await check(`document.querySelector('#reset-data').disabled && document.querySelector('#preview-button').disabled`, 'reset confirmation blocks a second page action until close resolves');
+  await evaluate(`document.querySelector('#form-dialog .dialog-actions button[type=button]').click();document.querySelector('#reset-data').click()`);
   await wait(`!document.querySelector('#reset-data').disabled`);
+  await check(`!document.querySelector('#form-dialog').open && document.activeElement.id==='reset-data'`, 'immediate reset retry after Cancel cannot reopen a pending confirmation; focus returns');
   await check(`${data}.authors.length>101`, 'cancel reset preserves edits');
   await click('#reset-data');await click('#form-dialog .button-danger');await wait(`document.querySelector('#announcement').textContent.includes('restored')`);
   await check(`${data}.authors.length===101 && ${data}.books.length===143`, 'confirmed reset restores seed');
