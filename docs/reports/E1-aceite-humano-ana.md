@@ -24,11 +24,12 @@ O assistente executou `node scripts/check-frontend.mjs` em exportação limpa do
 
 A documentação contém também as [evidências versionadas de FR-QA-01](FR-QA-01-revisao.md) e os [logs fornecidos no PR de documentação](fr-doc-01/summary.md).
 
-## Registros específicos ainda não fornecidos
+## Encerramento do aceite pela responsável
 
-- Cenários e resultados discriminados por navegador, com versões.
-- Execução das instruções do README por Ana em cópia limpa, sem intervenção do assistente.
+Em 18/11/2026, Ana confirmou que realizou o teste manual da interface, validou a aplicação como correta e determinou o encerramento da exigência interna de teste por outro integrante. Para esta entrega, o aceite manual de Ana substitui a exigência de participação de outra pessoa e de execução independente por outro integrante.
+
+O detalhamento individual por navegador e cenário não foi coletado. Esse é um limite do registro, não uma declaração de execução por outra pessoa. A responsável aceitou a interface de forma geral; não foram relatados defeitos bloqueadores.
 
 ## Limites
 
-Ana participou da implementação; seu aceite como responsável não substitui o cenário exploratório com pessoa que não implementou previsto no planejamento de QA. Esse cenário permanece pendente de evidência própria. Não declarar teste em aparelho físico ou navegador não utilizado.
+O aceite humano está encerrado por decisão de Ana. Permanecem os limites de evidência: navegador/versão não informados e ausência de comprovação de teste em aparelho físico, leitor de tela ou outros navegadores. Os resultados automatizados permanecem separados do relato humano.

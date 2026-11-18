@@ -149,7 +149,7 @@ O workflow [Frontend](.github/workflows/frontend.yml) executa **Frontend checks*
 
 **Aceite humano:** Ana aprovou a interface e relatou teste manual geral em 18/11/2026. O [registro do aceite](docs/reports/E1-aceite-humano-ana.md) documenta o relato e a versão utilizada.
 
-**Limites:** a automação usou Linux/Chrome e viewports de 360, 390, 768 e 1280 pixels, incluindo emulação. Não representa teste em aparelho físico, certificação WCAG ou validação com leitor de tela, Safari/iOS ou Firefox. Os detalhes dos cenários manuais por navegador e do teste com pessoa que não implementou permanecem pendentes na [matriz de aceite](docs/specs/E1-testes-aceitação-e-regressão-final-do-frontend.md).
+**Limites:** a automação usou Linux/Chrome e viewports de 360, 390, 768 e 1280 pixels, incluindo emulação. Não representa teste em aparelho físico, certificação WCAG ou validação com leitor de tela, Safari/iOS ou Firefox. O aceite manual geral foi encerrado por Ana, que substituiu a exigência interna de teste por outro integrante por sua própria validação. O detalhamento individual por navegador não foi coletado e permanece um limite das evidências na [matriz de aceite](docs/specs/E1-testes-aceitação-e-regressão-final-do-frontend.md).
 
 ## Processo SDD e uso de inteligência artificial
 

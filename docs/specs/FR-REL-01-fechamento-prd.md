@@ -23,7 +23,7 @@ O próprio Actions é a validação da mudança no workflow. Conferir logs de in
 
 ## Limites humanos
 
-A aprovação geral de Ana já foi registrada. Não há evidência detalhada suficiente para fechar os itens de dois navegadores, exploração por pessoa que não implementou e execução independente por outro integrante. Esses itens são critérios internos adicionais; devem permanecer pendentes ou receber dispensa explícita da responsável, sem alterar o que foi efetivamente testado.
+Ana confirmou teste manual geral e determinou expressamente o encerramento da exigência interna de teste por outro integrante em 18/11/2026. O registro do aceite distingue essa decisão dos resultados automatizados e preserva o limite de ausência de detalhamento por navegador/cenário. O aceite humano geral está encerrado; não se declara execução por outra pessoa. Ana também criará e enviará o e-mail, ficando responsável pela conferência do comprovante.
 
 ## Fonte e IA
 
