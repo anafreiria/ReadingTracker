@@ -4,7 +4,7 @@ Aplicação web para gerenciar autores, livros e leituras, desenvolvida para o T
 
 O projeto será construído em duas etapas: frontend em HTML, CSS e JavaScript puros com armazenamento no navegador; depois, integração com uma API REST em Java e Spring Boot e persistência em banco de dados.
 
-> **Estado atual:** frontend com dados oficiais, CRUD visual de autores, livros e leituras, criação de temas e Reset data. É possível registrar releituras sem alterar o histórico anterior, cadastrar livro com primeira leitura em um Save e excluir obra/leituras com confirmação. A edição de leitura protege a remoção de ano/nota em mudanças de status. O fluxo de status foi auditado nas 25 combinações de origem/destino, com confirmação antes de remover ano/nota. A FR-06 foi auditada com testes automatizados e inspeção visual de capturas. Os formulários foram verificados em desktop (1280px) e viewport móvel emulada (390px); testes em aparelho físico não foram realizados. A revisão geral da entrega continua pendente. Backend ainda não implementado.
+> **Estado atual:** frontend da entrega 1 implementado, com dados oficiais, CRUD visual de autores, livros e leituras, criação de temas e Reset data. É possível registrar releituras sem alterar o histórico anterior, cadastrar livro com primeira leitura em um Save e excluir obra/leituras com confirmação. A edição de leitura protege a remoção de ano/nota em mudanças de status. O fluxo de status foi auditado nas 25 combinações de origem/destino, com confirmação antes de remover ano/nota. A FR-06 foi auditada com testes automatizados e inspeção visual de capturas. A revisão de QA FR-QA-01 foi integrada à main pelo PR #14, com 485 verificações automatizadas aprovadas e 13 módulos JavaScript com sintaxe válida. Permanecem limitações de aceite manual: o registro dos cenários por navegador e o detalhamento do teste com usuário externo precisam ser complementados. Os formulários foram verificados em desktop (1280px) e viewport móvel emulada (390px); testes em aparelho físico não foram realizados. Não houve validação com leitor de tela, Safari/iOS ou Firefox. Backend ainda não implementado.
 
 ## Equipe
 
@@ -23,10 +23,10 @@ A composição da equipe deve ser mantida entre as duas entregas. Cada integrant
 
 | Frente | Integrantes | Responsabilidades principais |
 |---|---|---|
-| Frontend | Aurelio Junior, Ana Flavia Freiria e Otávio de Oliveira | Telas, HTML/CSS/JavaScript, validações no navegador, localStorage na entrega 1 e integração com a API na entrega 2 |
-| Backend | Pedro Luccas e Raissa Peret | API Spring Boot, regras e validações no servidor, banco persistente, importação do seed e restauração |
+| Frontend | Ana Flavia Freiria e Otávio de Oliveira | Telas, HTML/CSS/JavaScript, validações no navegador, localStorage na entrega 1 e integração com a API na entrega 2 |
+| Backend | Aurelio Junior, Pedro Luccas e Raissa Peret | API Spring Boot, regras e validações no servidor, banco persistente, importação do seed e restauração |
 
-Integração, testes de aceitação, documentação, declaração de uso de IA, revisão e preparação das entregas são responsabilidades compartilhadas. Durante a primeira etapa, Pedro e Raissa também preparam o backend e apoiam a revisão e os testes do frontend. A divisão interna das tarefas de cada frente será registrada no Trello.
+Integração, testes de aceitação, documentação, declaração de uso de IA, revisão e preparação das entregas são responsabilidades compartilhadas. Durante a primeira etapa, Aurelio, Pedro e Raissa também preparam o backend e apoiam a revisão e os testes do frontend. A divisão interna das tarefas de cada frente será registrada no Trello.
 
 ## Repositório e planejamento
 
@@ -45,6 +45,10 @@ Integração, testes de aceitação, documentação, declaração de uso de IA, 
 - [Matriz e pendências do aceite FR-QA-01](docs/specs/E1-testes-aceitação-e-regressão-final-do-frontend.md)
 - [Evidências da revisão de QA e correção do reset](docs/reports/FR-QA-01-revisao.md)
 - [PRD de validação e organização do código](docs/specs/E1-validação_e_organização_do_código.md)
+- [PRD de usabilidade mobile FR-UI-01](docs/specs/FR-UI-01-usabilidade-mobile-prd.md)
+- [PRD de acabamento e acessibilidade FR-UI-02](docs/specs/FR-UI-02-acabamento-acessibilidade-prd.md)
+- [Relatório de verificação FR-UI-02](docs/reports/FR-UI-02-verificacao.md)
+- [Medições de contraste FR-UI-02](docs/reports/FR-UI-02-contrast.json)
 - [Enunciados no Moodle](https://campusvirtual.unifal-mg.edu.br/moodle/course/section.php?id=30335)
 
 ## Fluxo de colaboração e commits
@@ -127,15 +131,44 @@ Materiais oficiais baixados do Moodle em 04/11/2026 estão em `materiais/`; `fro
 
 ## Verificação da base
 
-Com Node 24+ disponível, executar `node tests/foundation.test.mjs` e `node tests/data.test.mjs` (37 testes no total, sem dependências). Node é opcional para os testes; não é usado para construir ou executar o frontend.
+Os testes históricos da base são executados com Node 24+:
 
-Verificado também no Chrome: navegação, contagens oficiais, ordenação, histórico por livro, formulários, Escape, tela de 390px, falha e nova tentativa, estados vazios e tratamento seguro de texto. O CRUD de autores/livros, temas, cadastro combinado e exclusão em cascata também foram verificados na interface; o CRUD de leituras também foi verificado, incluindo releituras e exclusão individual. Também foram verificados confirmação/cancelamento do reset, falha de rede, proteção de edição em outra aba e passagem da edição após recarga.
+    node tests/foundation.test.mjs
+    node tests/data.test.mjs
 
-Os testes de interface estão em `tests/authors.browser.test.mjs` (35 verificações), `tests/books.browser.test.mjs` (62 verificações), `tests/readings.browser.test.mjs` (51 verificações) e `tests/status.browser.test.mjs` (124 verificações, incluindo 25 combinações persistidas de status e avisos de remoção de prioridade), sem dependências externas. Veja os comandos e o uso de um perfil isolado no [guia do frontend](docs/GUIA_FRONTEND.md). Inclui criação/edição/exclusão e recarga, validações, quota, conflito real entre abas, foco/teclado, matriz de listagens em 360px/390px/768px/1280px e regressões de navegação/reset.
+Essas duas suítes somam 37 testes (10 de fundação e 27 de dados). Esse número registra a verificação inicial da base; não representa o resultado da regressão final.
 
-A suíte `tests/mobile-acceptance.browser.test.mjs` acrescenta 74 verificações de aceite de FR-UI-01: textos longos, ações nos três módulos em 360/390/768/1280px, seleção e remoção individual por toque com recarga, e Tab/Space nos checkboxes. É executada automaticamente pelo check completo e pelo CI, com dados temporários em perfil isolado. A emulação de toque no Chrome não substitui teste em aparelho físico.
+A revisão final FR-QA-01, integrada à main pelo PR #14, executou:
 
-`tests/accessibility.browser.test.mjs` acrescenta 85 verificações de FR-UI-02 para nomes/rótulos/erros, contraste, teclado/foco, toque, feedback, recuperação de falhas e zoom real de 200% no Chrome isolado. Os pares medidos e as capturas antes/depois estão no [PRD de FR-UI-02](docs/specs/FR-UI-02-acabamento-acessibilidade-prd.md). Não representa certificação de acessibilidade.
+    node scripts/check-frontend.mjs
+
+**Resultado final: 485 verificações automatizadas aprovadas e 13 módulos JavaScript com sintaxe válida.** A distribuição das verificações foi:
+
+| Suíte | Verificações |
+|---|---:|
+| Dados | 27 |
+| Fundação | 10 |
+| Smoke | 15 |
+| Acessibilidade FR-UI-02 | 85 |
+| Autores | 37 |
+| Livros e temas | 62 |
+| Aceite mobile FR-UI-01 | 74 |
+| Leituras | 51 |
+| Fluxo de status | 124 |
+| **Total** | **485** |
+
+A regressão cobre dados, navegação, CRUD de autores/livros/leituras, temas, primeira leitura, releituras, exclusões, persistência, validações, confirmações, ordenação, recuperação de falhas, responsividade, teclado, foco, contraste e zoom de 200%. O fluxo de status inclui as 25 combinações de origem e destino.
+
+A suíte `tests/mobile-acceptance.browser.test.mjs` verifica os fluxos em viewports de 360px, 390px, 768px e 1280px, incluindo interação por toque emulada e teclado. A emulação do Chrome não substitui testes em aparelho físico.
+
+A suíte `tests/accessibility.browser.test.mjs` verifica nomes acessíveis, rótulos, mensagens de erro, contraste, foco, teclado, alvos de toque, feedback, recuperação de falhas e zoom de 200%. Os pares medidos estão no [relatório de contraste FR-UI-02](docs/reports/FR-UI-02-contrast.json), e os critérios e limites estão no [PRD de FR-UI-02](docs/specs/FR-UI-02-acabamento-acessibilidade-prd.md).
+
+A revisão foi executada em Linux, com Node 24.21.0 e Chrome 157.0.8103.78, usando perfil isolado. Os resultados e as limitações estão registrados em [FR-QA-01](docs/reports/FR-QA-01-revisao.md) e na [matriz de aceite](docs/specs/E1-testes-aceitação-e-regressão-final-do-frontend.md).
+
+**Limitações:** a emulação não substitui testes em aparelho físico. Não houve validação com leitor de tela, Safari/iOS ou Firefox. O registro dos cenários manuais por navegador e o detalhamento do teste com usuário externo ainda precisam ser complementados. Os testes automatizados não substituem o aceite humano.
+
+Veja os comandos adicionais e as instruções para usar um perfil isolado no [guia do frontend](docs/GUIA_FRONTEND.md).
+
 
 ## Verificação automática no GitHub
 
@@ -168,7 +201,9 @@ Registrar aqui, antes da entrega, a versão exata do Java utilizada. O banco H2 
 
 ## Requisitos obrigatórios
 
-Atualizar cada célula para **Implementado**, **Parcialmente implementado** ou **Não implementado**, conforme verificação real. Os status abaixo refletem a verificação desta etapa, distinguindo contratos de dados e integração visual.
+A tabela apresenta o estado verificado de cada requisito, distinguindo a implementação do frontend na entrega 1 da implementação prevista para a entrega 2.
+
+A indicação de implementação refere-se às funcionalidades verificadas no frontend; não significa que todas as atividades de aceite manual e revisão documental estejam concluídas.
 
 | ID | Requisito | Entrega 1 | Entrega 2 |
 |---|---|---|---|
@@ -180,7 +215,7 @@ Atualizar cada célula para **Implementado**, **Parcialmente implementado** ou *
 | FR-06 | Validações da seção 4 e mensagens junto aos campos | Implementado | Não implementado |
 | FR-07 | Seed no primeiro uso, preservação de alterações e Reset data | Implementado | Não implementado |
 
-FR-01 tem CRUD visual completo, persistência, validação e bloqueio de exclusão vinculada. FR-02 tem CRUD visual completo e criação de temas. FR-03 tem CRUD visual de leituras, consulta completa, releituras independentes, cadastro combinado e exclusão em cascata confirmada com contagem. FR-04 tem os cinco critérios auditados nas 25 combinações entre status: ano obrigatório em Read e opcional em Abandoned, nota apenas em Read/Abandoned, prioridade apenas na wishlist, preservação de recomendação/notas e confirmação antes da limpeza. Cancelamento, consentimento invalidado, quota e conflito entre abas também foram verificados. FR-06 tem validações de domínio para autores, livros e leituras, mensagens de erro junto aos campos e bloqueio de persistência de dados inválidos. As regras de ano de leitura, nota, status e prioridade são verificadas, incluindo a preservação dos dados quando uma alteração incompatível é cancelada. A organização do código mantém validação, persistência e apresentação em módulos separados. Os testes automatizados cobrem entradas inválidas e os principais fluxos dos formulários. FR-07 está implementado e testado, incluindo restauração com confirmação.
+FR-01 tem CRUD visual completo, persistência, validação e bloqueio de exclusão vinculada. FR-02 tem CRUD visual completo e criação de temas. FR-03 tem CRUD visual de leituras, consulta completa, releituras independentes, cadastro combinado e exclusão em cascata confirmada com contagem. FR-04 tem os cinco critérios auditados nas 25 combinações entre status: ano obrigatório em Read e opcional em Abandoned, nota apenas em Read/Abandoned, prioridade apenas na wishlist, preservação de recomendação/notas e confirmação antes da limpeza. Cancelamento, consentimento invalidado, quota e conflito entre abas também foram verificados. FR-05 apresenta o histórico de leituras com título, autores, status, ano e nota. As cinco colunas permitem ordenação crescente e decrescente; valores ausentes ficam por último e a ordenação inicial usa ano decrescente, com ID crescente como desempate. FR-06 tem validações de domínio para autores, livros e leituras, mensagens de erro junto aos campos e bloqueio de persistência de dados inválidos. As regras de ano de leitura, nota, status e prioridade são verificadas, incluindo a preservação dos dados quando uma alteração incompatível é cancelada. A organização do código mantém validação, persistência e apresentação em módulos separados. Os testes automatizados cobrem entradas inválidas e os principais fluxos dos formulários. FR-07 está implementado e testado, incluindo restauração com confirmação.
 
 Os exercícios FR-08 a FR-18 são opcionais e não pontuados; nenhum está declarado como implementado neste momento.
 
