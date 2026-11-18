@@ -1,0 +1,124 @@
+PASS FR04-C1 guidance and required-year metadata: Want to read -> Want to read
+PASS priority removal warning matches transition: Want to read -> Want to read
+PASS FR04 matrix persisted Want to read -> Want to read, preserving ID/book/notes/recommendation and other readings
+PASS FR04-C1 guidance and required-year metadata: Want to read -> Reading
+PASS priority removal warning matches transition: Want to read -> Reading
+PASS FR04 matrix persisted Want to read -> Reading, preserving ID/book/notes/recommendation and other readings
+PASS FR04-C1 guidance and required-year metadata: Want to read -> Paused
+PASS priority removal warning matches transition: Want to read -> Paused
+PASS FR04 matrix persisted Want to read -> Paused, preserving ID/book/notes/recommendation and other readings
+PASS FR04-C1 guidance and required-year metadata: Want to read -> Read
+PASS priority removal warning matches transition: Want to read -> Read
+PASS FR04 matrix persisted Want to read -> Read, preserving ID/book/notes/recommendation and other readings
+PASS FR04-C1 guidance and required-year metadata: Want to read -> Abandoned
+PASS priority removal warning matches transition: Want to read -> Abandoned
+PASS FR04 matrix persisted Want to read -> Abandoned, preserving ID/book/notes/recommendation and other readings
+PASS FR04-C1 guidance and required-year metadata: Reading -> Want to read
+PASS priority removal warning matches transition: Reading -> Want to read
+PASS FR04 matrix persisted Reading -> Want to read, preserving ID/book/notes/recommendation and other readings
+PASS FR04-C1 guidance and required-year metadata: Reading -> Reading
+PASS priority removal warning matches transition: Reading -> Reading
+PASS FR04 matrix persisted Reading -> Reading, preserving ID/book/notes/recommendation and other readings
+PASS FR04-C1 guidance and required-year metadata: Reading -> Paused
+PASS priority removal warning matches transition: Reading -> Paused
+PASS FR04 matrix persisted Reading -> Paused, preserving ID/book/notes/recommendation and other readings
+PASS FR04-C1 guidance and required-year metadata: Reading -> Read
+PASS priority removal warning matches transition: Reading -> Read
+PASS FR04 matrix persisted Reading -> Read, preserving ID/book/notes/recommendation and other readings
+PASS FR04-C1 guidance and required-year metadata: Reading -> Abandoned
+PASS priority removal warning matches transition: Reading -> Abandoned
+PASS FR04 matrix persisted Reading -> Abandoned, preserving ID/book/notes/recommendation and other readings
+PASS FR04-C1 guidance and required-year metadata: Paused -> Want to read
+PASS priority removal warning matches transition: Paused -> Want to read
+PASS FR04 matrix persisted Paused -> Want to read, preserving ID/book/notes/recommendation and other readings
+PASS FR04-C1 guidance and required-year metadata: Paused -> Reading
+PASS priority removal warning matches transition: Paused -> Reading
+PASS FR04 matrix persisted Paused -> Reading, preserving ID/book/notes/recommendation and other readings
+PASS FR04-C1 guidance and required-year metadata: Paused -> Paused
+PASS priority removal warning matches transition: Paused -> Paused
+PASS FR04 matrix persisted Paused -> Paused, preserving ID/book/notes/recommendation and other readings
+PASS FR04-C1 guidance and required-year metadata: Paused -> Read
+PASS priority removal warning matches transition: Paused -> Read
+PASS FR04 matrix persisted Paused -> Read, preserving ID/book/notes/recommendation and other readings
+PASS FR04-C1 guidance and required-year metadata: Paused -> Abandoned
+PASS priority removal warning matches transition: Paused -> Abandoned
+PASS FR04 matrix persisted Paused -> Abandoned, preserving ID/book/notes/recommendation and other readings
+PASS FR04-C1 guidance and required-year metadata: Read -> Want to read
+PASS priority removal warning matches transition: Read -> Want to read
+PASS FR04-C5 Read -> Want to read rejects missing consent without clearing draft
+PASS FR04 matrix persisted Read -> Want to read, preserving ID/book/notes/recommendation and other readings
+PASS FR04-C1 guidance and required-year metadata: Read -> Reading
+PASS priority removal warning matches transition: Read -> Reading
+PASS FR04-C5 Read -> Reading rejects missing consent without clearing draft
+PASS FR04 matrix persisted Read -> Reading, preserving ID/book/notes/recommendation and other readings
+PASS FR04-C1 guidance and required-year metadata: Read -> Paused
+PASS priority removal warning matches transition: Read -> Paused
+PASS FR04-C5 Read -> Paused rejects missing consent without clearing draft
+PASS FR04 matrix persisted Read -> Paused, preserving ID/book/notes/recommendation and other readings
+PASS FR04-C1 guidance and required-year metadata: Read -> Read
+PASS priority removal warning matches transition: Read -> Read
+PASS FR04 matrix persisted Read -> Read, preserving ID/book/notes/recommendation and other readings
+PASS FR04-C1 guidance and required-year metadata: Read -> Abandoned
+PASS priority removal warning matches transition: Read -> Abandoned
+PASS FR04 matrix persisted Read -> Abandoned, preserving ID/book/notes/recommendation and other readings
+PASS FR04-C1 guidance and required-year metadata: Abandoned -> Want to read
+PASS priority removal warning matches transition: Abandoned -> Want to read
+PASS FR04-C5 Abandoned -> Want to read rejects missing consent without clearing draft
+PASS FR04 matrix persisted Abandoned -> Want to read, preserving ID/book/notes/recommendation and other readings
+PASS FR04-C1 guidance and required-year metadata: Abandoned -> Reading
+PASS priority removal warning matches transition: Abandoned -> Reading
+PASS FR04-C5 Abandoned -> Reading rejects missing consent without clearing draft
+PASS FR04 matrix persisted Abandoned -> Reading, preserving ID/book/notes/recommendation and other readings
+PASS FR04-C1 guidance and required-year metadata: Abandoned -> Paused
+PASS priority removal warning matches transition: Abandoned -> Paused
+PASS FR04-C5 Abandoned -> Paused rejects missing consent without clearing draft
+PASS FR04 matrix persisted Abandoned -> Paused, preserving ID/book/notes/recommendation and other readings
+PASS FR04-C1 guidance and required-year metadata: Abandoned -> Read
+PASS priority removal warning matches transition: Abandoned -> Read
+PASS FR04 matrix persisted Abandoned -> Read, preserving ID/book/notes/recommendation and other readings
+PASS FR04-C1 guidance and required-year metadata: Abandoned -> Abandoned
+PASS priority removal warning matches transition: Abandoned -> Abandoned
+PASS FR04 matrix persisted Abandoned -> Abandoned, preserving ID/book/notes/recommendation and other readings
+PASS priority warning explains removal without clearing draft or requiring result consent
+PASS priority removal notice fits 1280px
+PASS priority removal notice fits 390px
+PASS returning to wishlist hides priority warning and retains draft
+PASS canceling priority removal preserves saved data
+PASS FR04-C1 Abandoned without a year cannot move to Read without entering one
+PASS FR04-C1 future completion year rejected without write
+PASS FR04-C1 completion before publication rejected without write
+PASS FR04-C1 fractional completion year rejected without write
+PASS FR04-C1/C2 Read needs year but grade remains optional
+PASS FR04-C1/C2 Abandoned accepts both optional result fields absent
+PASS FR04-C3 wishlist accepts Low
+PASS FR04-C3 wishlist accepts Medium
+PASS FR04-C3 wishlist accepts High
+PASS FR04-C3 new Reading rejects wishlist priority without write
+PASS FR04-C3 new Paused rejects wishlist priority without write
+PASS FR04-C3 new Read rejects wishlist priority without write
+PASS FR04-C3 new Abandoned rejects wishlist priority without write
+PASS FR04-C2 new Want to read rejects grade zero rather than treating it as absent
+PASS FR04-C1 new Want to read rejects year rather than silently dropping it
+PASS FR04-C2 new Reading rejects grade zero rather than treating it as absent
+PASS FR04-C1 new Reading rejects year rather than silently dropping it
+PASS FR04-C2 new Paused rejects grade zero rather than treating it as absent
+PASS FR04-C1 new Paused rejects year rather than silently dropping it
+PASS FR04-C5 only year is listed when only year will be removed
+PASS FR04-C5 Cancel preserves year without writing
+PASS FR04-C5 only grade zero is listed when year was absent
+PASS FR04-C5 Escape preserves zero grade and restores trigger focus
+PASS FR04-C5 manually emptying fields does not bypass consent for persisted result fields
+PASS FR04-C5 editing grade invalidates consent
+PASS FR04-C5 editing year invalidates consent
+PASS FR04-C5 changing target status invalidates consent
+PASS FR04-C5 returning to original status hides obsolete consent without clearing fields
+PASS FR04-C5 returning to Read retains the complete original reading
+PASS FR04-C5 quota failure preserves original data, values and current consent for retry
+PASS FR04-C4/C5 successful retry removes results and preserves recommendation/notes
+PASS FR04-C5 missing consent focuses its field and warning is announced
+PASS FR04 clearance fits 1280px
+PASS FR04 clearance fits 390px
+PASS FR04-C5 real writer conflict preserves confirmed status draft
+PASS FR04-C5 conflicting confirmed edit makes no write
+PASS reset restores the seed after the status matrix
+PASS 124 checks; 25 persisted status pairs; no uncaught browser exceptions

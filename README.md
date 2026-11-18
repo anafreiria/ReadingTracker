@@ -260,6 +260,7 @@ Enviar para **pagliares@bcc.unifal-mg.edu.br**, com todos os demais integrantes 
 
 - Entrega 1: assunto `Reading Tracker – Delivery 1 – [nomes dos estudantes]`; incluir GitHub e autoavaliação de 0 a 5.
 - Entrega 2: assunto `Reading Tracker – Delivery 2 – [nomes dos estudantes]`; incluir GitHub, autoavaliação de 0 a 5 e vídeo de até 15 minutos acessível sem login.
+- **Autoavaliação da Entrega 1:** [avaliação aprovada pela equipe, evidências e pendências](docs/reports/FR-DOC-01-autoavaliacao.md). Pontuação acordada: 5,0/5,0.
 
 **Vídeo da entrega 2:** link pendente. Adicionar aqui antes do envio. Demonstrar primeiro a aplicação e a persistência após reinício; depois explicar as principais partes do código.
 

@@ -1,0 +1,51 @@
+PASS official history and its five sortable columns retained
+PASS global Add reading focuses book and offers five official statuses
+PASS FR03-C1 create is persisted once and protects pending close/duplicate submit
+PASS FR03-C1 creation survives reload with numeric book reference
+PASS FR03-C1 details include all optional text safely
+PASS FR03-C1 book history queries by bookId
+PASS FR03-C3 Add reading from book history starts a new preselected record
+PASS FR03-C3 re-read creates different ID and preserves original reading entirely
+PASS grade zero is displayed as a value
+PASS FR03-C1 editing preloads current record by ID
+PASS FR03-C1 edit preserves ID, other readings, notes and recommendation while clearing wishlist priority
+PASS Read requires year with field feedback and no write
+PASS invalid year 2999 rejected without writing
+PASS invalid year 1999 rejected without writing
+PASS invalid year 2024.5 rejected without writing
+PASS invalid grade 10.5 rejected without writing
+PASS invalid grade -0.5 rejected without writing
+PASS invalid grade 8.2 rejected without writing
+PASS new wishlist rejects result fields without silently clearing them
+PASS priority outside wishlist rejected
+PASS incompatible edit requires explicit clearance including grade zero, preserving values
+PASS clearance identifies the fields that will be removed
+PASS changing status invalidates earlier clearance consent
+PASS canceling incompatible edit makes no write
+PASS quota failure during confirmed edit retains record and draft without false success
+PASS retry saves confirmed edit without losing notes
+PASS FR03-C1 optional edits persist after reload
+PASS individual deletion identifies book and reading, initially focusing Cancel
+PASS cancel individual deletion makes no write
+PASS Escape cancels individual deletion and restores trigger focus
+PASS FR03-C1 individual delete persists while preserving book and all other readings
+PASS Abandoned permits absent year and zero grade
+PASS FR03-C3 book details expose multiple readings and per-reading actions
+PASS canceling a reading reached through book details restores page trigger
+PASS stale reading lookup displays and focuses 404 inside the open book dialog
+PASS storage event does not replace an open reading draft
+PASS real second-tab conflict preserves reading draft
+PASS refresh failure after save reports persisted change accurately
+PASS refresh failure does not duplicate persisted reading
+PASS keyboard focus stays inside reading dialog
+PASS reading form fits 1280px
+PASS reading form fits 390px
+PASS FR03-C4 book deletion counts all re-readings
+PASS FR03-C4 canceled cascade preserves every reading
+PASS FR03-C4 accepted cascade persists and preserves readings from other books
+PASS FR03-C2 invalid first reading leaves no partial book
+PASS FR03-C2 book and optional first reading use one Save and one write
+PASS FR03-C2 combined reading appears in global history after reload
+PASS no-books state explains prerequisite and prevents invalid saving
+PASS reset restores official library after reading CRUD
+PASS 51 checks; no uncaught browser exceptions

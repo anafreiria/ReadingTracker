@@ -1,0 +1,161 @@
+{
+  "passed": true,
+  "mode": "full",
+  "error": null,
+  "results": [
+    {
+      "name": "syntax-js-app.js",
+      "code": 0,
+      "signal": null,
+      "error": null,
+      "durationMs": 21
+    },
+    {
+      "name": "syntax-js-constants.js",
+      "code": 0,
+      "signal": null,
+      "error": null,
+      "durationMs": 19
+    },
+    {
+      "name": "syntax-js-forms-author-form.js",
+      "code": 0,
+      "signal": null,
+      "error": null,
+      "durationMs": 21
+    },
+    {
+      "name": "syntax-js-forms-book-form.js",
+      "code": 0,
+      "signal": null,
+      "error": null,
+      "durationMs": 21
+    },
+    {
+      "name": "syntax-js-forms-form-action.js",
+      "code": 0,
+      "signal": null,
+      "error": null,
+      "durationMs": 18
+    },
+    {
+      "name": "syntax-js-forms-reading-form.js",
+      "code": 0,
+      "signal": null,
+      "error": null,
+      "durationMs": 18
+    },
+    {
+      "name": "syntax-js-pages-authors.js",
+      "code": 0,
+      "signal": null,
+      "error": null,
+      "durationMs": 21
+    },
+    {
+      "name": "syntax-js-pages-books.js",
+      "code": 0,
+      "signal": null,
+      "error": null,
+      "durationMs": 18
+    },
+    {
+      "name": "syntax-js-pages-readings.js",
+      "code": 0,
+      "signal": null,
+      "error": null,
+      "durationMs": 19
+    },
+    {
+      "name": "syntax-js-store.js",
+      "code": 0,
+      "signal": null,
+      "error": null,
+      "durationMs": 19
+    },
+    {
+      "name": "syntax-js-strings.js",
+      "code": 0,
+      "signal": null,
+      "error": null,
+      "durationMs": 19
+    },
+    {
+      "name": "syntax-js-ui.js",
+      "code": 0,
+      "signal": null,
+      "error": null,
+      "durationMs": 19
+    },
+    {
+      "name": "syntax-js-validation.js",
+      "code": 0,
+      "signal": null,
+      "error": null,
+      "durationMs": 20
+    },
+    {
+      "name": "data.test.mjs",
+      "code": 0,
+      "signal": null,
+      "error": null,
+      "durationMs": 337
+    },
+    {
+      "name": "foundation.test.mjs",
+      "code": 0,
+      "signal": null,
+      "error": null,
+      "durationMs": 105
+    },
+    {
+      "name": "smoke.browser.test.mjs",
+      "code": 0,
+      "signal": null,
+      "error": null,
+      "durationMs": 1441
+    },
+    {
+      "name": "accessibility.browser.test.mjs",
+      "code": 0,
+      "signal": null,
+      "error": null,
+      "durationMs": 5993
+    },
+    {
+      "name": "authors.browser.test.mjs",
+      "code": 0,
+      "signal": null,
+      "error": null,
+      "durationMs": 5285
+    },
+    {
+      "name": "books.browser.test.mjs",
+      "code": 0,
+      "signal": null,
+      "error": null,
+      "durationMs": 8754
+    },
+    {
+      "name": "mobile-acceptance.browser.test.mjs",
+      "code": 0,
+      "signal": null,
+      "error": null,
+      "durationMs": 23257
+    },
+    {
+      "name": "readings.browser.test.mjs",
+      "code": 0,
+      "signal": null,
+      "error": null,
+      "durationMs": 8804
+    },
+    {
+      "name": "status.browser.test.mjs",
+      "code": 0,
+      "signal": null,
+      "error": null,
+      "durationMs": 23409
+    }
+  ]
+}

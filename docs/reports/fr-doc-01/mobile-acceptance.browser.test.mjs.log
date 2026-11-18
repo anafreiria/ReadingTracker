@@ -1,0 +1,74 @@
+PASS readings: long content keeps actions within 360px
+PASS readings: View opens correct long record at 360px
+PASS reading notes preserve line breaks at 360px
+PASS readings: Edit saves correct record at 360px
+PASS readings: Delete cancel preserves data at 360px
+PASS readings: Delete confirms correct record at 360px
+PASS books: long content keeps actions within 360px
+PASS books: View opens correct long record at 360px
+PASS books: Edit saves correct record at 360px
+PASS books: Delete cancel preserves data at 360px
+PASS books: Delete confirms correct record at 360px
+PASS authors: long content keeps actions within 360px
+PASS authors: Edit saves correct record at 360px
+PASS authors: Delete cancel preserves data at 360px
+PASS authors: Delete confirms correct record at 360px
+PASS readings: long content keeps actions within 390px
+PASS readings: View opens correct long record at 390px
+PASS reading notes preserve line breaks at 390px
+PASS readings: Edit saves correct record at 390px
+PASS readings: Delete cancel preserves data at 390px
+PASS readings: Delete confirms correct record at 390px
+PASS books: long content keeps actions within 390px
+PASS books: View opens correct long record at 390px
+PASS books: Edit saves correct record at 390px
+PASS books: Delete cancel preserves data at 390px
+PASS books: Delete confirms correct record at 390px
+PASS authors: long content keeps actions within 390px
+PASS authors: Edit saves correct record at 390px
+PASS authors: Delete cancel preserves data at 390px
+PASS authors: Delete confirms correct record at 390px
+PASS readings: long content keeps actions within 768px
+PASS readings: View opens correct long record at 768px
+PASS reading notes preserve line breaks at 768px
+PASS readings: Edit saves correct record at 768px
+PASS readings: Delete cancel preserves data at 768px
+PASS readings: Delete confirms correct record at 768px
+PASS books: long content keeps actions within 768px
+PASS books: View opens correct long record at 768px
+PASS books: Edit saves correct record at 768px
+PASS books: Delete cancel preserves data at 768px
+PASS books: Delete confirms correct record at 768px
+PASS authors: long content keeps actions within 768px
+PASS authors: Edit saves correct record at 768px
+PASS authors: Delete cancel preserves data at 768px
+PASS authors: Delete confirms correct record at 768px
+PASS readings: long content keeps actions within 1280px
+PASS readings: View opens correct long record at 1280px
+PASS reading notes preserve line breaks at 1280px
+PASS readings: Edit saves correct record at 1280px
+PASS readings: Delete cancel preserves data at 1280px
+PASS readings: Delete confirms correct record at 1280px
+PASS books: long content keeps actions within 1280px
+PASS books: View opens correct long record at 1280px
+PASS books: Edit saves correct record at 1280px
+PASS books: Delete cancel preserves data at 1280px
+PASS books: Delete confirms correct record at 1280px
+PASS authors: long content keeps actions within 1280px
+PASS authors: Edit saves correct record at 1280px
+PASS authors: Delete cancel preserves data at 1280px
+PASS authors: Delete confirms correct record at 1280px
+PASS authorIds: two selections by touch without modifiers
+PASS authorIds: removing one retains the other
+PASS themeIds: two selections by touch without modifiers
+PASS themeIds: removing one retains the other
+PASS single remaining author/theme persist after reload
+PASS edit preloads exactly the remaining selections
+PASS new book starts keyboard traversal on title
+PASS Tab reaches first author with a visible focus outline
+PASS Space selects two authors using keyboard
+PASS keyboard reaches theme group without escaping dialog
+PASS Space selects two themes using keyboard
+PASS Space removes only the focused theme; native check mark identifies selection
+PASS Escape cancels keyboard selection draft without saving
+PASS 74 mobile acceptance checks; no uncaught browser exceptions
