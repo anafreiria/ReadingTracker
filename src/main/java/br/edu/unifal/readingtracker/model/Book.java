@@ -27,11 +27,13 @@ import jakarta.persistence.Table;
 @Table(name = "books")
 public class Book {
 
+	public static final int TITLE_MAX_LENGTH = 500;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = false, length = 500)
+	@Column(nullable = false, length = TITLE_MAX_LENGTH)
 	private String title;
 
 	/**
