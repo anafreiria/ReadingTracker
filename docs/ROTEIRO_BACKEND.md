@@ -266,7 +266,8 @@ Datas trafegam como `String` no DTO e são convertidas no service, para que uma 
 |---|---|---|---|
 | GET | `/api/countries` | 200 lista | — |
 | GET | `/api/themes` | 200 lista | — |
-| POST | `/api/themes` | 201 tema | 400, 409 (nome duplicado) |
+| POST | `/api/themes` | 201 tema, com `Location` | 400, 409 (nome duplicado) |
+| GET | `/api/themes/{id}` | 200 tema (extra: destino do `Location`) | 400, 404 |
 | GET | `/api/authors` | 200 lista | — |
 | POST | `/api/authors` | 201 autor | 400, 409 (nome duplicado) |
 | GET | `/api/authors/{id}` | 200 autor | 404 |
@@ -525,11 +526,11 @@ Folga reservada: 10–11/12 para correções, tag e e-mail.
 - **Branch:** `feature/countries-themes-api`
 - **Finalidade:** listas usadas pelos formulários e criação de tema no formulário de livro.
 - **Requisitos:** FR-02 (criar tema na hora), seção 4 (Themes and countries), seção 7 (endpoints).
-- **Arquivos:** `dto/CountryDto`, `ThemeDto`; `mapper/CountryMapper`, `ThemeMapper`; `service/CountryService`, `ThemeService`, `ThemeValidator`; `controller/CountryController`, `ThemeController`.
+- **Arquivos:** `dto/CountryDto`, `ThemeDto`; `mapper/CountryMapper`, `ThemeMapper`; `service/CountryService`, `ThemeService`, `ThemeValidator`; `controller/CountryController`, `ThemeController`. Extra: `GET /api/themes/{id}`, para o `Location` do 201 apontar para um recurso existente.
 - **Commits sugeridos:**
   - `feat(api): lista países`
   - `feat(api): lista e cria temas com validação`
-- **Pronto quando:** `GET /api/countries` → 200 com 27; `POST /api/themes` → 201 com `Location`; nome vazio → 400 em `name`; `"gothic"` → 409 `A theme with this name already exists.`; `PUT/DELETE /api/countries/1` → 405.
+- **Pronto quando:** `GET /api/countries` → 200 com 27; `POST /api/themes` → 201 com `Location`; nome vazio → 400 em `name`; `"gothic"` → 409 `A theme with this name already exists.`; `POST/PUT/DELETE /api/countries` → 405 (não existe rota `/api/countries/{id}`, então `PUT/DELETE /api/countries/1` → 404); tema criado continua após reiniciar.
 
 ### E6 — Autores
 
