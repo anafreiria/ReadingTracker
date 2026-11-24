@@ -80,6 +80,17 @@ class GlobalExceptionHandlerTests {
 		expectFieldError(postJson("{\"title\": \"Stoner\", \"year\": \"abc\"}"), "year", "Enter a whole number.");
 	}
 
+	/** Regression: Jackson used to truncate 1965.5 to 1965 silently, saving invalid data. */
+	@Test
+	void decimalInIntegerFieldIsRejectedInsteadOfTruncated() throws Exception {
+		expectFieldError(postJson("{\"title\": \"Stoner\", \"year\": 1965.5}"), "year", "Enter a whole number.");
+	}
+
+	@Test
+	void decimalInIntegerListIsRejectedInsteadOfTruncated() throws Exception {
+		expectFieldError(postJson("{\"title\": \"Stoner\", \"ids\": [1.5]}"), "ids", "Enter a whole number.");
+	}
+
 	@Test
 	void textInDecimalFieldIsReportedOnThatField() throws Exception {
 		expectFieldError(postJson("{\"title\": \"Stoner\", \"grade\": \"high\"}"), "grade", "Enter a number.");
