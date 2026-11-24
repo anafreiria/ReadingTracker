@@ -58,7 +58,22 @@ public class ReadingValidator {
 		if (input.bookId() != null && !input.bookId().equals(book.getId())) {
 			errors.add("bookId", ValidationMessages.BOOK_MISMATCH);
 		}
-		return validateFields(input, book, errors);
+		return validateFields(input, book, book.getPublicationYear(), errors);
+	}
+
+	/**
+	 * First reading sent together with a new book ({@code POST /api/books}). The book does not exist
+	 * yet, so its publication year comes from the request and the returned value has no book; the
+	 * caller sets it. {@code bookId} is ignored, as in the frontend store.
+	 *
+	 * @param publicationYear the new book's publication year, or {@code null} if unknown or invalid
+	 */
+	public ValidReading validateFirstReading(ReadingDto input, Integer publicationYear) {
+		ValidationErrors errors = new ValidationErrors();
+		if (input.id() != null) {
+			errors.add("id", ValidationMessages.CREATE_ONLY);
+		}
+		return validateFields(input, null, publicationYear, errors);
 	}
 
 	/** Edit of an existing reading ({@code PUT /api/readings/{id}}): {@code bookId} is required. */
@@ -76,14 +91,16 @@ public class ReadingValidator {
 				errors.add("bookId", ValidationMessages.REFERENCE);
 			}
 		}
-		return validateFields(input, book, errors);
+		return validateFields(input, book, book == null ? null : book.getPublicationYear(), errors);
 	}
 
 	/**
-	 * @param book the reading's book, or {@code null} if it is invalid (already reported)
+	 * @param book the reading's book, or {@code null} if it is invalid (already reported) or new
+	 * @param publicationYear lower limit for the year read, or {@code null} when there is none
 	 * @throws ApiException 400 with every invalid field
 	 */
-	private ValidReading validateFields(ReadingDto input, Book book, ValidationErrors errors) {
+	private ValidReading validateFields(ReadingDto input, Book book, Integer publicationYear,
+			ValidationErrors errors) {
 		ReadingStatus status = null;
 		if (input.status() == null || input.status().isEmpty()) {
 			errors.add("status", ValidationMessages.REQUIRED);
@@ -109,7 +126,7 @@ public class ReadingValidator {
 				errors.add("grade", ValidationMessages.NO_GRADE);
 			}
 		}
-		if (yearRead != null && !yearInRange(yearRead, book)) {
+		if (yearRead != null && !yearInRange(yearRead, publicationYear)) {
 			errors.add("yearRead", ValidationMessages.YEAR_READ);
 		}
 		if (grade != null && !validGrade(grade)) {
@@ -134,11 +151,11 @@ public class ReadingValidator {
 	}
 
 	/** Not in the future and not earlier than the book's publication year (when known). */
-	private boolean yearInRange(int yearRead, Book book) {
+	private boolean yearInRange(int yearRead, Integer publicationYear) {
 		if (yearRead > Year.now(clock).getValue()) {
 			return false;
 		}
-		return book == null || book.getPublicationYear() == null || yearRead >= book.getPublicationYear();
+		return publicationYear == null || yearRead >= publicationYear;
 	}
 
 	/** 0.0 to 10.0 in steps of 0.5. */
