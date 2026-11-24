@@ -635,7 +635,7 @@ Folga reservada: 10–11/12 para correções, tag e e-mail.
 - **Arquivos:**
   - Testes Java de integração (`@SpringBootTest` + MockMvc) completos por recurso, incluindo "todo registro do seed passa nas validações do servidor".
   - Adaptar `scripts/check-frontend.mjs` para subir o Spring Boot com uma pasta de dados temporária e rodar os testes de navegador contra `localhost:8080`; substituir os testes que simulavam `localStorage`.
-  - Workflow do GitHub Actions com Java 21 rodando `./mvnw verify` e os testes de navegador.
+  - Workflow do GitHub Actions com Java 21 rodando `./mvnw verify` e os testes de navegador, disparado em PRs para `hml` e para `main` (hoje o `frontend.yml` só roda em PRs para `main`).
 - **Commits sugeridos:**
   - `test(api): cobre regras de validação e códigos HTTP`
   - `test: executa testes de navegador contra a API`
@@ -666,17 +666,35 @@ Folga reservada: 10–11/12 para correções, tag e e-mail.
 
 ## 9. Fluxo Git
 
-1. Antes de cada etapa: `git switch main && git pull`.
-2. Criar a branch da etapa: `git switch -c feature/<nome>`.
-3. Commits pequenos e descritivos, cada integrante com seu próprio nome/e-mail configurado.
-4. `git push -u origin feature/<nome>` e abrir PR para `main`, descrevendo o que mudou e como foi testado.
-5. Outro integrante revisa; só fazer merge com testes passando.
-6. Nunca commitar direto na `main`.
-7. Branches que dependem de outra só começam depois do merge da anterior (ou partem dela e são rebaseadas após o merge).
+Branches do repositório:
 
-Entrega:
+| Branch | Papel |
+|---|---|
+| `main` | Versão entregue. Fica no estado da Entrega 1 (tag `delivery-1`) até a Entrega 2 estar pronta. |
+| `hml` | Homologação: recebe todas as etapas do backend. É a base de todas as branches e PRs desta entrega. |
+| `feature/<nome>`, `docs/<nome>` | Uma por etapa, criada a partir da `hml`. |
+
+Fluxo de cada etapa:
+
+1. Antes de cada etapa: `git switch hml && git pull`.
+2. Criar a branch da etapa a partir da `hml`: `git switch -c feature/<nome>`.
+3. Commits pequenos e descritivos (Conventional Commits), cada integrante com seu próprio nome/e-mail configurado.
+4. `git push -u origin feature/<nome>` e abrir PR **com base `hml`**, descrevendo o que mudou e como foi testado:
+   ```bash
+   gh pr create --base hml --head feature/<nome>
+   ```
+   No GitHub, conferir no topo do PR: `base: hml ← compare: feature/<nome>`. A base padrão do repositório é a `main`; trocar para `hml` antes de criar o PR.
+5. Outro integrante revisa; só fazer merge com testes passando. Usar **"Create a merge commit"** (não *squash*), para manter os commits de cada etapa.
+6. Nunca commitar nem abrir PR de etapa direto na `main` ou na `hml`.
+7. Branches que dependem de outra só começam depois do merge da anterior na `hml` (ou partem dela, com o PR apontando para ela, e são rebaseadas após o merge).
+
+Entrega (só quando todas as etapas estiverem na `hml` e testadas):
+
+1. Abrir um PR `hml → main`, revisado pela equipe, e integrá-lo com merge commit.
+2. Criar a tag no commit da `main` que será avaliado:
 
 ```bash
+git switch main && git pull
 git tag delivery-2
 git push origin delivery-2
 ```
