@@ -50,6 +50,11 @@ public final class ValidationMessages {
 	private ValidationMessages() {
 	}
 
+	/** Server-only: text longer than the database column allows. */
+	public static String tooLong(int maxLength) {
+		return "Use at most " + maxLength + " characters.";
+	}
+
 	/** Same text as {@code TEXT.validation.linkedAuthor(titles)} in strings.js. */
 	public static String linkedAuthor(List<String> titles) {
 		return "Author is linked to " + titles.size() + " book(s): " + String.join(", ", titles);
