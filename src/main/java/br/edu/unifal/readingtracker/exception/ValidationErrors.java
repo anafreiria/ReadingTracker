@@ -22,6 +22,16 @@ public class ValidationErrors {
 		return this;
 	}
 
+	/** Adds errors reported by another validator, skipping exact repeats. */
+	public ValidationErrors addAll(List<FieldErrorDto> others) {
+		for (FieldErrorDto error : others) {
+			if (!errors.contains(error)) {
+				errors.add(error);
+			}
+		}
+		return this;
+	}
+
 	public boolean hasErrors() {
 		return !errors.isEmpty();
 	}

@@ -13,12 +13,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.edu.unifal.readingtracker.dto.BookCreateRequest;
 import br.edu.unifal.readingtracker.dto.BookDto;
 import br.edu.unifal.readingtracker.service.BookService;
 
 /**
  * Books (FR-02): {@code GET/POST /api/books} and {@code GET/PUT/DELETE /api/books/{id}}.
- * DELETE also deletes the book's readings. HTTP only; every rule lives in {@link BookService}.
+ * POST may include an optional {@code firstReading}; DELETE also deletes the book's readings. HTTP only; every rule lives in {@link BookService}.
  */
 @RestController
 @RequestMapping("/api/books")
@@ -41,7 +42,7 @@ public class BookController {
 	}
 
 	@PostMapping
-	public ResponseEntity<BookDto> create(@RequestBody BookDto input) {
+	public ResponseEntity<BookDto> create(@RequestBody BookCreateRequest input) {
 		BookDto created = bookService.create(input);
 		return ResponseEntity.created(URI.create("/api/books/" + created.id())).body(created);
 	}
