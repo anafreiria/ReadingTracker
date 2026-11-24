@@ -15,11 +15,13 @@ import jakarta.persistence.Table;
 @Table(name = "themes")
 public class Theme {
 
+	public static final int NAME_MAX_LENGTH = 100;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = false, unique = true, length = 100)
+	@Column(nullable = false, unique = true, length = NAME_MAX_LENGTH)
 	private String name;
 
 	protected Theme() {
