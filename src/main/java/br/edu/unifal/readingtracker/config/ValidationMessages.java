@@ -42,6 +42,7 @@ public final class ValidationMessages {
 	// HTTP-level messages that only the server produces
 	public static final String MALFORMED_JSON = "The request body is not valid JSON.";
 	public static final String ID_MISMATCH = "The ID in the request body must match the ID in the URL.";
+	public static final String BOOK_MISMATCH = "The book in the request body must match the book in the URL.";
 	public static final String INVALID_VALUE = "Enter a valid value for this field.";
 	public static final String ROUTE_NOT_FOUND = "Resource not found.";
 	public static final String METHOD_NOT_ALLOWED = "This operation is not supported for this resource.";
