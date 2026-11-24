@@ -20,11 +20,13 @@ import jakarta.persistence.Table;
 @Table(name = "authors")
 public class Author {
 
+	public static final int NAME_MAX_LENGTH = 200;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = false, length = 200)
+	@Column(nullable = false, length = NAME_MAX_LENGTH)
 	private String name;
 
 	/** Nationality: one country per author, or none. */
