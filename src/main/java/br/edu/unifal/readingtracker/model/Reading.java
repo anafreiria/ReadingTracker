@@ -22,6 +22,9 @@ import jakarta.persistence.Table;
 @Table(name = "readings")
 public class Reading {
 
+	public static final int RECOMMENDED_BY_MAX_LENGTH = 255;
+	public static final int NOTES_MAX_LENGTH = 10_000;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -39,14 +42,14 @@ public class Reading {
 	/** 0.0 to 10.0 in steps of 0.5. */
 	private Double grade;
 
-	@Column(length = 255)
+	@Column(length = RECOMMENDED_BY_MAX_LENGTH)
 	private String recommendedBy;
 
 	@Convert(converter = PriorityConverter.class)
 	@Column(length = 10)
 	private Priority priority;
 
-	@Column(length = 10_000)
+	@Column(length = NOTES_MAX_LENGTH)
 	private String notes;
 
 	protected Reading() {
