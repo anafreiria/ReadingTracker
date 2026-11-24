@@ -1,0 +1,20 @@
+# Maven
+target/
+.mvn/wrapper/maven-wrapper.jar
+
+# H2 database files (created by the application at ./data)
+/data/
+
+# IDEs
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+.classpath
+.project
+.settings/
+.factorypath
+
+# OS
+.DS_Store
