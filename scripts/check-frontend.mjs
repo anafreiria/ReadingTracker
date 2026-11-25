@@ -7,7 +7,7 @@ import { tmpdir } from 'node:os';
 import { spawn, spawnSync } from 'node:child_process';
 
 const root = resolve(import.meta.dirname, '..');
-const frontend = join(root, 'frontend');
+const frontend = join(root, 'src', 'main', 'resources', 'static');
 const smokeOnly = process.argv.includes('--smoke-only');
 if (process.argv.slice(2).some(argument => argument !== '--smoke-only')) throw Error('Usage: node scripts/check-frontend.mjs [--smoke-only]');
 if (Number(process.versions.node.split('.')[0]) < 24) throw Error('Frontend checks require Node 24 or newer.');

@@ -1,12 +1,12 @@
 import { test, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { STORAGE_KEY } from '../frontend/js/constants.js';
+import { STORAGE_KEY } from '../src/main/resources/static/js/constants.js';
 import {
   validateLibrary, validateAuthor, validateBook, validateReading, validateTheme, prepareReadingTransition,
-} from '../frontend/js/validation.js';
+} from '../src/main/resources/static/js/validation.js';
 
-const seed = JSON.parse(await readFile(new URL('../frontend/data/seed.json', import.meta.url)));
+const seed = JSON.parse(await readFile(new URL('../src/main/resources/static/data/seed.json', import.meta.url)));
 let storage, writes, fetches, failWrite, failFetch, fetched;
 beforeEach(() => {
   // Each test represents an independent browser page; do not retain Node native locks.
@@ -23,7 +23,7 @@ beforeEach(() => {
     return {ok: true, json: async () => structuredClone(fetched)};
   };
 });
-const store = () => import(`../frontend/js/store.js?case=${crypto.randomUUID()}`);
+const store = () => import(`../src/main/resources/static/js/store.js?case=${crypto.randomUUID()}`);
 const fieldError = field => error => error.status === 400 && error.errors.some(item => item.field === field);
 const createReading = overrides => ({bookId: seed.books[0].id, status: 'Read', yearRead: 2026, grade: 0, ...overrides});
 

@@ -1,11 +1,11 @@
 import { test, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { sortReadings } from '../frontend/js/pages/readings.js';
-import { assertLibrary } from '../frontend/js/validation.js';
-import { STORAGE_KEY } from '../frontend/js/constants.js';
+import { sortReadings } from '../src/main/resources/static/js/pages/readings.js';
+import { assertLibrary } from '../src/main/resources/static/js/validation.js';
+import { STORAGE_KEY } from '../src/main/resources/static/js/constants.js';
 
-const seed = JSON.parse(await readFile(new URL('../frontend/data/seed.json', import.meta.url)));
+const seed = JSON.parse(await readFile(new URL('../src/main/resources/static/data/seed.json', import.meta.url)));
 let storage, requests, requestFailure;
 beforeEach(() => {
   // Each test represents an independent browser page; do not retain Node native locks.
@@ -18,14 +18,14 @@ beforeEach(() => {
     return {ok: true, json: async () => structuredClone(seed)};
   };
 });
-const store = () => import(`../frontend/js/store.js?test=${crypto.randomUUID()}`);
+const store = () => import(`../src/main/resources/static/js/store.js?test=${crypto.randomUUID()}`);
 
 test('official seed has complete reference integrity and remains unchanged', async () => {
   assert.equal(assertLibrary(seed), seed);
   assert.equal(seed.books.length, 143);
   assert.equal(seed.themes.length, 135);
   const original = await readFile(new URL('../materiais/seed.json', import.meta.url));
-  assert.deepEqual(await readFile(new URL('../frontend/data/seed.json', import.meta.url)), original);
+  assert.deepEqual(await readFile(new URL('../src/main/resources/static/data/seed.json', import.meta.url)), original);
 });
 test('first use shares one fetch across consumers, persists the seed and returns isolated copies', async () => {
   const api = await store();
