@@ -2,9 +2,9 @@ name: Frontend
 
 on:
   pull_request:
-    branches: [main, hml]
+    branches: [main]
   push:
-    branches: [main, hml]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
