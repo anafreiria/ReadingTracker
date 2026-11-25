@@ -27,7 +27,7 @@ Sem Git: no GitHub, selecione **main → Code → Download ZIP**, extraia o arqu
 
 1. Instale a extensão **Live Server**, de Ritwick Dey.
 2. Abra a pasta do projeto no VS Code.
-3. Clique com o botão direito em `frontend/index.html` e selecione **Open with Live Server**.
+3. Clique com o botão direito em `src/main/resources/static/index.html` e selecione **Open with Live Server**.
 4. Use a página HTTP aberta pela extensão e mantenha o VS Code/Live Server em execução.
 
 **Opção B — Python 3**
@@ -35,13 +35,13 @@ Sem Git: no GitHub, selecione **main → Code → Download ZIP**, extraia o arqu
 Na raiz do projeto:
 
 ```bash
-python3 -m http.server 8087 --directory frontend
+python3 -m http.server 8087 --directory src/main/resources/static
 ```
 
 No Windows, com Python 3 instalado, você também pode usar:
 
 ```powershell
-py -3 -m http.server 8087 --directory frontend
+py -3 -m http.server 8087 --directory src/main/resources/static
 ```
 
 Abra **http://localhost:8087**. Mantenha o terminal aberto; `Ctrl+C` encerra o servidor. Se a porta estiver ocupada, troque `8087` por outra porta livre no comando e na URL.
@@ -112,7 +112,7 @@ Os exercícios FR-08 a FR-18 são opcionais e não pontuados; nenhum é declarad
 ## Organização e tecnologias
 
 ```text
-frontend/
+src/main/resources/static/
 ├── index.html          # Entrada e navegação
 ├── css/styles.css      # Estilos e responsividade
 ├── data/seed.json      # Dados oficiais
@@ -129,7 +129,7 @@ frontend/
 
 JavaScript usa módulos ES, Fetch API e JSON. As páginas acessam os dados pelas funções assíncronas de `store.js`; a validação e a apresentação ficam em módulos separados. Não há frameworks ou dependências de build no frontend. O [guia do frontend](docs/GUIA_FRONTEND.md) e os [contratos de dados](docs/CONTRATOS_DADOS.md) detalham a implementação.
 
-Os materiais oficiais estão em `materiais/`. A cópia em `frontend/data/seed.json` é idêntica ao seed fornecido. O JSON contém 135 temas, embora o guia cite 132; o arquivo oficial foi preservado.
+Os materiais oficiais estão em `materiais/`. A cópia em `src/main/resources/static/data/seed.json` é idêntica ao seed fornecido. O JSON contém 135 temas, embora o guia cite 132; o arquivo oficial foi preservado.
 
 Para edição, use uma única aba. Com Web Locks, uma segunda aba recebe conflito sem gravar; feche a aba editora e recarregue a outra para continuar. Sem Web Locks, a fila protege somente operações da mesma aba.
 
